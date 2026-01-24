@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allen Code Co | Software Development Studio</title>
+    <meta name="description" content="Production-ready software development. We build it, we ship it, it works.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    
+    <!-- Split Type for text animations -->
+    <script src="https://unpkg.com/split-type@0.3.4/umd/index.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-darker: #050508;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            
+            --accent: #f59e0b;
+            --accent-bright: #fbbf24;
+            --accent-glow: rgba(245, 158, 11, 0.15);
+            
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.4);
+            
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            
+            --gradient-1: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --gradient-text: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease, background 0.2s ease;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor.hover {
+            transform: translate(-50%, -50%) scale(2);
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-darker);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .preloader-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 8vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            overflow: hidden;
+        }
+
+        .preloader-text span {
+            display: inline-block;
+        }
+
+        .preloader-counter {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-top: 2rem;
+        }
+
+        /* Noise Overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1.5rem 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-mark {
+            width: 48px;
+            height: 48px;
+            position: relative;
+        }
+
+        .logo-mark svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--accent);
+            color: var(--bg-dark) !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 600;
+        }
+
+        .nav-cta::after {
+            display: none;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent-bright);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-bg-gradient {
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
+            opacity: 0.5;
+        }
+
+        .hero-bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero h1 .line-inner {
+            display: block;
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 100px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -10px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero-scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            animation: scrollLine 2s infinite;
+        }
+
+        @keyframes scrollLine {
+            0% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            50.1% { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 10rem 0;
+            position: relative;
+        }
+
+        .section-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        .section-header {
+            margin-bottom: 5rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title .word {
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .section-title .word-inner {
+            display: inline-block;
+        }
+
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .product-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-8px);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-card.featured .product-icon {
+            background: var(--gradient-2);
+        }
+
+        .product-status {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.35rem 0.75rem;
+            border-radius: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .status-live {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .status-dev {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+        }
+
+        .product-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .product-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-tag {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.35rem 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-muted);
+        }
+
+        .product-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: gap 0.3s ease;
+        }
+
+        .product-link:hover {
+            gap: 1rem;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg-darker);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        .about-content h2 span {
+            color: var(--accent);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-highlight {
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .about-highlight p {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .value-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .value-item:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+        }
+
+        .value-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-item h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Marquee */
+        .marquee-section {
+            padding: 4rem 0;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .marquee {
+            display: flex;
+            gap: 4rem;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee-item {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .marquee-item span {
+            color: var(--accent);
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Acquire Section */
+        .acquire {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .acquire::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
+            opacity: 0.3;
+        }
+
+        .acquire-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .acquire-content h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .acquire-content h2 span {
+            color: var(--accent);
+        }
+
+        .acquire-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .acquire-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .acquire-features li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .acquire-features li::before {
+            content: '→';
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .acquire-visual {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .acquire-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-1);
+        }
+
+        .acquire-visual h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .acquire-visual .tagline {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .acquire-visual p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        /* Tech Stack */
+        .tech-section {
+            background: var(--bg-darker);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+        }
+
+        .tech-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .tech-item:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+            transform: translateY(-4px);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 6rem 0 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            margin: 1.5rem 0;
+            max-width: 300px;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .footer-col h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-grid,
+            .acquire-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+            
+            .tech-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cursor, .cursor-dot {
+                display: none;
+            }
+            
+            body {
+                cursor: auto;
+            }
+            
+            .header-inner {
+                padding: 0 1.5rem;
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .section-inner {
+                padding: 0 1.5rem;
+            }
+            
+            .hero-content {
+                padding: 0 1.5rem;
+            }
+            
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-text">
+            <span>A</span><span>L</span><span>L</span><span>E</span><span>N</span>
+            <span> </span>
+            <span>C</span><span>O</span><span>D</span><span>E</span>
+        </div>
+        <div class="preloader-counter">0%</div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Noise Overlay -->
+    <div class="noise"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 5 L8 45" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M25 5 L42 45" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M14 32 L25 32" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M42 45 L48 38" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#f59e0b"/>
+                                <stop offset="100%" style="stop-color:#ef4444"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-text">Allen Code Co.</span>
+            </a>
+            <nav>
+                <a href="#products">Products</a>
+                <a href="#about">About</a>
+                <a href="#acquire">Acquire</a>
+                <a href="#tech">Tech</a>
+                <a href="#contact" class="nav-cta">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="hero-bg-gradient"></div>
+            <div class="hero-bg-grid"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <div class="hero-badge-dot"></div>
+                Available for new projects
+            </div>
+            <h1>
+                <span class="line"><span class="line-inner">We Build</span></span>
+                <span class="line"><span class="line-inner">Software That</span></span>
+                <span class="line"><span class="line-inner highlight">Actually Ships.</span></span>
+            </h1>
+            <p class="hero-description">
+                Production-ready applications. Zero placeholders. Every feature works, 
+                every button does something. From concept to deployed product.
+            </p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary">
+                    Start a Project
+                    <span class="btn-arrow">→</span>
+                </a>
+                <a href="#products" class="btn btn-secondary">
+                    View Our Work
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <div class="hero-scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee-section">
+        <div class="marquee">
+            <div class="marquee-item">
+                Next.js <span>•</span> TypeScript <span>•</span> React <span>•</span> Supabase <span>•</span> 
+                AI Integration <span>•</span> Stripe <span>•</span> Production Ready <span>•</span>
+            </div>
+            <div class="marquee-item">
+                Next.js <span>•</span> TypeScript <span>•</span> React <span>•</span> Supabase <span>•</span> 
+                AI Integration <span>•</span> Stripe <span>•</span> Production Ready <span>•</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products -->
+    <section id="products" class="products">
+        <div class="section-inner">
+            <div class="section-header">
+                <span class="section-label">Our Products</span>
+                <h2 class="section-title">Built to Ship.<br>Built to Scale.</h2>
+            </div>
+            <div class="products-grid">
+                <div class="product-card featured">
+                    <div class="product-card-inner">
+                        <div class="product-icon">📚</div>
+                        <span class="product-status status-live">Live</span>
+                        <h3>My Teachers Toolbox</h3>
+                        <p>
+                            K-5 teacher productivity platform with AI-powered lesson planning, 
+                            50+ emergency tools, team collaboration, and Stripe billing. 
+                            Full SaaS with active users.
+                        </p>
+                        <div class="product-tags">
+                            <span class="product-tag">Next.js</span>
+                            <span class="product-tag">AI</span>
+                            <span class="product-tag">SaaS</span>
+                            <span class="product-tag">Stripe</span>
+                        </div>
+                        <a href="https://myteacherstoolbox.com" class="product-link" target="_blank">
+                            View Live <span>→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-card-inner">
+                        <div class="product-icon">🎯</div>
+                        <span class="product-status status-dev">In Development</span>
+                        <h3>UnderFireAI</h3>
+                        <p>
+                            AI-powered rapid fire trivia game. Real-time multiplayer, 
+                            adaptive difficulty, leaderboards, and tournament system.
+                        </p>
+                        <div class="product-tags">
+                            <span class="product-tag">React</span>
+                            <span class="product-tag">Real-time</span>
+                            <span class="product-tag">AI</span>
+                        </div>
+                        <a href="#contact" class="product-link">
+                            Get Updates <span>→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-card-inner">
+                        <div class="product-icon">🏠</div>
+                        <span class="product-status status-dev">In Development</span>
+                        <h3>Vision Home AI</h3>
+                        <p>
+                            AI home visualization platform. Upload photos, transform interiors 
+                            and exteriors with AI-powered design suggestions.
+                        </p>
+                        <div class="product-tags">
+                            <span class="product-tag">AI Vision</span>
+                            <span class="product-tag">Image Gen</span>
+                            <span class="product-tag">SaaS</span>
+                        </div>
+                        <a href="#contact" class="product-link">
+                            Get Updates <span>→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-card-inner">
+                        <div class="product-icon">⚡</div>
+                        <span class="product-status status-dev">In Development</span>
+                        <h3>Solo Founder OS</h3>
+                        <p>
+                            Complete business management suite for solo founders. 
+                            CRM, invoicing, project management, and automation in one platform.
+                        </p>
+                        <div class="product-tags">
+                            <span class="product-tag">Full Stack</span>
+                            <span class="product-tag">Automation</span>
+                            <span class="product-tag">SaaS</span>
+                        </div>
+                        <a href="#contact" class="product-link">
+                            Get Updates <span>→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about">
+        <div class="section-inner">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2>Your Vision.<br><span>Shipped.</span></h2>
+                    <p>
+                        We don't do prototypes that sit in repos forever. We don't do "MVP" as an excuse 
+                        for half-finished work. Every project gets the full treatment: production-ready code, 
+                        real databases with proper security, working authentication, and architecture 
+                        that scales.
+                    </p>
+                    <div class="about-highlight">
+                        <p>From napkin sketch to deployed product. We build it, we ship it, it works.</p>
+                    </div>
+                    <p>
+                        We also build and launch our own products—many of which are available 
+                        for acquisition if you'd rather skip the build phase entirely.
+                    </p>
+                </div>
+
+                <div class="values-grid">
+                    <div class="value-item">
+                        <div class="value-icon">🎯</div>
+                        <h4>Zero Placeholders</h4>
+                        <p>Every feature works. Every button does something. No "coming soon."</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">🚀</div>
+                        <h4>Production First</h4>
+                        <p>Built to deploy, not to pitch. Real infrastructure from day one.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">⚡</div>
+                        <h4>Systematic Process</h4>
+                        <p>Tested. Linted. Documented. Quality at every step.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">🤖</div>
+                        <h4>AI That Works</h4>
+                        <p>Real integrations that solve problems, not buzzwords.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acquire -->
+    <section id="acquire" class="acquire">
+        <div class="section-inner">
+            <div class="acquire-grid">
+                <div class="acquire-content">
+                    <h2>Acquire a <span>Ready-to-Run</span> App</h2>
+                    <p>
+                        Skip the 6-12 months of development. Get a complete, deployed, 
+                        revenue-ready product with working payments and production infrastructure.
+                    </p>
+                    <ul class="acquire-features">
+                        <li>Complete codebase with documentation</li>
+                        <li>Production database and authentication</li>
+                        <li>Stripe integration and billing</li>
+                        <li>Deployed and running on day one</li>
+                        <li>Full transfer of all assets</li>
+                        <li>Transition support available</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">
+                        Inquire About Acquisition
+                        <span class="btn-arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="acquire-visual">
+                    <h3>My Teachers Toolbox</h3>
+                    <p class="tagline">★ Available for Acquisition</p>
+                    <p>
+                        K-5 teacher productivity platform with AI lesson planning, 
+                        50+ tools, team collaboration, and Stripe billing. 
+                        Fully deployed with active users.
+                    </p>
+                    <a href="https://myteacherstoolbox.com" class="btn btn-secondary" target="_blank">
+                        View Live Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="tech" class="tech-section">
+        <div class="section-inner">
+            <div class="section-header" style="text-align: center;">
+                <span class="section-label">Tech Stack</span>
+                <h2 class="section-title">Modern Tools.<br>Proven Results.</h2>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-item">Next.js 15</div>
+                <div class="tech-item">TypeScript</div>
+                <div class="tech-item">React</div>
+                <div class="tech-item">Supabase</div>
+                <div class="tech-item">PostgreSQL</div>
+                <div class="tech-item">Tailwind</div>
+                <div class="tech-item">OpenAI</div>
+                <div class="tech-item">Anthropic</div>
+                <div class="tech-item">Stripe</div>
+                <div class="tech-item">Vercel</div>
+                <div class="tech-item">Node.js</div>
+                <div class="tech-item">REST APIs</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact" class="cta-section">
+        <div class="section-inner">
+            <div class="cta-content">
+                <h2>Let's Build<br>Something Great.</h2>
+                <p>
+                    Have an idea? Need custom software? Want to acquire a product? 
+                    We're always open to projects that ship.
+                </p>
+                <a href="mailto:chris@allencodeco.com" class="btn btn-primary">
+                    Get In Touch
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="section-inner">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-mark">
+                            <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M25 5 L8 45" stroke="url(#logoGrad2)" stroke-width="3" stroke-linecap="round"/>
+                                <path d="M25 5 L42 45" stroke="url(#logoGrad2)" stroke-width="3" stroke-linecap="round"/>
+                                <path d="M14 32 L25 32" stroke="url(#logoGrad2)" stroke-width="2.5" stroke-linecap="round"/>
+                                <path d="M42 45 L48 38" stroke="url(#logoGrad2)" stroke-width="3" stroke-linecap="round"/>
+                                <defs>
+                                    <linearGradient id="logoGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#f59e0b"/>
+                                        <stop offset="100%" style="stop-color:#ef4444"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <span class="logo-text">Allen Code Co.</span>
+                    </a>
+                    <p>
+                        Software development studio building 
+                        production-ready applications that actually ship.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link">X</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="https://github.com/cja86104" class="social-link" target="_blank">GH</a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Products</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://myteacherstoolbox.com" target="_blank">My Teachers Toolbox</a></li>
+                        <li><a href="#">UnderFireAI</a></li>
+                        <li><a href="#">Solo Founder OS</a></li>
+                        <li><a href="#">Vision Home AI</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#acquire">Acquire</a></li>
+                        <li><a href="#tech">Tech Stack</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:chris@allencodeco.com">Email</a></li>
+                        <li><a href="#">Twitter/X</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="https://github.com/cja86104" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 Allen Code Co. All rights reserved.</p>
+                <p>Winchester, Virginia</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initialize Lenis smooth scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        // Connect Lenis to GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+
+        gsap.ticker.lagSmoothing(0);
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
+            gsap.to(cursorDot, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1
+            });
+        });
+
+        // Cursor hover effects
+        const hoverElements = document.querySelectorAll('a, button, .product-card, .value-item, .tech-item');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Preloader Animation
+        const preloader = document.querySelector('.preloader');
+        const preloaderText = document.querySelectorAll('.preloader-text span');
+        const preloaderCounter = document.querySelector('.preloader-counter');
+
+        const preloaderTl = gsap.timeline();
+
+        // Animate counter
+        let counter = { value: 0 };
+        preloaderTl.to(counter, {
+            value: 100,
+            duration: 2,
+            ease: 'power2.inOut',
+            onUpdate: () => {
+                preloaderCounter.textContent = Math.round(counter.value) + '%';
+            }
+        });
+
+        // Animate letters
+        preloaderTl.from(preloaderText, {
+            y: 100,
+            opacity: 0,
+            rotateX: -90,
+            stagger: 0.05,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, 0);
+
+        // Hide preloader
+        preloaderTl.to(preloader, {
+            yPercent: -100,
+            duration: 1,
+            ease: 'power4.inOut',
+            delay: 0.5
+        });
+
+        // Hero animations after preloader
+        preloaderTl.from('.hero-badge', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.3');
+
+        preloaderTl.from('.hero h1 .line-inner', {
+            y: 120,
+            opacity: 0,
+            rotateX: -40,
+            stagger: 0.15,
+            duration: 1,
+            ease: 'power3.out'
+        }, '-=0.6');
+
+        preloaderTl.from('.hero-description', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.4');
+
+        preloaderTl.from('.hero-cta', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.4');
+
+        preloaderTl.from('.hero-scroll', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.2');
+
+        // Header scroll effect
+        ScrollTrigger.create({
+            start: 'top -100',
+            end: 99999,
+            toggleClass: { className: 'scrolled', targets: 'header' }
+        });
+
+        // Section animations
+        gsap.utils.toArray('.section-label').forEach(label => {
+            gsap.from(label, {
+                scrollTrigger: {
+                    trigger: label,
+                    start: 'top 85%',
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+        });
+
+        gsap.utils.toArray('.section-title').forEach(title => {
+            gsap.from(title, {
+                scrollTrigger: {
+                    trigger: title,
+                    start: 'top 85%',
+                },
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+        });
+
+        // Product cards animation
+        gsap.utils.toArray('.product-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%',
+                },
+                y: 80,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.15,
+                ease: 'power3.out'
+            });
+        });
+
+        // About section animation
+        gsap.from('.about-content', {
+            scrollTrigger: {
+                trigger: '.about-content',
+                start: 'top 80%',
+            },
+            x: -60,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.utils.toArray('.value-item').forEach((item, i) => {
+            gsap.from(item, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 85%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.6,
+                delay: i * 0.1,
+                ease: 'power3.out'
+            });
+        });
+
+        // Acquire section animation
+        gsap.from('.acquire-content', {
+            scrollTrigger: {
+                trigger: '.acquire-content',
+                start: 'top 80%',
+            },
+            x: -60,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        gsap.from('.acquire-visual', {
+            scrollTrigger: {
+                trigger: '.acquire-visual',
+                start: 'top 80%',
+            },
+            x: 60,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        // Tech items animation
+        gsap.utils.toArray('.tech-item').forEach((item, i) => {
+            gsap.from(item, {
+                scrollTrigger: {
+                    trigger: '.tech-grid',
+                    start: 'top 85%',
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.5,
+                delay: i * 0.05,
+                ease: 'power3.out'
+            });
+        });
+
+        // CTA animation
+        gsap.from('.cta-content', {
+            scrollTrigger: {
+                trigger: '.cta-content',
+                start: 'top 80%',
+            },
+            y: 60,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        // Parallax effects
+        gsap.to('.hero-bg-gradient', {
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1
+            },
+            y: 200,
+            opacity: 0.2
+        });
+
+        gsap.to('.hero-bg-grid', {
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1
+            },
+            y: 100,
+            opacity: 0
+        });
+
+        // Smooth scroll to anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target, {
+                        offset: -100,
+                        duration: 1.5
+                    });
+                }
+            });
+        });
+
+        // Magnetic button effect
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                gsap.to(btn, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Refresh ScrollTrigger after everything loads
+        window.addEventListener('load', () => {
+            ScrollTrigger.refresh();
+        });
+    </script>
+</body>
+</html>
