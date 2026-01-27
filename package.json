@@ -1,0 +1,31 @@
+{
+  "name": "allen-code-co-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "htmlhint allen-code-co-animated.html && eslint allen-code-co-animated.html",
+    "lint:html": "htmlhint allen-code-co-animated.html",
+    "lint:js": "eslint allen-code-co-animated.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cja86104/Allen-Code-Co.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cja86104/Allen-Code-Co/issues"
+  },
+  "homepage": "https://github.com/cja86104/Allen-Code-Co#readme",
+  "devDependencies": {
+    "@html-eslint/eslint-plugin": "^0.54.0",
+    "@html-eslint/parser": "^0.54.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-html": "^8.1.4",
+    "htmlhint": "^1.8.0"
+  }
+}
