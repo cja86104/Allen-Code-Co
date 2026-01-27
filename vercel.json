@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/allen-code-co-animated.html"
-    }
-  ]
-}
