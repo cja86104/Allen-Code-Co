@@ -1740,7 +1740,7 @@
             opacity: 0
         });
 
-        // Smooth scroll to anchors (only for internal page anchors, not mailto links)
+        // Smooth scroll to anchors (only for internal page anchors)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1751,6 +1751,14 @@
                         duration: 1.5
                     });
                 }
+            });
+        });
+
+        // Ensure mailto links work properly (override any potential interference)
+        document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.stopPropagation();
+                window.location.href = this.getAttribute('href');
             });
         });
 
