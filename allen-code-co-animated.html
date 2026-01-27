@@ -975,6 +975,54 @@
             font-size: 0.85rem;
         }
 
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-group input {
+            flex: 1;
+            padding: 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .products-grid {
@@ -1033,6 +1081,10 @@
             .values-grid {
                 grid-template-columns: 1fr;
             }
+
+            .form-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -1079,7 +1131,7 @@
                 <a href="#about">About</a>
                 <a href="#acquire">Acquire</a>
                 <a href="#tech">Tech</a>
-                <a href="mailto:chris@allencodeco.com" class="nav-cta">Contact</a>
+                <a href="#contact" class="nav-cta">Contact</a>
             </nav>
         </div>
     </header>
@@ -1105,7 +1157,7 @@
                 every button does something. From concept to deployed product.
             </p>
             <div class="hero-cta">
-                <a href="mailto:chris@allencodeco.com" class="btn btn-primary">
+                <a href="#contact" class="btn btn-primary">
                     Start a Project
                     <span class="btn-arrow">→</span>
                 </a>
@@ -1179,7 +1231,7 @@
                             <span class="product-tag">Voice</span>
                             <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="mailto:chris@allencodeco.com" class="product-link">
+                        <a href="#contact" class="product-link">
                             Get Updates <span>→</span>
                         </a>
                     </div>
@@ -1199,7 +1251,7 @@
                             <span class="product-tag">Image Gen</span>
                             <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="mailto:chris@allencodeco.com" class="product-link">
+                        <a href="#contact" class="product-link">
                             Get Updates <span>→</span>
                         </a>
                     </div>
@@ -1219,7 +1271,7 @@
                             <span class="product-tag">Automation</span>
                             <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="mailto:chris@allencodeco.com" class="product-link">
+                        <a href="#contact" class="product-link">
                             Get Updates <span>→</span>
                         </a>
                     </div>
@@ -1240,7 +1292,7 @@
                             <span class="product-tag">Voice</span>
                             <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="mailto:chris@allencodeco.com" class="product-link">
+                        <a href="#contact" class="product-link">
                             Get Updates <span>→</span>
                         </a>
                     </div>
@@ -1261,7 +1313,7 @@
                             <span class="product-tag">3D World</span>
                             <span class="product-tag">Game</span>
                         </div>
-                        <a href="mailto:chris@allencodeco.com" class="product-link">
+                        <a href="#contact" class="product-link">
                             Get Updates <span>→</span>
                         </a>
                     </div>
@@ -1335,7 +1387,7 @@
                         <li>Full transfer of all assets</li>
                         <li>Transition support available</li>
                     </ul>
-                    <a href="mailto:chris@allencodeco.com" class="btn btn-primary">
+                    <a href="#contact" class="btn btn-primary">
                         Inquire About Acquisition
                         <span class="btn-arrow">→</span>
                     </a>
@@ -1386,14 +1438,24 @@
         <div class="section-inner">
             <div class="cta-content">
                 <h2>Let's Build<br>Something Great.</h2>
-                <p>
-                    Have an idea? Need custom software? Want to acquire a product? 
-                    We're always open to projects that ship.
+                <p>Have an idea? Need custom software? Want to acquire a product? We're always open to projects that ship.</p>
+
+                <form action="https://formsubmit.co/chris@allencodeco.com" method="POST" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your name" required>
+                        <input type="email" name="email" placeholder="Your email" required>
+                    </div>
+                    <textarea name="message" placeholder="Tell us about your project..." rows="5" required></textarea>
+                    <input type="hidden" name="_subject" value="New project inquiry - Allen Code Co">
+                    <input type="hidden" name="_next" value="https://allencodeco.com/thanks">
+                    <button type="submit" class="btn btn-primary">
+                        Send Message <span class="btn-arrow">→</span>
+                    </button>
+                </form>
+
+                <p class="form-note" style="font-size: 0.9rem; color: var(--text-muted); margin-top: 1.5rem;">
+                    Or email directly: <a href="mailto:chris@allencodeco.com" style="color: var(--accent);">chris@allencodeco.com</a>
                 </p>
-                <a href="mailto:chris@allencodeco.com" class="btn btn-primary">
-                    Get In Touch
-                    <span class="btn-arrow">→</span>
-                </a>
             </div>
         </div>
     </section>
@@ -1447,14 +1509,14 @@
                         <li><a href="#about">About</a></li>
                         <li><a href="#acquire">Acquire</a></li>
                         <li><a href="#tech">Tech Stack</a></li>
-                        <li><a href="mailto:chris@allencodeco.com">Contact</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
                     <h4>Connect</h4>
                     <ul class="footer-links">
-                        <li><a href="mailto:chris@allencodeco.com">Email</a></li>
+                        <li><a href="#contact">Email</a></li>
                         <li><a href="#">Twitter/X</a></li>
                         <li><a href="#">LinkedIn</a></li>
                         <li><a href="https://github.com/cja86104" target="_blank">GitHub</a></li>
@@ -1738,14 +1800,6 @@
             },
             y: 100,
             opacity: 0
-        });
-
-        // Force mailto links to work reliably
-        document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.location.href = this.getAttribute('href');
-            });
         });
 
         // Smooth scroll to anchors
