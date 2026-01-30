@@ -34,25 +34,25 @@
 
     <style>
         :root {
-            --bg-dark: #0a0a0f;
-            --bg-darker: #050508;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --bg-light: #f5f3ef;
+            --bg-lighter: #faf9f7;
+            --bg-card: rgba(255, 255, 255, 0.7);
+            --bg-card-hover: rgba(255, 255, 255, 0.9);
             
-            --accent: #f59e0b;
-            --accent-bright: #fbbf24;
-            --accent-glow: rgba(245, 158, 11, 0.15);
+            --accent: #d97706;
+            --accent-bright: #f59e0b;
+            --accent-glow: rgba(217, 119, 6, 0.12);
             
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.4);
+            --text-primary: #1a1a1f;
+            --text-secondary: rgba(26, 26, 31, 0.7);
+            --text-muted: rgba(26, 26, 31, 0.45);
             
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.15);
+            --border: rgba(26, 26, 31, 0.08);
+            --border-hover: rgba(26, 26, 31, 0.18);
             
-            --gradient-1: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            --gradient-text: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%);
+            --gradient-1: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
+            --gradient-2: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            --gradient-text: linear-gradient(135deg, #1a1a1f 0%, rgba(26,26,31,0.6) 100%);
         }
 
         * {
@@ -79,7 +79,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-dark);
+            background: var(--bg-light);
             color: var(--text-primary);
             overflow-x: hidden;
             cursor: none;
@@ -96,7 +96,7 @@
             z-index: 9999;
             transition: transform 0.1s ease, background 0.2s ease;
             transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
+            mix-blend-mode: multiply;
         }
 
         .cursor-dot {
@@ -123,7 +123,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--bg-darker);
+            background: var(--bg-lighter);
             z-index: 10000;
             display: flex;
             align-items: center;
@@ -137,6 +137,7 @@
             font-weight: 800;
             letter-spacing: -0.02em;
             overflow: hidden;
+            color: var(--text-primary);
         }
 
         .preloader-text span {
@@ -159,7 +160,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 1000;
-            opacity: 0.03;
+            opacity: 0.025;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
@@ -175,10 +176,11 @@
         }
 
         header.scrolled {
-            background: rgba(10, 10, 15, 0.8);
+            background: rgba(245, 243, 239, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
         }
 
         .header-inner {
@@ -254,7 +256,7 @@
 
         .nav-cta {
             background: var(--accent);
-            color: var(--bg-dark) !important;
+            color: #fff !important;
             padding: 0.75rem 1.5rem;
             border-radius: 100px;
             font-weight: 600;
@@ -293,7 +295,7 @@
             width: 100%;
             height: 200%;
             background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
         .hero-bg-grid {
@@ -329,12 +331,13 @@
             font-size: 0.85rem;
             color: var(--text-secondary);
             margin-bottom: 2rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         }
 
         .hero-badge-dot {
             width: 8px;
             height: 8px;
-            background: #22c55e;
+            background: #16a34a;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
@@ -351,6 +354,7 @@
             line-height: 0.95;
             letter-spacing: -0.03em;
             margin-bottom: 2rem;
+            color: var(--text-primary);
         }
 
         .hero h1 .line {
@@ -399,7 +403,7 @@
 
         .btn-primary {
             background: var(--accent);
-            color: var(--bg-dark);
+            color: #fff;
         }
 
         .btn-primary:hover {
@@ -411,12 +415,12 @@
         .btn-secondary {
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-hover);
         }
 
         .btn-secondary:hover {
             border-color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(26, 26, 31, 0.03);
         }
 
         .btn-arrow {
@@ -488,6 +492,7 @@
             font-weight: 700;
             line-height: 1.1;
             letter-spacing: -0.02em;
+            color: var(--text-primary);
         }
 
         .section-title .word {
@@ -514,6 +519,7 @@
             position: relative;
             overflow: hidden;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
         }
 
         .product-card::before {
@@ -531,6 +537,7 @@
         .product-card:hover {
             border-color: var(--border-hover);
             transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
 
         .product-card:hover::before {
@@ -570,13 +577,13 @@
         }
 
         .status-live {
-            background: rgba(34, 197, 94, 0.15);
-            color: #22c55e;
+            background: rgba(22, 163, 74, 0.12);
+            color: #15803d;
         }
 
         .status-dev {
-            background: rgba(59, 130, 246, 0.15);
-            color: #3b82f6;
+            background: rgba(37, 99, 235, 0.12);
+            color: #1d4ed8;
         }
 
         .product-card h3 {
@@ -584,6 +591,7 @@
             font-size: 1.75rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
         .product-card p {
@@ -603,7 +611,7 @@
             font-size: 0.75rem;
             font-weight: 500;
             padding: 0.35rem 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(26, 26, 31, 0.04);
             border: 1px solid var(--border);
             border-radius: 100px;
             color: var(--text-muted);
@@ -625,7 +633,7 @@
 
         /* About Section */
         .about {
-            background: var(--bg-darker);
+            background: var(--bg-lighter);
         }
 
         .about-grid {
@@ -641,6 +649,7 @@
             font-weight: 700;
             line-height: 1.1;
             margin-bottom: 2rem;
+            color: var(--text-primary);
         }
 
         .about-content h2 span {
@@ -660,6 +669,7 @@
             padding: 1.5rem 2rem;
             margin: 2rem 0;
             border-radius: 0 12px 12px 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
         .about-highlight p {
@@ -681,11 +691,13 @@
             border-radius: 20px;
             padding: 2rem;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
         }
 
         .value-item:hover {
             border-color: var(--border-hover);
             transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
         }
 
         .value-icon {
@@ -698,6 +710,7 @@
             font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
         .value-item p {
@@ -756,7 +769,7 @@
             width: 800px;
             height: 800px;
             background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
-            opacity: 0.3;
+            opacity: 0.4;
         }
 
         .acquire-grid {
@@ -773,6 +786,7 @@
             font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 700;
             margin-bottom: 1.5rem;
+            color: var(--text-primary);
         }
 
         .acquire-content h2 span {
@@ -814,6 +828,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
         }
 
         .acquire-visual::before {
@@ -831,6 +846,7 @@
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
         .acquire-visual .tagline {
@@ -847,7 +863,7 @@
 
         /* Tech Stack */
         .tech-section {
-            background: var(--bg-darker);
+            background: var(--bg-lighter);
         }
 
         .tech-grid {
@@ -867,12 +883,14 @@
             font-size: 0.9rem;
             color: var(--text-secondary);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
         }
 
         .tech-item:hover {
             border-color: var(--accent);
             color: var(--text-primary);
             transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
         }
 
         /* CTA Section */
@@ -893,6 +911,7 @@
             font-weight: 800;
             line-height: 1;
             margin-bottom: 1.5rem;
+            color: var(--text-primary);
         }
 
         .cta-content p {
@@ -906,6 +925,7 @@
         footer {
             padding: 6rem 0 3rem;
             border-top: 1px solid var(--border);
+            background: var(--bg-lighter);
         }
 
         .footer-grid {
@@ -1007,6 +1027,7 @@
             color: var(--text-primary);
             font-size: 1rem;
             font-family: inherit;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
         }
 
         .form-group input::placeholder {
@@ -1024,6 +1045,7 @@
             font-family: inherit;
             resize: vertical;
             min-height: 120px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
         }
 
         .form-group input:focus,
@@ -1128,8 +1150,8 @@
                         <path d="M42 45 L48 38" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
                         <defs>
                             <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#f59e0b"/>
-                                <stop offset="100%" style="stop-color:#ef4444"/>
+                                <stop offset="0%" style="stop-color:#d97706"/>
+                                <stop offset="100%" style="stop-color:#dc2626"/>
                             </linearGradient>
                         </defs>
                     </svg>
@@ -1484,8 +1506,8 @@
                                 <path d="M42 45 L48 38" stroke="url(#logoGrad2)" stroke-width="3" stroke-linecap="round"/>
                                 <defs>
                                     <linearGradient id="logoGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#f59e0b"/>
-                                        <stop offset="100%" style="stop-color:#ef4444"/>
+                                        <stop offset="0%" style="stop-color:#d97706"/>
+                                        <stop offset="100%" style="stop-color:#dc2626"/>
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -1853,11 +1875,6 @@
                     ease: 'power2.out'
                 });
             });
-        });
-
-        // Refresh ScrollTrigger after everything loads
-        window.addEventListener('load', () => {
-            ScrollTrigger.refresh();
         });
     </script>
 </body>
