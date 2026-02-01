@@ -806,6 +806,12 @@
             font-weight: 600;
         }
 
+        .acquire-visuals-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
         .acquire-visual {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -1270,7 +1276,7 @@
                 <div class="product-card">
                     <div class="product-card-inner">
                         <div class="product-icon">⚡</div>
-                        <span class="product-status status-dev">In Development</span>
+                        <span class="product-status status-live">Live</span>
                         <h3>Founders Helm</h3>
                         <p>
                             Complete business management suite for solo founders. 
@@ -1281,8 +1287,8 @@
                             <span class="product-tag">Automation</span>
                             <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="#contact" class="product-link">
-                            Get Updates <span>→</span>
+                        <a href="https://www.foundershelm.com" class="product-link" target="_blank">
+                            View Live <span>→</span>
                         </a>
                     </div>
                 </div>
@@ -1403,17 +1409,31 @@
                     </a>
                 </div>
 
-                <div class="acquire-visual">
-                    <h3>My Teachers Toolbox</h3>
-                    <p class="tagline">★ Available for Acquisition</p>
-                    <p>
-                        K-5 teacher productivity platform with AI lesson planning, 
-                        50+ tools, team collaboration, and Stripe billing. 
-                        Fully deployed with active users.
-                    </p>
-                    <a href="https://myteacherstoolbox.com" class="btn btn-secondary" target="_blank">
-                        View Live Demo
-                    </a>
+                <div class="acquire-visuals-stack">
+                    <div class="acquire-visual">
+                        <h3>My Teachers Toolbox</h3>
+                        <p class="tagline">★ Available for Acquisition</p>
+                        <p>
+                            K-5 teacher productivity platform with AI lesson planning,
+                            50+ tools, team collaboration, and Stripe billing.
+                            Fully deployed with active users.
+                        </p>
+                        <a href="https://myteacherstoolbox.com" class="btn btn-secondary" target="_blank">
+                            View Live Demo
+                        </a>
+                    </div>
+
+                    <div class="acquire-visual">
+                        <h3>Founders Helm</h3>
+                        <p class="tagline">★ Available for Acquisition</p>
+                        <p>
+                            Complete business management suite for solo founders.
+                            CRM, invoicing, project management, and automation in one platform.
+                        </p>
+                        <a href="https://www.foundershelm.com" class="btn btn-secondary" target="_blank">
+                            View Live Demo
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
