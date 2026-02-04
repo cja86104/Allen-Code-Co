@@ -90,9 +90,6 @@
     text-transform: uppercase;
   }
   .topbar__brand:hover { color: var(--accent); }
-  .topbar__nav { display: flex; align-items: center; gap: 1.5rem; }
-  .topbar__link { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; letter-spacing: 0.02em; transition: color 0.3s; }
-  .topbar__link:hover { color: var(--accent); }
   .topbar__tag {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -552,10 +549,7 @@
 <nav class="topbar">
   <div class="topbar__inner">
     <a href="https://www.allencodeco.com" class="topbar__brand">Allen Code Co</a>
-    <div class="topbar__nav">
-      <a href="products.html" class="topbar__link">← Products</a>
-      <span class="topbar__tag">Available for Acquisition</span>
-    </div>
+    <span class="topbar__tag">Available for Acquisition</span>
   </div>
 </nav>
 
@@ -944,7 +938,6 @@
     <div class="footer__inner">
       <span class="footer__brand">© 2025 Allen Code Co — Winchester, Virginia</span>
       <div class="footer__links">
-        <a href="products.html" class="footer__link">Products</a>
         <a href="https://www.allencodeco.com" class="footer__link">Portfolio</a>
         <a href="mailto:chris@allencodeco.com" class="footer__link">Contact</a>
       </div>
@@ -955,10 +948,18 @@
 <!-- ═══════════════════════════════════════════
      SCROLL REVEAL SCRIPT
      ═══════════════════════════════════════════ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
