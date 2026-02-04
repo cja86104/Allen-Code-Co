@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WZ9RJ1MHQ4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WZ9RJ1MHQ4');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Sent | Allen Code Co</title>
+    <meta name="description" content="Your message has been sent successfully. We'll get back to you soon.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-darker: #050508;
+            --accent: #f59e0b;
+            --accent-bright: #fbbf24;
+            --accent-glow: rgba(245, 158, 11, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --gradient-1: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Noise overlay matching main site */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Background glow */
+        .bg-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            margin-bottom: 3rem;
+        }
+
+        .logo-mark {
+            width: 48px;
+            height: 48px;
+        }
+
+        .logo-mark svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .checkmark-circle {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .checkmark-circle svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .checkmark-ring {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 3;
+            stroke-dasharray: 251;
+            stroke-dashoffset: 251;
+            transform-origin: center;
+        }
+
+        .checkmark-path {
+            fill: none;
+            stroke: var(--accent-bright);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 40;
+            stroke-dashoffset: 40;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h1 .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        .redirect-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .redirect-info span {
+            color: var(--accent);
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 3px;
+            background: var(--border);
+            border-radius: 3px;
+            margin: 0 auto 2.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 3px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        .btn:hover {
+            background: var(--accent-bright);
+            transform: translateY(-2px);
+        }
+
+        .btn-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="bg-glow"></div>
+
+    <div class="container">
+        <a href="https://www.allencodeco.com" class="logo">
+            <div class="logo-mark">
+                <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M25 5 L8 45" stroke="url(#logoGradThanks)" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M25 5 L42 45" stroke="url(#logoGradThanks)" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M14 32 L25 32" stroke="url(#logoGradThanks)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M42 45 L48 38" stroke="url(#logoGradThanks)" stroke-width="3" stroke-linecap="round"/>
+                    <defs>
+                        <linearGradient id="logoGradThanks" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#f59e0b"/>
+                            <stop offset="100%" style="stop-color:#ef4444"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <span class="logo-text">Allen Code Co.</span>
+        </a>
+
+        <div class="checkmark-circle">
+            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                <circle class="checkmark-ring" cx="40" cy="40" r="36"/>
+                <path class="checkmark-path" d="M24 40 L35 51 L56 30"/>
+            </svg>
+        </div>
+
+        <h1>Message <span class="highlight">Received.</span></h1>
+        <p class="subtitle">Thanks for reaching out. We'll review your message and get back to you as soon as possible.</p>
+
+        <p class="redirect-info">Redirecting in <span id="countdown">8</span> seconds</p>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <a href="https://www.allencodeco.com" class="btn">
+            Back to Home <span class="btn-arrow">→</span>
+        </a>
+    </div>
+
+    <script>
+        // Animate checkmark
+        const tl = gsap.timeline({ delay: 0.3 });
+
+        tl.to('.checkmark-ring', {
+            strokeDashoffset: 0,
+            duration: 0.8,
+            ease: 'power2.inOut'
+        });
+
+        tl.to('.checkmark-path', {
+            strokeDashoffset: 0,
+            duration: 0.4,
+            ease: 'power2.out'
+        }, '-=0.2');
+
+        // Fade in content
+        tl.from('h1', {
+            y: 30,
+            opacity: 0,
+            duration: 0.6,
+            ease: 'power3.out',
+            clearProps: 'all'
+        }, '-=0.2');
+
+        tl.from('.subtitle', {
+            y: 20,
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power3.out',
+            clearProps: 'all'
+        }, '-=0.3');
+
+        tl.from('.redirect-info, .progress-bar, .btn', {
+            y: 20,
+            opacity: 0,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: 'power3.out',
+            clearProps: 'all'
+        }, '-=0.2');
+
+        // Countdown and progress bar
+        var seconds = 8;
+        var countdownEl = document.getElementById('countdown');
+        var progressFill = document.getElementById('progressFill');
+
+        gsap.to(progressFill, {
+            width: '100%',
+            duration: seconds,
+            ease: 'linear'
+        });
+
+        var interval = setInterval(function() {
+            seconds--;
+            countdownEl.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(interval);
+                window.location.href = 'https://www.allencodeco.com';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

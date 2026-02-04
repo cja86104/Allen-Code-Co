@@ -3,6 +3,10 @@
     {
       "source": "/",
       "destination": "/allen-code-co-animated.html"
+    },
+    {
+      "source": "/thanks",
+      "destination": "/thanks.html"
     }
   ]
 }
