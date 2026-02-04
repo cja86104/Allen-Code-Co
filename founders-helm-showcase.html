@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founders Helm — Allen Code Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0C0B0A;
+    --bg-secondary: #141312;
+    --bg-card: #1A1918;
+    --bg-elevated: #222120;
+    --border: #2A2928;
+    --border-subtle: #1F1E1D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #60A5FA;
+    --text-muted: #F5A623;
+    --accent: #E8832A;
+    --accent-warm: #D4731A;
+    --accent-glow: rgba(232,131,42,0.15);
+    --accent-soft: #F5A623;
+    --green: #4ADE80;
+    --blue: #60A5FA;
+    --red: #F87171;
+    --purple: #C084FC;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Outfit', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── Utility ─────────────────────────────── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 60px); }
+  .container--narrow { max-width: 860px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 60px); }
+
+  /* ── Grain Overlay ──────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── Navigation Bar ─────────────────────── */
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 16px 0;
+    background: rgba(12,11,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-subtle);
+    transition: all 0.3s ease;
+  }
+  .topbar__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(20px,5vw,60px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topbar__brand {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .topbar__brand:hover { color: var(--accent); }
+  .topbar__nav { display: flex; align-items: center; gap: 1.5rem; }
+  .topbar__link { font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--text-muted); text-decoration: none; letter-spacing: 0.02em; transition: color 0.3s; }
+  .topbar__link:hover { color: var(--accent); }
+  .topbar__tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border: 1px solid rgba(232,131,42,0.25);
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── Hero ────────────────────────────────── */
+  .hero {
+    padding: clamp(140px,18vh,220px) 0 clamp(80px,10vh,140px);
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--text-primary);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .hero__title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero__subtitle {
+    font-size: clamp(18px, 2.2vw, 22px);
+    color: var(--text-secondary);
+    max-width: 640px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+  .hero__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .hero__meta-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .hero__meta-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Divider ─────────────────────────────── */
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* ── Sections ────────────────────────────── */
+  .section {
+    padding: clamp(60px, 10vh, 120px) 0;
+  }
+  .section__label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .section__heading {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+  .section__body {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+  .section__body p + p { margin-top: 20px; }
+
+  /* ── Stats Bar ───────────────────────────── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: clamp(40px, 6vh, 80px) 0;
+  }
+  .stat {
+    background: var(--bg-card);
+    padding: 32px 28px;
+    text-align: center;
+  }
+  .stat__number {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 48px);
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat__desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Product Grid (10 tools) ─────────────── */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2px;
+    background: var(--border-subtle);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .product-card {
+    background: var(--bg-card);
+    padding: clamp(28px, 4vw, 40px);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .product-card:hover {
+    background: var(--bg-elevated);
+  }
+  .product-card__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+  .product-card__icon--crm { background: rgba(96,165,250,0.1); color: var(--blue); }
+  .product-card__icon--landing { background: rgba(232,131,42,0.1); color: var(--accent); }
+  .product-card__icon--content { background: rgba(192,132,252,0.1); color: var(--purple); }
+  .product-card__icon--invoices { background: rgba(74,222,128,0.1); color: var(--green); }
+  .product-card__icon--projects { background: rgba(96,165,250,0.1); color: var(--blue); }
+  .product-card__icon--vault { background: rgba(245,166,35,0.1); color: var(--accent-soft); }
+  .product-card__icon--advisor { background: rgba(192,132,252,0.1); color: var(--purple); }
+  .product-card__icon--analytics { background: rgba(74,222,128,0.1); color: var(--green); }
+  .product-card__icon--automations { background: rgba(232,131,42,0.1); color: var(--accent); }
+  .product-card__icon--feedback { background: rgba(248,113,113,0.1); color: var(--red); }
+  .product-card__name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+  .product-card__desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .product-card__features {
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 2;
+  }
+
+  /* ── Architecture Section ────────────────── */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border-subtle);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  @media (max-width: 768px) { .arch-grid { grid-template-columns: 1fr; } }
+  .arch-cell {
+    background: var(--bg-card);
+    padding: clamp(28px, 4vw, 40px);
+  }
+  .arch-cell__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+  }
+  .arch-cell__content {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+  .arch-cell__content strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* ── Tech Stack Ribbon ───────────────────── */
+  .tech-ribbon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+  }
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  .tech-tag:hover {
+    color: var(--accent);
+    border-color: rgba(232,131,42,0.3);
+    background: var(--accent-glow);
+  }
+
+  /* ── Security Section ────────────────────── */
+  .security-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px;
+    background: var(--border-subtle);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .security-item {
+    background: var(--bg-card);
+    padding: 28px;
+  }
+  .security-item__check {
+    color: var(--green);
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  .security-item__title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+  .security-item__desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ── Narrative Prose Sections ─────────────── */
+  .prose-section {
+    padding: clamp(60px, 10vh, 120px) 0;
+  }
+  .prose-section .section__body {
+    columns: 2;
+    column-gap: 48px;
+  }
+  @media (max-width: 768px) {
+    .prose-section .section__body { columns: 1; }
+  }
+
+  /* ── Pricing / Acquisition CTA ───────────── */
+  .cta-section {
+    padding: clamp(80px, 12vh, 160px) 0;
+    text-align: center;
+    position: relative;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  .cta__heading {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.15;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .cta__body {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin: 0 auto 48px;
+    line-height: 1.8;
+    position: relative;
+  }
+  .cta__options {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .cta__card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 40px;
+    text-align: left;
+    width: 300px;
+    transition: all 0.3s ease;
+  }
+  .cta__card:hover {
+    border-color: rgba(232,131,42,0.3);
+    transform: translateY(-4px);
+  }
+  .cta__card--featured {
+    border-color: var(--accent);
+    box-shadow: 0 0 40px var(--accent-glow);
+  }
+  .cta__card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .cta__card-price {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .cta__card-price span {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  .cta__card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 16px;
+  }
+
+  /* ── Footer ──────────────────────────────── */
+  .footer {
+    padding: 48px 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .footer__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer__brand {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+  .footer__links {
+    display: flex;
+    gap: 24px;
+  }
+  .footer__link {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer__link:hover { color: var(--accent); }
+
+  /* ── Scroll Animations ──────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Responsive ──────────────────────────── */
+  @media (max-width: 768px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .hero__meta { gap: 20px; }
+    .cta__options { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     TOP BAR
+     ═══════════════════════════════════════════ -->
+<nav class="topbar">
+  <div class="topbar__inner">
+    <a href="https://www.allencodeco.com" class="topbar__brand">Allen Code Co</a>
+    <div class="topbar__nav">
+      <a href="products.html" class="topbar__link">← Products</a>
+      <span class="topbar__tag">Available for Acquisition</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <p class="hero__eyebrow">Full-Stack SaaS Application</p>
+    <h1 class="hero__title">Founders<br><em>Helm</em></h1>
+    <p class="hero__subtitle">
+      Ten integrated business tools consolidated into a single production-grade platform. 
+      Built for solo founders and small teams who need a command center — not a collection of browser tabs.
+    </p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Status</span>
+        <span class="hero__meta-value">Production / Live</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Stack</span>
+        <span class="hero__meta-value">Next.js · Supabase · Stripe</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Pricing Model</span>
+        <span class="hero__meta-value">$29/mo · $299 Lifetime</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Live URL</span>
+        <span class="hero__meta-value">foundershelm.com</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     BY THE NUMBERS
+     ═══════════════════════════════════════════ -->
+<div class="container reveal">
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat__number">10</div>
+      <div class="stat__desc">Integrated Tools</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">55+</div>
+      <div class="stat__desc">API Routes</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">40+</div>
+      <div class="stat__desc">Database Tables</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">0</div>
+      <div class="stat__desc">TypeScript Errors</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">100%</div>
+      <div class="stat__desc">RLS Coverage</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     WHAT IT IS
+     ═══════════════════════════════════════════ -->
+<section class="section container--narrow reveal">
+  <p class="section__label">Overview</p>
+  <h2 class="section__heading">One platform. Every tool a founder actually uses.</h2>
+  <div class="section__body">
+    <p>
+      Founders Helm is a full-stack SaaS application that replaces the patchwork of tools most solo founders and small teams cobble together during their first year of business. Instead of paying separately for a CRM, a landing page builder, an invoicing tool, a project manager, a content engine, a feedback system, an analytics dashboard, a code vault, an AI advisor, and an automation engine — this platform puts all ten under one login, one subscription, and one unified workspace.
+    </p>
+    <p>
+      Every feature is production-grade. There are no placeholder components, no mock data, no half-built modules waiting to be finished someday. The authentication system supports email/password and OAuth with full session management. The billing integration handles subscriptions, one-time lifetime purchases, and self-service portal access through Stripe. The database layer enforces Row Level Security across every single table. The workspace system supports multi-tenant operations with role-based access control at four levels: owner, admin, editor, and viewer.
+    </p>
+    <p>
+      This is not a template or a boilerplate. It's a deployed, working application that a buyer could rebrand, reconfigure, and begin selling to their own audience within days — or run as-is under the existing Founders Helm brand.
+    </p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     THE 10 PRODUCTS
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">Integrated Products</p>
+  <h2 class="section__heading">Ten tools, zero compromises</h2>
+  <div class="section__body" style="max-width:720px;">
+    <p>
+      Each product within Founders Helm is a fully realized module with its own database schema, API routes, permissions layer, and UI components. They share a common workspace context, so data flows naturally between them — a contact in the CRM can receive an invoice, a landing page lead automatically appears in your contact list, and the activity feed captures everything happening across the platform.
+    </p>
+  </div>
+
+  <div class="products-grid">
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--crm">⊞</div>
+      <h3 class="product-card__name">CRM &amp; Contacts</h3>
+      <p class="product-card__desc">
+        Full contact management with tags, source tracking, status lifecycle, and a deal pipeline with customizable stages. Includes duplicate email detection, contact notes, and export functionality. Every contact is workspace-scoped with role-based edit permissions.
+      </p>
+      <p class="product-card__features">contacts · deals · pipeline stages · tags · notes · csv export</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--landing">◈</div>
+      <h3 class="product-card__name">Landing Page Builder</h3>
+      <p class="product-card__desc">
+        A no-code page builder with section-based layouts, theme customization, custom CSS injection, and publishable slugs. Pages are served at public URLs with built-in analytics tracking and a lead capture system that prevents duplicate submissions within a one-hour window.
+      </p>
+      <p class="product-card__features">visual editor · themes · custom css · lead capture · analytics · public urls</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--content">✦</div>
+      <h3 class="product-card__name">Content Engine</h3>
+      <p class="product-card__desc">
+        Write, generate, and manage content posts and articles with a rich text editor powered by Tiptap. Integrated AI generation through OpenRouter supports multiple modes — generate from scratch, improve existing drafts, or brainstorm ideas — with platform-specific formatting for social and long-form content.
+      </p>
+      <p class="product-card__features">tiptap editor · ai generation · multi-platform · drafts · scheduling</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--invoices">◆</div>
+      <h3 class="product-card__name">Invoicing</h3>
+      <p class="product-card__desc">
+        Create and send professional invoices with line items, tax calculations, and auto-generated invoice numbers via a database function. Public invoice views are accessible via secure token links, with automatic status tracking from sent to viewed to paid. Supports PDF generation for download.
+      </p>
+      <p class="product-card__features">line items · tax calc · public links · status tracking · pdf export</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--projects">⊡</div>
+      <h3 class="product-card__name">Project Management</h3>
+      <p class="product-card__desc">
+        Organize work into projects with tasks, assignees, priorities, and due dates. Includes time tracking with start/stop entries and a complete time log per task. Role-based permissions ensure viewers can see progress without accidentally modifying deliverables.
+      </p>
+      <p class="product-card__features">projects · tasks · time tracking · assignees · priorities · due dates</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--vault">◇</div>
+      <h3 class="product-card__name">Code &amp; Prompt Vault</h3>
+      <p class="product-card__desc">
+        A personal library for storing reusable code snippets, prompt templates, and reference material organized into collections. Supports syntax highlighting, search, and quick-copy workflows. Designed for founders who constantly context-switch between tools and need a reliable place to keep the things that work.
+      </p>
+      <p class="product-card__features">collections · snippets · prompts · syntax highlighting · search · quick copy</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--advisor">✧</div>
+      <h3 class="product-card__name">AI Business Advisor</h3>
+      <p class="product-card__desc">
+        An AI-powered conversational advisor built on DeepSeek via OpenRouter. Maintains full conversation history with persistent storage, extracts follow-up questions and action items from each response, and tracks token usage per workspace. Conversations are scoped to the workspace so team members share context.
+      </p>
+      <p class="product-card__features">conversation history · action items · follow-ups · token tracking</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--analytics">◉</div>
+      <h3 class="product-card__name">Analytics Dashboard</h3>
+      <p class="product-card__desc">
+        Privacy-first analytics that track page views, unique visitors, referral sources, and user behavior without relying on third-party scripts. The collection endpoint is excluded from auth middleware for performance, and the dashboard renders charts via Recharts with filterable date ranges and comparison views.
+      </p>
+      <p class="product-card__features">page views · referrals · recharts · date filtering · privacy-first</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--automations">⚡</div>
+      <h3 class="product-card__name">Automation Engine</h3>
+      <p class="product-card__desc">
+        A workflow automation system supporting scheduled triggers via a daily cron job and external webhook triggers with IP allowlisting and HMAC signature verification using constant-time comparison. Automations create run records with full trigger data, and the webhook endpoint strips sensitive headers before logging.
+      </p>
+      <p class="product-card__features">cron scheduling · webhooks · hmac auth · ip allowlisting · run logs</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--feedback">⊘</div>
+      <h3 class="product-card__name">Feedback &amp; Command Center</h3>
+      <p class="product-card__desc">
+        An embeddable feedback widget system that accepts anonymous submissions from external sites, paired with a SaaS metrics command center that tracks customers, subscriptions, MRR, and churn. The command center syncs from Stripe webhook events so metrics stay current without manual reconciliation.
+      </p>
+      <p class="product-card__features">embeddable widgets · anonymous submissions · mrr · churn · stripe sync</p>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     ARCHITECTURE DEEP DIVE
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">Architecture</p>
+  <h2 class="section__heading">How it's built</h2>
+  <div class="section__body" style="max-width:720px;">
+    <p>
+      Founders Helm is a Next.js 16 application using the App Router pattern with React 19 and TypeScript 5.7. The database layer runs on Supabase (PostgreSQL) with generated TypeScript types that keep the frontend and database schema in lockstep. Billing is handled entirely through Stripe with webhook-driven state synchronization — the application never polls for payment status.
+    </p>
+  </div>
+
+  <div class="arch-grid">
+    <div class="arch-cell">
+      <p class="arch-cell__label">Frontend</p>
+      <div class="arch-cell__content">
+        <strong>Next.js 16</strong> with App Router, <strong>React 19</strong>, and <strong>TypeScript 5.7</strong>. UI components built on <strong>Radix UI</strong> primitives with <strong>Tailwind CSS</strong> and <strong>shadcn/ui</strong> patterns. Rich text editing via <strong>Tiptap</strong>. Data visualization through <strong>Recharts</strong>. State management with <strong>Zustand</strong> for global state and <strong>TanStack React Query</strong> for server state. Form handling via <strong>React Hook Form</strong> with <strong>Zod</strong> runtime validation.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Backend &amp; Database</p>
+      <div class="arch-cell__content">
+        <strong>Supabase</strong> (PostgreSQL) with Row Level Security enforced on every table. Three client patterns: browser client, server client, and admin client (for webhooks and cron). <strong>40+ tables</strong> with comprehensive migration files. Auto-generated TypeScript types from the database schema ensure type safety from API to UI. All queries go through the Supabase client with RLS — no raw SQL exposed to the frontend.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Billing &amp; Payments</p>
+      <div class="arch-cell__content">
+        <strong>Stripe</strong> integration with webhook signature verification. Supports three pricing tiers: Pro Monthly, Pro Yearly, and Lifetime (one-time payment). Webhook handler processes checkout completions, subscription changes, and invoice events. Lifetime subscribers are explicitly protected from accidental downgrade. Customer portal access for self-service management.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">AI Integration</p>
+      <div class="arch-cell__content">
+        <strong>OpenRouter</strong> with <strong>DeepSeek</strong> models for the business advisor and content generation engine. The advisor maintains persistent conversation history and extracts structured data (action items, follow-up questions, suggestions) from each response. The content engine supports generate, improve, and ideation modes with platform-specific formatting. Token usage is tracked per workspace.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Auth &amp; Permissions</p>
+      <div class="arch-cell__content">
+        <strong>Supabase Auth</strong> with email/password and OAuth support. Session refresh handled through middleware on every request. Four-tier role system: <strong>owner, admin, editor, viewer</strong> — each with granular permissions for create, update, and delete operations. Open redirect protection on both login forms and OAuth callback. API keys hashed with SHA-256, full key shown only once on creation.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Deployment</p>
+      <div class="arch-cell__content">
+        Deployed on <strong>Vercel</strong> with edge functions. Daily cron job for automation scheduling protected by bearer token. Security headers configured in next.config: X-Frame-Options DENY, HSTS with 1-year max-age, strict referrer policy, permissions policy blocking camera/mic/geo. Server actions limited to 2MB body size. Turbopack enabled for development.
+      </div>
+    </div>
+  </div>
+
+  <div class="tech-ribbon">
+    <span class="tech-tag">Next.js 16</span>
+    <span class="tech-tag">React 19</span>
+    <span class="tech-tag">TypeScript 5.7</span>
+    <span class="tech-tag">Supabase</span>
+    <span class="tech-tag">PostgreSQL</span>
+    <span class="tech-tag">Stripe</span>
+    <span class="tech-tag">OpenRouter</span>
+    <span class="tech-tag">DeepSeek</span>
+    <span class="tech-tag">Radix UI</span>
+    <span class="tech-tag">Tailwind CSS</span>
+    <span class="tech-tag">shadcn/ui</span>
+    <span class="tech-tag">Tiptap</span>
+    <span class="tech-tag">Recharts</span>
+    <span class="tech-tag">Zustand</span>
+    <span class="tech-tag">React Query</span>
+    <span class="tech-tag">React Hook Form</span>
+    <span class="tech-tag">Zod</span>
+    <span class="tech-tag">Vercel</span>
+    <span class="tech-tag">Resend</span>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     SECURITY
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">Security</p>
+  <h2 class="section__heading">Audited and production-hardened</h2>
+  <div class="section__body" style="max-width:720px;">
+    <p>
+      Founders Helm has undergone a complete security audit covering every API route, every database policy, every authentication flow, and every public-facing endpoint. The result: zero critical vulnerabilities, zero exposed secrets, and zero compilation errors. This is not a prototype that needs hardening — it's a production application that has already been hardened.
+    </p>
+  </div>
+
+  <div class="security-grid">
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Row Level Security on Every Table</p>
+      <p class="security-item__desc">All 40+ database tables enforce RLS policies. Users can only access data within their workspace, and write operations are gated by role. Policies use the optimized (select auth.uid()) pattern to avoid PostgreSQL initplan warnings.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Consistent API Authentication</p>
+      <p class="security-item__desc">Every API route follows the same pattern: verify the user session, extract the workspace ID, confirm membership, check role permissions. No route skips a step. Public endpoints (lead capture, feedback, analytics) are intentionally scoped and validated.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Stripe Webhook Signature Verification</p>
+      <p class="security-item__desc">All Stripe events are verified using constructEvent() with the webhook signing secret. The handler processes subscription lifecycle events and explicitly protects lifetime subscribers from being downgraded by stale events.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">HMAC Webhook Authentication</p>
+      <p class="security-item__desc">External webhook endpoints verify payloads using HMAC-SHA256 signatures with timingSafeEqual for constant-time comparison, preventing timing attacks. IP allowlisting adds a second layer of validation. Sensitive headers are stripped before logging.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Open Redirect Protection</p>
+      <p class="security-item__desc">Both the login form and OAuth callback validate redirect URLs, rejecting any path that doesn't start with a single forward slash. Protocol-relative URLs (beginning with //) are explicitly blocked.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Hashed API Keys</p>
+      <p class="security-item__desc">API keys are generated as 32-byte random hex strings, stored as SHA-256 hashes, and the full key is returned to the user exactly once on creation. Only the preview is retained in the database. Only owners and admins can create or revoke keys.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Security Headers</p>
+      <p class="security-item__desc">X-Frame-Options DENY, X-Content-Type-Options nosniff, Strict-Transport-Security with 1-year max-age and includeSubDomains, strict-origin-when-cross-origin referrer policy, and a permissions policy that blocks camera, microphone, and geolocation access.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Audit Trail &amp; Data Export</p>
+      <p class="security-item__desc">Security-relevant actions are logged to the audit_logs table. Data export is restricted to owners and admins and supports JSON/CSV formats across all modules. Export events are themselves audited with record counts.</p>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     WHAT A BUYER GETS
+     ═══════════════════════════════════════════ -->
+<section class="section container--narrow reveal">
+  <p class="section__label">What's Included</p>
+  <h2 class="section__heading">Everything ships</h2>
+  <div class="section__body">
+    <p>
+      An acquisition includes the complete source code, all database migration files, the Vercel deployment configuration, and full documentation. The codebase is organized with clear separation between the ten product modules, a shared component library built on Radix UI primitives, and a well-documented type system generated directly from the database schema.
+    </p>
+    <p>
+      The application's multi-tenant workspace architecture means a buyer could operate it as a single-product SaaS, white-label it for agency clients, or break individual modules out into standalone products. The CRM alone has a complete contact management system with deal pipelines. The landing page builder alone is a viable product. The invoicing system alone competes with entry-level billing tools.
+    </p>
+    <p>
+      Every migration file is included and versioned. A buyer with a Supabase account and a Vercel deployment can have the application running in production in under an hour. The Stripe integration requires only three price IDs and a webhook secret. The AI features require a single OpenRouter API key. There are no hidden dependencies, no proprietary services, and no vendor lock-in beyond the standard infrastructure providers.
+    </p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     ACQUISITION CTA
+     ═══════════════════════════════════════════ -->
+<section class="cta-section container reveal">
+  <h2 class="cta__heading">Ready to deploy.<br>Ready to sell.</h2>
+  <p class="cta__body">
+    Founders Helm is available for outright acquisition or as a custom build reference. 
+    Interested parties are welcome to reach out for a live demo, codebase walkthrough, or to discuss terms.
+  </p>
+  <div class="cta__options">
+    <div class="cta__card">
+      <p class="cta__card-label">Estimated Build Value</p>
+      <p class="cta__card-price">$100K+ <span>in development</span></p>
+      <p class="cta__card-desc">
+        800–1,200 hours of senior full-stack engineering across 10 integrated products, 55+ API routes, 40+ database tables, Stripe billing, AI integration, and a complete security layer. That's what's already built.
+      </p>
+    </div>
+    <div class="cta__card cta__card--featured">
+      <p class="cta__card-label">Acquire the Application</p>
+      <p class="cta__card-price">Let's Talk <span></span></p>
+      <p class="cta__card-desc">
+        Purchase the complete codebase, brand, domain, and deployment. Full source code, database migrations, documentation, and deployment configuration included. Walk away with a working SaaS.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <span class="footer__brand">© 2025 Allen Code Co — Winchester, Virginia</span>
+      <div class="footer__links">
+        <a href="products.html" class="footer__link">Products</a>
+        <a href="https://www.allencodeco.com" class="footer__link">Portfolio</a>
+        <a href="mailto:chris@allencodeco.com" class="footer__link">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     SCROLL REVEAL SCRIPT
+     ═══════════════════════════════════════════ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target

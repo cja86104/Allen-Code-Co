@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kirra Companion — AI Companion Platform | Allen Code Co</title>
+<meta name="description" content="Production-grade AI companion platform with backstory system, DNA evolution, 24/7 life simulation, voice mode, and comprehensive safety. 44,500+ lines of code. Available for acquisition.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   RESET & VARIABLES — Matches Founders Helm showcase palette
+   ================================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0C0B0A;
+  --bg-secondary: #141312;
+  --bg-card: #1A1918;
+  --bg-elevated: #222120;
+  --border: #2A2928;
+  --border-subtle: #1F1E1D;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #60A5FA;
+  --text-muted: #F5A623;
+
+  --accent: #E8832A;
+  --accent-warm: #D4731A;
+  --accent-glow: rgba(232, 131, 42, 0.08);
+  --accent-soft: #F5A623;
+
+  --green: #4ADE80;
+  --blue: #60A5FA;
+  --red: #F87171;
+  --purple: #C084FC;
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Outfit', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   NAVIGATION
+   ================================================================ */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(12, 11, 10, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.topbar__brand {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  transition: color 0.3s;
+}
+.topbar__brand:hover { color: var(--accent); }
+.topbar__nav { display: flex; align-items: center; gap: 1.5rem; }
+.topbar__link { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.02em; transition: color 0.3s; }
+.topbar__link:hover { color: var(--accent); }
+.topbar__tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 0.3rem 0.85rem;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(232, 131, 42, 0.15);
+}
+
+/* ================================================================
+   HERO
+   ================================================================ */
+.hero {
+  padding: 8rem 2rem 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 60%;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+.hero__title em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero__subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+.hero__meta {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+.hero__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero__meta-value {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ================================================================
+   STATS BAR
+   ================================================================ */
+.stats {
+  padding: 0 2rem;
+  margin-top: 3rem;
+}
+.stats__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.stats__item {
+  flex: 1;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-right: 1px solid var(--border);
+}
+.stats__item:last-child { border-right: none; }
+.stats__value {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+.stats__label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* ================================================================
+   SECTION HEADERS (reusable)
+   ================================================================ */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+
+/* ================================================================
+   NARRATIVE (Problem → Solution)
+   ================================================================ */
+.narrative {
+  padding: 5rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.narrative__inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.narrative__text {
+  font-size: 1.08rem;
+  line-height: 1.9;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+.narrative__callout {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.75rem 2rem;
+  margin: 2.5rem 0;
+}
+.narrative__callout p {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+.narrative__moment {
+  background: linear-gradient(135deg, rgba(232, 131, 42, 0.06) 0%, rgba(232, 131, 42, 0.02) 100%);
+  border: 1px solid rgba(232, 131, 42, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.25rem;
+  margin: 2.5rem 0;
+}
+.narrative__moment-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.narrative__moment-label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.narrative__moment-text {
+  font-size: 1.02rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+}
+.narrative__moment-text em {
+  color: var(--text-primary);
+  font-style: italic;
+}
+.narrative__moment-text strong {
+  color: var(--text-primary);
+}
+
+/* ================================================================
+   BACKSTORY MODES
+   ================================================================ */
+.modes {
+  padding: 5rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.modes__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.modes__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.mode-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  transition: all 0.4s;
+}
+.mode-card:hover {
+  border-color: rgba(232, 131, 42, 0.25);
+  transform: translateY(-3px);
+}
+.mode-card--featured {
+  border-color: rgba(232, 131, 42, 0.3);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(232, 131, 42, 0.04) 100%);
+}
+.mode-card__icon {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+.mode-card__name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.mode-card__desc {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.mode-card__tag {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  background: rgba(232, 131, 42, 0.12);
+  color: var(--accent);
+}
+
+/* ================================================================
+   CORE SYSTEMS
+   ================================================================ */
+.systems {
+  padding: 5rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+}
+.systems__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.systems__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.system-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.25rem;
+  transition: all 0.4s;
+}
+.system-card:hover {
+  border-color: rgba(232, 131, 42, 0.2);
+  transform: translateY(-2px);
+}
+.system-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.system-card__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  background: var(--accent-glow);
+}
+.system-card__name {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+.system-card__lines {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+.system-card__desc {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+.system-card__detail {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ================================================================
+   CREATION FLOW
+   ================================================================ */
+.flow {
+  padding: 5rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.flow__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.flow__steps {
+  display: flex;
+  gap: 0;
+  margin-top: 2.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.flow__step {
+  flex: 1;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  transition: all 0.3s;
+  position: relative;
+}
+.flow__step:last-child { border-right: none; }
+.flow__step:hover { background: var(--bg-elevated); }
+.flow__step-num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.flow__step-name {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+.flow__step-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.flow__step-highlight {
+  background: rgba(232, 131, 42, 0.04);
+}
+
+/* ================================================================
+   ARCHITECTURE
+   ================================================================ */
+.architecture {
+  padding: 5rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+}
+.architecture__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.architecture__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.arch-cell {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+.arch-cell__label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.arch-cell__content {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+/* ================================================================
+   API ROUTES
+   ================================================================ */
+.routes {
+  padding: 5rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.routes__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.routes__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+.route-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.3s;
+}
+.route-item:hover { border-color: var(--border); }
+.route-method {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  min-width: 38px;
+  text-align: center;
+}
+.route-method--post { background: rgba(74, 222, 128, 0.1); color: var(--green); }
+.route-method--get { background: rgba(96, 165, 250, 0.1); color: var(--blue); }
+.route-path {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+/* ================================================================
+   TECH STACK RIBBON
+   ================================================================ */
+.techstack {
+  padding: 4rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+}
+.techstack__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+.techstack__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+.tech-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.5rem 1.15rem;
+  border-radius: 100px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  transition: all 0.3s;
+}
+.tech-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* ================================================================
+   SAFETY SECTION
+   ================================================================ */
+.safety {
+  padding: 5rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.safety__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.safety__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.safety-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem;
+}
+.safety-card__name {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--green);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.safety-card__name::before {
+  content: '✓';
+  font-size: 0.65rem;
+}
+.safety-card__desc {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* ================================================================
+   CTA
+   ================================================================ */
+.cta {
+  padding: 6rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+.cta::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 60%;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.cta__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.cta-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  text-align: center;
+  transition: all 0.4s;
+}
+.cta-card:hover { transform: translateY(-3px); }
+.cta-card--featured {
+  border-color: rgba(232, 131, 42, 0.3);
+  box-shadow: 0 0 0 1px rgba(232, 131, 42, 0.15), 0 8px 40px rgba(232, 131, 42, 0.08);
+}
+.cta-card__label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+.cta-card__value {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.cta-card__desc {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.cta-card__btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.75rem 2rem;
+  border-radius: 100px;
+  background: var(--accent);
+  color: #fff;
+  transition: all 0.3s;
+}
+.cta-card__btn:hover { background: var(--accent-warm); transform: translateY(-2px); }
+
+/* ================================================================
+   FOOTER
+   ================================================================ */
+.footer {
+  padding: 2rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer__brand {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.footer__brand span { color: var(--accent); }
+.footer__links {
+  display: flex;
+  gap: 1.5rem;
+}
+.footer__link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  transition: all 0.3s;
+}
+.footer__link:hover { opacity: 1; color: var(--accent); }
+
+/* ================================================================
+   REVEAL ANIMATIONS
+   ================================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 900px) {
+  .modes__grid { grid-template-columns: 1fr; }
+  .systems__grid { grid-template-columns: 1fr; }
+  .architecture__grid { grid-template-columns: 1fr; }
+  .routes__grid { grid-template-columns: 1fr; }
+  .safety__grid { grid-template-columns: 1fr; }
+  .cta__cards { grid-template-columns: 1fr; }
+  .flow__steps { flex-direction: column; }
+  .flow__step { border-right: none; border-bottom: 1px solid var(--border); }
+  .flow__step:last-child { border-bottom: none; }
+  .stats__inner { flex-direction: column; }
+  .stats__item { border-right: none; border-bottom: 1px solid var(--border); }
+  .stats__item:last-child { border-bottom: none; }
+}
+@media (max-width: 600px) {
+  .hero { padding: 6rem 1.25rem 3rem; }
+  .hero__meta { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     NAVIGATION
+     ================================================================ -->
+<nav class="topbar">
+  <a href="https://www.allencodeco.com" class="topbar__brand">Allen Code Co.</a>
+  <div class="topbar__nav">
+    <a href="products.html" class="topbar__link">← Products</a>
+    <span class="topbar__tag">In Development</span>
+  </div>
+</nav>
+
+<!-- ================================================================
+     HERO
+     ================================================================ -->
+<section class="hero">
+  <div class="hero__eyebrow reveal">AI Companion Platform</div>
+  <h1 class="hero__title reveal reveal-d1">Kirra <em>Companion</em></h1>
+  <p class="hero__subtitle reveal reveal-d2">The AI companion that arrives as a complete person — not a blank slate.</p>
+  <div class="hero__meta reveal reveal-d3">
+    <div class="hero__meta-item">Status: <span class="hero__meta-value">&nbsp;In Development</span></div>
+    <div class="hero__meta-item">Stack: <span class="hero__meta-value">&nbsp;Next.js · TypeScript · Supabase</span></div>
+    <div class="hero__meta-item">Pricing: <span class="hero__meta-value">&nbsp;Free + Pro Tiers</span></div>
+    <div class="hero__meta-item">Live: <span class="hero__meta-value">&nbsp;Vercel Deployment</span></div>
+  </div>
+
+  <!-- Stats Bar -->
+  <div class="stats reveal reveal-d4">
+    <div class="stats__inner">
+      <div class="stats__item">
+        <div class="stats__value">44,500+</div>
+        <div class="stats__label">Lines of Code</div>
+      </div>
+      <div class="stats__item">
+        <div class="stats__value">25</div>
+        <div class="stats__label">API Routes</div>
+      </div>
+      <div class="stats__item">
+        <div class="stats__value">22</div>
+        <div class="stats__label">Database Tables</div>
+      </div>
+      <div class="stats__item">
+        <div class="stats__value">32</div>
+        <div class="stats__label">Dynamic Scenes</div>
+      </div>
+      <div class="stats__item">
+        <div class="stats__value">1,100+</div>
+        <div class="stats__label">Line Safety System</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     NARRATIVE — The Cold Start Problem
+     ================================================================ -->
+<section class="narrative">
+  <div class="narrative__inner">
+    <div class="section-label reveal">The Problem</div>
+    <div class="section-title reveal reveal-d1">Every companion app has the same <em>fatal flaw</em></div>
+    <p class="narrative__text reveal reveal-d2">
+      You download an AI companion app. You say hello. It says something generic — "Hi! Tell me about yourself." There's no personality. No history. No reason to keep talking. The AI is a blank canvas waiting for you to do all the work, and most people leave within five minutes.
+    </p>
+    <p class="narrative__text reveal reveal-d2">
+      This is the cold start problem. Every AI companion on the market suffers from it. Character.AI, Replika, Chai — they all ask the user to build the personality through weeks of conversation. The first interaction is the worst interaction, and that's the only one most people will ever have.
+    </p>
+
+    <div class="narrative__callout reveal reveal-d3">
+      <p>Kirra solves this completely. The companion shows up as a fully realized person from the very first word — with a backstory, personality, voice, and opinions already in place. You don't build the character. You discover them.</p>
+    </div>
+
+    <p class="narrative__text reveal">
+      The system works through three backstory modes. Users can write their own detailed character description up to 5,000 characters. They can have the AI generate one based on personality traits and interests. Or — the real experience — they can let the AI generate a backstory they never read. The companion becomes a mystery. You learn who they are the same way you'd learn about a real person: by talking to them.
+    </p>
+
+    <div class="narrative__moment reveal reveal-d1">
+      <div class="narrative__moment-label">The Moment That Sells It</div>
+      <div class="narrative__moment-text">
+        You create a companion. You let AI generate a backstory and don't read it. The only instruction was <em>"a teacher by day, a woman by night."</em> You say hello. She comes back in a soft voice with a southern drawl — <em>"Well, I have to grade some papers for a little while, but a little later I'm going to slide into a bubble bath..."</em> She leans in and whispers. <strong>From word one, she's a complete person.</strong> She doesn't need thirty conversations to have a personality. She arrived with one. And she'll evolve from here.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     BACKSTORY MODES
+     ================================================================ -->
+<section class="modes">
+  <div class="modes__inner">
+    <div class="section-label reveal">Three Ways In</div>
+    <div class="section-title reveal reveal-d1">Backstory <em>System</em></div>
+    <div class="modes__grid">
+      <div class="mode-card reveal reveal-d1">
+        <div class="mode-card__icon">✍️</div>
+        <div class="mode-card__name">Write Your Own</div>
+        <div class="mode-card__desc">Full creative control. Write up to 5,000 characters of backstory — history, personality quirks, speech patterns, secrets, motivations. The companion becomes exactly who you describe.</div>
+      </div>
+      <div class="mode-card reveal reveal-d2">
+        <div class="mode-card__icon">✨</div>
+        <div class="mode-card__name">AI Generated</div>
+        <div class="mode-card__desc">Set personality traits and interests, then let the AI craft a detailed backstory. Review it, edit it, regenerate until it fits. You see everything before the first conversation starts.</div>
+      </div>
+      <div class="mode-card mode-card--featured reveal reveal-d3">
+        <div class="mode-card__icon">🎭</div>
+        <div class="mode-card__name">Mystery Mode</div>
+        <div class="mode-card__desc">The real experience. AI generates a backstory you never read. You have no idea who you're talking to. The companion reveals themselves naturally through conversation. Discovery, not configuration.</div>
+        <div class="mode-card__tag">The Differentiator</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     CORE SYSTEMS
+     ================================================================ -->
+<section class="systems">
+  <div class="systems__inner">
+    <div class="section-label reveal">Under the Hood</div>
+    <div class="section-title reveal reveal-d1">Core <em>Systems</em></div>
+    <div class="systems__grid">
+
+      <div class="system-card reveal">
+        <div class="system-card__header">
+          <div class="system-card__icon">🧬</div>
+          <div class="system-card__name">DNA Evolution Engine</div>
+          <div class="system-card__lines">1,038 lines</div>
+        </div>
+        <div class="system-card__desc">Every companion has a neural fingerprint that evolves through conversation. Communication dialect, humor genome, learning style matrix, emotional resonance map, and memory weighting all shift over time.</div>
+        <div class="system-card__detail">Two identical companions become completely different after 30 days of conversation.</div>
+      </div>
+
+      <div class="system-card reveal reveal-d1">
+        <div class="system-card__header">
+          <div class="system-card__icon">🌙</div>
+          <div class="system-card__name">24/7 Life Simulation</div>
+          <div class="system-card__lines">722 lines</div>
+        </div>
+        <div class="system-card__desc">Companions live autonomous lives. They develop daily routines, discover new interests, experience life events, and write journal entries — all happening whether you're talking to them or not.</div>
+        <div class="system-card__detail">Powered by scheduled cron jobs for continuous simulation between conversations.</div>
+      </div>
+
+      <div class="system-card reveal">
+        <div class="system-card__header">
+          <div class="system-card__icon">💬</div>
+          <div class="system-card__name">Proactive Messaging</div>
+          <div class="system-card__lines">739 lines</div>
+        </div>
+        <div class="system-card__desc">Companions reach out on their own. Trigger conditions include time of day, conversation gaps, mood changes, random thoughts, and curious questions. They don't wait for you — they initiate.</div>
+        <div class="system-card__detail">Message templates with AI personalization ensure each outreach feels natural, not scripted.</div>
+      </div>
+
+      <div class="system-card reveal reveal-d1">
+        <div class="system-card__header">
+          <div class="system-card__icon">🧠</div>
+          <div class="system-card__name">Memory Palace</div>
+          <div class="system-card__lines">229 lines</div>
+        </div>
+        <div class="system-card__desc">Not just chat history. A visual memory system where connections between memories form naturally. Companions recall what matters, forget what doesn't, and build associations across conversations.</div>
+        <div class="system-card__detail">Searchable memory interface with extraction pipeline and embedding-based retrieval.</div>
+      </div>
+
+      <div class="system-card reveal">
+        <div class="system-card__header">
+          <div class="system-card__icon">🎙️</div>
+          <div class="system-card__name">Voice Mode</div>
+          <div class="system-card__lines">TTS + STT</div>
+        </div>
+        <div class="system-card__desc">Hands-free conversation mode. User speaks, companion listens, responds with synthesized voice, then goes back to listening. Six voice profiles with speed control across two quality tiers.</div>
+        <div class="system-card__detail">OpenAI TTS at 92% lower cost than ElevenLabs — $15 per million characters vs $180.</div>
+      </div>
+
+      <div class="system-card reveal reveal-d1">
+        <div class="system-card__header">
+          <div class="system-card__icon">🎨</div>
+          <div class="system-card__name">Dynamic Scene System</div>
+          <div class="system-card__lines">32 scenes</div>
+        </div>
+        <div class="system-card__desc">Chat backgrounds change based on time of day, relationship type, and conversation topic. Scene updates happen automatically with a 20-minute cooldown, and can be generated from conversation context.</div>
+        <div class="system-card__detail">Scene pinning lets users lock a scene they like — with durations from session to permanent.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     7-STEP CREATION FLOW
+     ================================================================ -->
+<section class="flow">
+  <div class="flow__inner">
+    <div class="section-label reveal">Companion Setup</div>
+    <div class="section-title reveal reveal-d1">7-Step <em>Creation Flow</em></div>
+    <div class="flow__steps reveal reveal-d2">
+      <div class="flow__step">
+        <div class="flow__step-num">01</div>
+        <div class="flow__step-name">Basics</div>
+        <div class="flow__step-desc">Name & avatar</div>
+      </div>
+      <div class="flow__step">
+        <div class="flow__step-num">02</div>
+        <div class="flow__step-name">Relationship</div>
+        <div class="flow__step-desc">Friend, mentor, romantic, family, or custom</div>
+      </div>
+      <div class="flow__step">
+        <div class="flow__step-num">03</div>
+        <div class="flow__step-name">Personality</div>
+        <div class="flow__step-desc">Big Five trait sliders</div>
+      </div>
+      <div class="flow__step">
+        <div class="flow__step-num">04</div>
+        <div class="flow__step-name">Style</div>
+        <div class="flow__step-desc">Visual preferences & interests</div>
+      </div>
+      <div class="flow__step flow__step-highlight">
+        <div class="flow__step-num">05</div>
+        <div class="flow__step-name">Backstory</div>
+        <div class="flow__step-desc">Write, generate, or mystery</div>
+      </div>
+      <div class="flow__step">
+        <div class="flow__step-num">06</div>
+        <div class="flow__step-name">Voice</div>
+        <div class="flow__step-desc">TTS voice selection & preview</div>
+      </div>
+      <div class="flow__step">
+        <div class="flow__step-num">07</div>
+        <div class="flow__step-name">Review</div>
+        <div class="flow__step-desc">Confirm & create</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     ARCHITECTURE
+     ================================================================ -->
+<section class="architecture">
+  <div class="architecture__inner">
+    <div class="section-label reveal">Architecture</div>
+    <div class="section-title reveal reveal-d1">How It's <em>Built</em></div>
+    <div class="architecture__grid">
+      <div class="arch-cell reveal">
+        <div class="arch-cell__label">Frontend</div>
+        <div class="arch-cell__content">Next.js with React Server Components and client-side interactivity. Tailwind CSS + Framer Motion. 35 components across avatar, chat, companion, memory, notifications, and UI modules.</div>
+      </div>
+      <div class="arch-cell reveal reveal-d1">
+        <div class="arch-cell__label">Backend</div>
+        <div class="arch-cell__content">25 API routes handling chat, evolution, scene generation, memories, skills, activities, voice synthesis, proactive checks, and Stripe billing. 3 cron endpoints for autonomous simulation.</div>
+      </div>
+      <div class="arch-cell reveal reveal-d2">
+        <div class="arch-cell__label">AI Layer</div>
+        <div class="arch-cell__content">Pluggable AI client supporting DeepSeek, OpenAI, and Anthropic. Chat completion, backstory generation, memory extraction, mood analysis, DNA evolution, and world effect analysis.</div>
+      </div>
+      <div class="arch-cell reveal">
+        <div class="arch-cell__label">Database</div>
+        <div class="arch-cell__content">Supabase PostgreSQL with 22 tables across 11 migrations. Companions, conversations, messages, memories, life events, activities, interests, skills, DNA, scenes, and billing.</div>
+      </div>
+      <div class="arch-cell reveal reveal-d1">
+        <div class="arch-cell__label">Billing</div>
+        <div class="arch-cell__content">Stripe integration with checkout sessions, customer portal, and webhook processing. Free tier with message limits. Pro tier with unlimited messages, voice, AI selfies, and priority support.</div>
+      </div>
+      <div class="arch-cell reveal reveal-d2">
+        <div class="arch-cell__label">Deployment</div>
+        <div class="arch-cell__content">Vercel with Edge Functions. Cron-driven life simulation, DNA evolution, and proactive messaging. Service role admin client for background jobs. Environment-based configuration.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     TECH STACK
+     ================================================================ -->
+<section class="techstack">
+  <div class="techstack__inner">
+    <div class="section-label reveal">Technology</div>
+    <div class="techstack__grid reveal reveal-d1">
+      <span class="tech-pill">Next.js</span>
+      <span class="tech-pill">React 19</span>
+      <span class="tech-pill">TypeScript</span>
+      <span class="tech-pill">Supabase</span>
+      <span class="tech-pill">PostgreSQL</span>
+      <span class="tech-pill">Stripe</span>
+      <span class="tech-pill">Tailwind CSS</span>
+      <span class="tech-pill">Framer Motion</span>
+      <span class="tech-pill">Anthropic Claude</span>
+      <span class="tech-pill">OpenAI</span>
+      <span class="tech-pill">DeepSeek</span>
+      <span class="tech-pill">OpenAI TTS</span>
+      <span class="tech-pill">Web Speech API</span>
+      <span class="tech-pill">Vercel</span>
+      <span class="tech-pill">Vercel Cron</span>
+      <span class="tech-pill">Sonner</span>
+      <span class="tech-pill">Lucide Icons</span>
+      <span class="tech-pill">Edge Functions</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     SAFETY & SECURITY
+     ================================================================ -->
+<section class="safety">
+  <div class="safety__inner">
+    <div class="section-label reveal">Trust & Safety</div>
+    <div class="section-title reveal reveal-d1">Production-Grade <em>Safety</em></div>
+    <div class="safety__grid">
+      <div class="safety-card reveal">
+        <div class="safety-card__name">Age Verification</div>
+        <div class="safety-card__desc">Multi-layered age gating with DOB collection, content tier enforcement, and automatic restriction of romantic/mature content for minors. 318-line verification module.</div>
+      </div>
+      <div class="safety-card reveal reveal-d1">
+        <div class="safety-card__name">Behavioral Detection</div>
+        <div class="safety-card__desc">Catches users who lied about their age through conversation analysis — direct age admissions, school references, parental mentions, life stage indicators. Permanent minor flagging that cannot be reversed without ID verification. 449 lines.</div>
+      </div>
+      <div class="safety-card reveal">
+        <div class="safety-card__name">Crisis Detection</div>
+        <div class="safety-card__desc">Real-time monitoring for self-harm keywords, suicidal ideation, and harm to others. When triggered, the companion breaks character to provide actual crisis resources. 341 lines of non-negotiable safety infrastructure.</div>
+      </div>
+      <div class="safety-card reveal reveal-d1">
+        <div class="safety-card__name">Cron Security</div>
+        <div class="safety-card__desc">All background job endpoints protected by cron secret headers. Service role admin client isolated to server-side operations. No public access to simulation, evolution, or proactive check endpoints.</div>
+      </div>
+      <div class="safety-card reveal">
+        <div class="safety-card__name">Stripe Webhook Verification</div>
+        <div class="safety-card__desc">Cryptographic signature verification on all incoming Stripe events. No unverified payment state changes reach the database.</div>
+      </div>
+      <div class="safety-card reveal reveal-d1">
+        <div class="safety-card__name">Auth & Row Level Security</div>
+        <div class="safety-card__desc">Supabase Auth with middleware-enforced session management. Database-level row policies ensure users can only access their own companions, messages, and data.</div>
+      </div>
+      <div class="safety-card reveal">
+        <div class="safety-card__name">Content Tier Enforcement</div>
+        <div class="safety-card__desc">Relationship types are gated by age verification status. Adult-only options automatically hidden for minor accounts. UI and API both enforce restrictions independently.</div>
+      </div>
+      <div class="safety-card reveal reveal-d1">
+        <div class="safety-card__name">Full User Data Control</div>
+        <div class="safety-card__desc">Complete account deletion endpoint that cascades across all tables. Users can export their data and permanently remove their account, companions, and conversation history.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     CTA
+     ================================================================ -->
+<section class="cta">
+  <div class="cta__inner">
+    <div class="section-label reveal" style="text-align:center;">Acquisition</div>
+    <div class="section-title reveal reveal-d1" style="text-align:center;">Get <em>Kirra</em></div>
+    <div class="cta__cards">
+      <div class="cta-card reveal reveal-d2">
+        <div class="cta-card__label">Estimated Build Value</div>
+        <div class="cta-card__value">$80K+</div>
+        <div class="cta-card__desc">44,500+ lines of production TypeScript. 8,200-line AI engine. Safety system. Voice integration. Life simulation. Months of architecture and testing.</div>
+      </div>
+      <div class="cta-card cta-card--featured reveal reveal-d3">
+        <div class="cta-card__label">Acquire the Application</div>
+        <div class="cta-card__value">Let's Talk</div>
+        <div class="cta-card__desc">Complete codebase, database migrations, deployment config, and documentation. Skip the build — acquire a near-complete AI companion platform.</div>
+        <a href="https://www.allencodeco.com" class="cta-card__btn">Contact Allen Code Co →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     FOOTER
+     ================================================================ -->
+<footer class="footer">
+  <div class="footer__brand">Allen Code <span>Co.</span></div>
+  <div class="footer__links">
+    <a href="products.html" class="footer__link">Products</a>
+    <a href="https://www.allencodeco.com" class="footer__link">Portfolio</a>
+    <a href="https://www.allencodeco.com" class="footer__link">Contact</a>
+  </div>
+</footer>
+
+<!-- ================================================================
+     SCRIPTS
+     ================================================================ -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

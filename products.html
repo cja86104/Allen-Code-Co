@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WZ9RJ1MHQ4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WZ9RJ1MHQ4');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Allen Code Co — Software Development Studio</title>
+    <meta name="description" content="Production-ready applications built by Allen Code Co. Explore our portfolio of shipped SaaS products.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #F2F0EB;
+            --bg-alt: #EAE7E1;
+            --bg-card: #FFFFFF;
+            --accent: #D97706;
+            --accent-hover: #B45309;
+            --accent-glow: rgba(217, 119, 6, 0.12);
+            --text: #1C1917;
+            --text-secondary: #57534E;
+            --text-muted: #A8A29E;
+            --border: #E7E5E4;
+            --border-hover: #D6D3D1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Grain overlay */
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1000; opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* ── Header ── */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+            background: rgba(242, 240, 235, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            max-width: 1400px; margin: 0 auto; padding: 1.25rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .logo {
+            display: flex; align-items: center; gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-mark svg { width: 40px; height: 40px; }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700; font-size: 1rem;
+            color: var(--text);
+            letter-spacing: 3px; text-transform: uppercase;
+        }
+
+        nav { display: flex; align-items: center; gap: 2.5rem; }
+
+        nav a {
+            text-decoration: none; color: var(--text-secondary);
+            font-weight: 500; font-size: 0.9rem; letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent); }
+
+        nav a.active {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .nav-cta {
+            background: var(--accent); color: #FFFFFF !important;
+            padding: 0.6rem 1.25rem; border-radius: 100px; font-weight: 600;
+        }
+
+        .nav-cta:hover { background: var(--accent-hover); }
+
+        /* ── Hero ── */
+        .page-hero {
+            padding: 10rem 3rem 5rem;
+            max-width: 1400px; margin: 0 auto;
+        }
+
+        .page-hero .label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem; font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .page-hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700; line-height: 1.1;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.25rem;
+        }
+
+        .page-hero h1 em {
+            font-style: italic; color: var(--accent);
+        }
+
+        .page-hero p {
+            font-size: 1.15rem; color: var(--text-secondary);
+            max-width: 640px; line-height: 1.8;
+        }
+
+        /* ── Products Grid ── */
+        .products-section {
+            max-width: 1400px; margin: 0 auto;
+            padding: 2rem 3rem 8rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        /* ── Product Card ── */
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(28, 25, 23, 0.08);
+        }
+
+        .product-card.has-showcase:hover {
+            border-color: var(--accent);
+        }
+
+        .card-top {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+        }
+
+        .card-icon.blue {
+            background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+        }
+
+        .status {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+        }
+
+        .status-live {
+            background: rgba(22, 163, 74, 0.1);
+            color: #16A34A;
+        }
+
+        .status-dev {
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563EB;
+        }
+
+        .status-coming {
+            background: rgba(168, 162, 158, 0.15);
+            color: #A8A29E;
+        }
+
+        .product-card h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.5rem; font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .product-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+
+        .tech-tags {
+            display: flex; flex-wrap: wrap; gap: 0.4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; font-weight: 500;
+            padding: 0.3rem 0.65rem;
+            background: rgba(28, 25, 23, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-muted);
+        }
+
+        .card-actions {
+            display: flex; gap: 1rem; align-items: center;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .showcase-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-weight: 600; font-size: 0.9rem;
+            color: var(--accent);
+            text-decoration: none;
+            transition: gap 0.3s;
+        }
+
+        .showcase-link:hover { gap: 0.85rem; }
+
+        .live-link {
+            font-size: 0.85rem; font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .live-link:hover { color: var(--text); }
+
+        .coming-soon-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* ── Back Link ── */
+        .back-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            text-decoration: none; color: var(--text-muted);
+            font-size: 0.85rem; font-weight: 500;
+            margin-bottom: 0;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover { color: var(--accent); }
+
+        /* ── Footer ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem;
+            max-width: 1400px; margin: 0 auto;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-left a {
+            color: var(--accent); text-decoration: none;
+        }
+
+        .footer-right {
+            display: flex; gap: 2rem;
+        }
+
+        .footer-right a {
+            color: var(--text-muted); text-decoration: none;
+            font-size: 0.85rem; transition: color 0.3s;
+        }
+
+        .footer-right a:hover { color: var(--accent); }
+
+        /* ── Reveal Animation ── */
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1; transform: translateY(0);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .products-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .header-inner { padding: 1rem 1.5rem; }
+            .page-hero { padding: 8rem 1.5rem 3rem; }
+            .products-section { padding: 1.5rem 1.5rem 5rem; }
+            footer { padding: 2rem 1.5rem; }
+            .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
+            .footer-right { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 5 L8 45" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M25 5 L42 45" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M14 32 L25 32" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M42 45 L48 38" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#D97706"/>
+                                <stop offset="100%" style="stop-color:#B45309"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-text">Allen Code Co.</span>
+            </a>
+            <nav>
+                <a href="products.html" class="active">Products</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#acquire">Acquire</a>
+                <a href="index.html#tech">Tech</a>
+                <a href="index.html#contact" class="nav-cta">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        <div style="margin-top: 2rem;">
+            <div class="label">Our Products</div>
+            <h1>Built to Ship.<br>Built to <em>Scale.</em></h1>
+            <p>Production-ready applications from concept to deployment. Every feature works, every button does something. Explore the portfolio.</p>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="products-grid">
+
+            <!-- My Teachers Toolbox -->
+            <div class="product-card has-showcase reveal">
+                <div class="card-top">
+                    <div class="card-icon">📚</div>
+                    <span class="status status-live">Live</span>
+                </div>
+                <h3>My Teachers Toolbox</h3>
+                <p>K-5 teacher productivity platform with AI-powered lesson planning, 50+ emergency tools, team collaboration, and Stripe billing. Full SaaS with active users.</p>
+                <div class="tech-tags">
+                    <span class="tag">Next.js 15</span>
+                    <span class="tag">React 19</span>
+                    <span class="tag">DeepSeek AI</span>
+                    <span class="tag">Supabase</span>
+                    <span class="tag">Stripe</span>
+                    <span class="tag">81K+ Lines</span>
+                </div>
+                <div class="card-actions">
+                    <a href="my-teachers-toolbox-showcase.html" class="showcase-link">View Showcase →</a>
+                    <a href="https://myteacherstoolbox.com" target="_blank" class="live-link">Visit Live Site ↗</a>
+                </div>
+            </div>
+
+            <!-- Founders Helm -->
+            <div class="product-card has-showcase reveal">
+                <div class="card-top">
+                    <div class="card-icon">⚡</div>
+                    <span class="status status-live">Live</span>
+                </div>
+                <h3>Founders Helm</h3>
+                <p>Complete business management suite for solo founders. 10 integrated tools — CRM, invoicing, project management, and automation in one platform. $29/month or $299 lifetime.</p>
+                <div class="tech-tags">
+                    <span class="tag">Next.js</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">Supabase</span>
+                    <span class="tag">Stripe</span>
+                    <span class="tag">AI</span>
+                </div>
+                <div class="card-actions">
+                    <a href="founders-helm-showcase.html" class="showcase-link">View Showcase →</a>
+                    <a href="https://www.foundershelm.com" target="_blank" class="live-link">Visit Live Site ↗</a>
+                </div>
+            </div>
+
+            <!-- Kirra Companion -->
+            <div class="product-card has-showcase reveal">
+                <div class="card-top">
+                    <div class="card-icon blue">💜</div>
+                    <span class="status status-dev">In Development</span>
+                </div>
+                <h3>Kirra Companion</h3>
+                <p>AI companion that arrives as a complete person — not a blank slate. Persistent memory, DNA evolution, 24/7 life simulation, proactive messaging, and voice mode.</p>
+                <div class="tech-tags">
+                    <span class="tag">Next.js</span>
+                    <span class="tag">Anthropic</span>
+                    <span class="tag">OpenAI TTS</span>
+                    <span class="tag">Supabase</span>
+                    <span class="tag">44.5K+ Lines</span>
+                </div>
+                <div class="card-actions">
+                    <a href="kirra-companion-showcase.html" class="showcase-link">View Showcase →</a>
+                </div>
+            </div>
+
+            <!-- UnderFireAI -->
+            <div class="product-card reveal">
+                <div class="card-top">
+                    <div class="card-icon">🔥</div>
+                    <span class="status status-dev">In Development</span>
+                </div>
+                <h3>UnderFireAI</h3>
+                <p>AI-powered interview coaching platform with hidden interviewer personalities. Voice mode, resume integration, STAR response analysis, and detailed scoring.</p>
+                <div class="tech-tags">
+                    <span class="tag">Next.js</span>
+                    <span class="tag">AI Coaching</span>
+                    <span class="tag">Voice</span>
+                    <span class="tag">SaaS</span>
+                </div>
+                <div class="card-actions">
+                    <span class="coming-soon-label">Showcase coming soon</span>
+                </div>
+            </div>
+
+            <!-- Vision Home AI -->
+            <div class="product-card reveal">
+                <div class="card-top">
+                    <div class="card-icon">🏠</div>
+                    <span class="status status-dev">In Development</span>
+                </div>
+                <h3>Vision Home AI</h3>
+                <p>AI home visualization platform. Upload photos, transform interiors and exteriors with AI-powered design suggestions. Full room-by-room project management.</p>
+                <div class="tech-tags">
+                    <span class="tag">Next.js</span>
+                    <span class="tag">AI Vision</span>
+                    <span class="tag">Image Gen</span>
+                    <span class="tag">SaaS</span>
+                </div>
+                <div class="card-actions">
+                    <span class="coming-soon-label">Showcase coming soon</span>
+                </div>
+            </div>
+
+            <!-- REALITOR -->
+            <div class="product-card reveal">
+                <div class="card-top">
+                    <div class="card-icon">🏢</div>
+                    <span class="status status-dev">In Development</span>
+                </div>
+                <h3>REALITOR</h3>
+                <p>Full-featured real estate platform with property listings, agent dashboards, AI-powered descriptions, and integrated CRM for brokerages and independent agents.</p>
+                <div class="tech-tags">
+                    <span class="tag">Next.js</span>
+                    <span class="tag">Real Estate</span>
+                    <span class="tag">AI</span>
+                    <span class="tag">CRM</span>
+                </div>
+                <div class="card-actions">
+                    <span class="coming-soon-label">Showcase coming soon</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-left">
+                &copy; 2025 <a href="index.html">Allen Code Co.</a> — Winchester, Virginia
+            </div>
+            <div class="footer-right">
+                <a href="index.html">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
