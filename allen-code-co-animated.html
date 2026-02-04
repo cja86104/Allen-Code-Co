@@ -1484,7 +1484,10 @@
                 </form>
 
                 <p class="form-note" style="font-size: 0.9rem; color: var(--text-muted); margin-top: 1.5rem;">
-                    Or email directly: <a href="mailto:chris@allencodeco.com" style="color: var(--accent);">chris@allencodeco.com</a>
+                    Or email directly: <a id="email-link" href="#" style="color: var(--accent);">loading...</a>
+                    <script>
+                    (function(){var u='chris',d='allencodeco',t='.com',e=u+'@'+d+t,a=document.getElementById('email-link');a.href='mai'+'lto:'+e;a.textContent=e;})();
+                    </script>
                 </p>
             </div>
         </div>
