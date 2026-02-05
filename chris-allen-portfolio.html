@@ -829,7 +829,6 @@ body::before {
   <div class="nav-inner">
     <a href="https://www.allencodeco.com" class="nav-logo">Allen Code <span>Co.</span></a>
     <div class="nav-links">
-      <a href="https://www.allencodeco.com">← Home</a>
       <a href="#about">About</a>
       <a href="#projects">Work</a>
       <a href="#techstack">Stack</a>
@@ -1136,7 +1135,7 @@ body::before {
     </p>
     <div class="cta-buttons reveal reveal-delay-2">
       <a href="https://www.allencodeco.com" class="cta-btn cta-btn-primary">Visit Allen Code Co →</a>
-      <a href="/cdn-cgi/l/email-protection#ccafa4bea5bf8cada0a0a9a2afa3a8a9afa3e2afa3a1" class="cta-btn cta-btn-secondary">Email Me</a>
+      <a href="mailto:chris@allencodeco.com" class="cta-btn cta-btn-secondary">Email Me</a>
     </div>
   </div>
 </section>
@@ -1154,7 +1153,7 @@ body::before {
 <!-- ================================================================
      SCRIPTS
      ================================================================ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // Navbar scroll effect
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
@@ -1168,4 +1167,9 @@ const observer = new IntersectionObserver((entries) => {
       entry.target.classList.add('visible');
     }
   });
-}, { t
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
