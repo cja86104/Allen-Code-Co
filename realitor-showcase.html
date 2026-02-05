@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REALITOR — AI-Powered Real Estate Platform | Allen Code Co</title>
+<meta name="description" content="Full-stack real estate platform with AI assistant, voice commands, property chatbots, open house management, market insights, investment calculators, and neighborhood intelligence. Built with Next.js 14, Supabase, Anthropic Claude, and Tailwind CSS.">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WZ9RJ1MHQ4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WZ9RJ1MHQ4');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0C0B0A;
+    --bg-secondary: #141312;
+    --bg-card: #1A1918;
+    --bg-elevated: #222120;
+    --border: #2A2928;
+    --border-subtle: #1F1E1D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --accent: #3B82F6;
+    --accent-warm: #2563EB;
+    --accent-glow: rgba(59,130,246,0.12);
+    --accent-soft: #60A5FA;
+    --green: #4ADE80;
+    --amber: #F59E0B;
+    --purple: #C084FC;
+    --teal: #2DD4BF;
+    --red: #F87171;
+    --orange: #F97316;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Outfit', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 60px); }
+  .container--narrow { max-width: 860px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 60px); }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999;
+  }
+
+  /* ── Navigation ─────────────────────────── */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 0; background: rgba(12,11,10,0.85);
+    backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-subtle);
+  }
+  .topbar__inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px,5vw,60px);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .topbar__brand {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+    color: var(--text-muted); text-decoration: none;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .topbar__brand:hover { color: var(--accent); }
+  .topbar__nav { display: flex; align-items: center; gap: 1.5rem; }
+  .topbar__link {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+    color: var(--text-muted); text-decoration: none;
+    letter-spacing: 0.02em; transition: color 0.3s;
+  }
+  .topbar__link:hover { color: var(--accent); }
+  .topbar__tag {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--accent); background: var(--accent-glow);
+    border: 1px solid rgba(59,130,246,0.25);
+    padding: 4px 12px; border-radius: 100px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  /* ── Hero ────────────────────────────────── */
+  .hero {
+    padding: clamp(140px,18vh,220px) 0 clamp(80px,10vh,140px);
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none; opacity: 0.6;
+  }
+  .hero__eyebrow {
+    font-family: var(--font-mono); font-size: 12px; color: var(--accent);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .hero__title {
+    font-family: var(--font-display); font-size: clamp(48px, 7vw, 96px);
+    font-weight: 400; line-height: 1.05; margin-bottom: 32px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .hero__title em { font-style: italic; color: var(--accent); }
+  .hero__subtitle {
+    font-size: clamp(18px, 2.2vw, 22px); color: var(--text-secondary);
+    max-width: 640px; line-height: 1.7; margin-bottom: 48px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .hero__meta {
+    display: flex; flex-wrap: wrap; gap: 32px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+  .hero__meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .hero__meta-label {
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 1.5px;
+  }
+  .hero__meta-value { font-size: 15px; font-weight: 500; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .divider { border: none; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0; }
+
+  /* ── Sections ────────────────────────────── */
+  .section { padding: clamp(60px, 10vh, 120px) 0; }
+  .section__label {
+    font-family: var(--font-mono); font-size: 11px; color: var(--accent);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;
+  }
+  .section__heading {
+    font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px);
+    font-weight: 400; line-height: 1.2; margin-bottom: 24px;
+  }
+  .section__body { font-size: 16px; color: var(--text-secondary); line-height: 1.8; }
+  .section__body p + p { margin-top: 20px; }
+
+  /* ── Stats Bar ───────────────────────────── */
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px; background: var(--border); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; margin: clamp(40px, 6vh, 80px) 0;
+  }
+  .stat { background: var(--bg-card); padding: 32px 28px; text-align: center; }
+  .stat__number {
+    font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px);
+    color: var(--accent); line-height: 1; margin-bottom: 8px;
+  }
+  .stat__desc {
+    font-size: 13px; color: var(--text-muted); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  /* ── Feature Grid ────────────────────────── */
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2px; background: var(--border-subtle); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; margin-top: 48px;
+  }
+  .feature-card {
+    background: var(--bg-card); padding: clamp(28px, 4vw, 40px);
+    transition: background 0.3s ease;
+  }
+  .feature-card:hover { background: var(--bg-elevated); }
+  .feature-card__icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 20px; border: 1px solid var(--border);
+  }
+  .feature-card__icon--ai { background: rgba(59,130,246,0.1); color: var(--accent); }
+  .feature-card__icon--voice { background: rgba(192,132,252,0.1); color: var(--purple); }
+  .feature-card__icon--listing { background: rgba(74,222,128,0.1); color: var(--green); }
+  .feature-card__icon--openhouse { background: rgba(245,158,11,0.1); color: var(--amber); }
+  .feature-card__icon--market { background: rgba(45,212,191,0.1); color: var(--teal); }
+  .feature-card__icon--calc { background: rgba(249,115,22,0.1); color: var(--orange); }
+  .feature-card__icon--neighborhood { background: rgba(96,165,250,0.1); color: var(--accent-soft); }
+  .feature-card__icon--leads { background: rgba(248,113,113,0.1); color: var(--red); }
+  .feature-card__icon--chatbot { background: rgba(192,132,252,0.1); color: var(--purple); }
+  .feature-card__icon--agent { background: rgba(74,222,128,0.1); color: var(--green); }
+  .feature-card__name {
+    font-family: var(--font-display); font-size: 22px;
+    margin-bottom: 12px; color: var(--text-primary);
+  }
+  .feature-card__desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+  .feature-card__tags {
+    margin-top: 16px; font-family: var(--font-mono);
+    font-size: 11px; color: var(--text-muted); line-height: 2;
+  }
+
+  /* ── Architecture Grid ───────────────────── */
+  .arch-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; background: var(--border-subtle); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; margin-top: 48px;
+  }
+  .arch-cell { background: var(--bg-card); padding: clamp(28px, 4vw, 40px); }
+  .arch-cell__label {
+    font-family: var(--font-mono); font-size: 10px; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px;
+  }
+  .arch-cell__content { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+  .arch-cell__content strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ── Tech Ribbon ─────────────────────────── */
+  .tech-ribbon { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+  .tech-tag {
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary);
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    padding: 6px 14px; border-radius: 6px; transition: all 0.2s ease;
+  }
+  .tech-tag:hover {
+    color: var(--accent); border-color: rgba(59,130,246,0.3);
+    background: var(--accent-glow);
+  }
+
+  /* ── Security Grid ──────────────────────── */
+  .security-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px; background: var(--border-subtle); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; margin-top: 48px;
+  }
+  .security-item { background: var(--bg-card); padding: 28px; }
+  .security-item__check { color: var(--green); font-size: 16px; margin-bottom: 12px; }
+  .security-item__title { font-weight: 600; font-size: 15px; margin-bottom: 8px; }
+  .security-item__desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+  /* ── Prose Sections ──────────────────────── */
+  .prose-section { padding: clamp(60px, 10vh, 120px) 0; }
+  .prose-section .section__body { columns: 2; column-gap: 48px; }
+
+  /* ── CTA Section ────────────────────────── */
+  .cta-section {
+    padding: clamp(80px, 12vh, 160px) 0; text-align: center; position: relative;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none; opacity: 0.4;
+  }
+  .cta__heading {
+    font-family: var(--font-display); font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.15; margin-bottom: 24px; position: relative;
+  }
+  .cta__body {
+    font-size: 17px; color: var(--text-secondary); max-width: 560px;
+    margin: 0 auto 48px; line-height: 1.8; position: relative;
+  }
+  .cta-card__btn {
+    display: inline-block; padding: 14px 36px; background: var(--accent);
+    color: #fff; font-weight: 600; font-size: 15px; border-radius: 8px;
+    text-decoration: none; transition: all 0.3s ease; position: relative;
+  }
+  .cta-card__btn:hover { background: var(--accent-soft); transform: translateY(-2px); }
+
+  /* ── Footer ──────────────────────────────── */
+  .footer { padding: 48px 0; border-top: 1px solid var(--border-subtle); }
+  .footer__inner {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer__brand {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--text-muted); letter-spacing: 0.5px;
+  }
+  .footer__links { display: flex; gap: 24px; }
+  .footer__link {
+    font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s;
+  }
+  .footer__link:hover { color: var(--accent); }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .feature-grid { grid-template-columns: 1fr; }
+    .arch-grid { grid-template-columns: 1fr; }
+    .hero__meta { gap: 20px; }
+    .prose-section .section__body { columns: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     TOP BAR
+     ═══════════════════════════════════════════ -->
+<nav class="topbar">
+  <div class="topbar__inner">
+    <a href="https://www.allencodeco.com" class="topbar__brand">Allen Code Co</a>
+    <div class="topbar__nav">
+      <a href="products.html" class="topbar__link">← Products</a>
+      <span class="topbar__tag">In Development</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <p class="hero__eyebrow">AI-Powered Real Estate Platform</p>
+    <h1 class="hero__title"><em>REALITOR</em></h1>
+    <p class="hero__subtitle">
+      A full-stack real estate platform with AI assistant, voice commands, property-specific chatbots, 
+      open house management, market insights, and neighborhood intelligence — built for agents who 
+      want to close faster with smarter tools.
+    </p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Status</span>
+        <span class="hero__meta-value">In Development</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Stack</span>
+        <span class="hero__meta-value">Next.js 14 · Supabase · Claude</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">AI</span>
+        <span class="hero__meta-value">Anthropic Claude · Voice · Chatbots</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Scale</span>
+        <span class="hero__meta-value">20K+ Lines · 106 Files</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     BY THE NUMBERS
+     ═══════════════════════════════════════════ -->
+<div class="container reveal">
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat__number">106</div>
+      <div class="stat__desc">Source Files</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">20.7K</div>
+      <div class="stat__desc">Lines of Code</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">30</div>
+      <div class="stat__desc">Pages</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">19</div>
+      <div class="stat__desc">API Routes</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">31</div>
+      <div class="stat__desc">Components</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     OVERVIEW
+     ═══════════════════════════════════════════ -->
+<section class="section container--narrow reveal">
+  <p class="section__label">Overview</p>
+  <h2 class="section__heading">Not a listing page. A platform that thinks.</h2>
+  <div class="section__body">
+    <p>
+      REALITOR is a full-stack real estate platform that goes far beyond property listings. It gives real estate agents an AI-powered command center — a conversational assistant that writes property descriptions, a voice interface that takes commands hands-free, property-specific chatbots that answer buyer questions 24/7, and a market insights dashboard that pulls live data to help agents price competitively.
+    </p>
+    <p>
+      The platform manages the entire agent workflow: listing creation with multi-image upload, lead capture and management, viewing scheduling, open house registration with AI-powered live chat, and neighborhood intelligence including school ratings, crime data, parks, and employment statistics. Every buyer-facing page has tools that reduce the agent's workload while giving buyers better information.
+    </p>
+    <p>
+      At 20,700+ lines of production code across 106 files, REALITOR is the largest single application in the Allen Code Co portfolio. It includes 30 distinct pages, 19 API routes, 31 React components, and a Supabase database with 7 tables and 15 Row Level Security policies. The AI integration alone spans five separate features — assistant chat, voice processing, property chatbot, open house chat, and auto-generated listing descriptions.
+    </p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     AI FEATURES
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">AI Integration</p>
+  <h2 class="section__heading">Five AI features. One platform.</h2>
+  <div class="section__body" style="max-width:720px;">
+    <p>
+      REALITOR integrates Anthropic Claude across five distinct features — not as a novelty, but as core workflow infrastructure that saves agents hours per week. From writing listings to answering buyer questions to processing voice commands, the AI layer is woven into every part of the agent's day.
+    </p>
+  </div>
+
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--ai">◈</div>
+      <h3 class="feature-card__name">AI Assistant</h3>
+      <p class="feature-card__desc">
+        Full conversational assistant for agents powered by Anthropic Claude. Write property descriptions from bullet points, analyze pricing strategy, draft client emails, generate market summaries, and answer real estate questions. Persistent chat interface with quick-action presets for common tasks.
+      </p>
+      <p class="feature-card__tags">descriptions · pricing · emails · market analysis · chat</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--voice">⊞</div>
+      <h3 class="feature-card__name">Voice Assistant</h3>
+      <p class="feature-card__desc">
+        Hands-free voice interface using browser speech recognition for input and speech synthesis for response. Agents can dictate commands, ask questions, and receive spoken answers — useful during property tours, driving between showings, or working with hands occupied.
+      </p>
+      <p class="feature-card__tags">speech recognition · voice commands · spoken responses · hands-free</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--chatbot">✦</div>
+      <h3 class="feature-card__name">Property Chatbot</h3>
+      <p class="feature-card__desc">
+        Every property listing gets its own AI chatbot that answers buyer questions in real time. The chatbot has full context on the property — specs, pricing, neighborhood, and features — so it can field inquiries 24/7 without the agent being online. Reduces response time from hours to seconds.
+      </p>
+      <p class="feature-card__tags">per-property · buyer questions · 24/7 · property context</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--openhouse">◆</div>
+      <h3 class="feature-card__name">Open House Chat</h3>
+      <p class="feature-card__desc">
+        Dedicated AI chat for open house events with context about the specific property, event details, and registration information. Visitors can ask questions during or before the event. Separate from the general property chatbot to maintain event-specific focus and capture open house leads.
+      </p>
+      <p class="feature-card__tags">event-specific · visitor questions · lead capture · registration</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--listing">⊡</div>
+      <h3 class="feature-card__name">AI Description Generator</h3>
+      <p class="feature-card__desc">
+        Dedicated API endpoint that generates professional property descriptions from structured listing data. Agents input the basics — bedrooms, features, neighborhood — and get polished marketing copy tuned for real estate audiences. Integrated directly into the listing creation form.
+      </p>
+      <p class="feature-card__tags">listing copy · auto-generation · form integration · marketing</p>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     PLATFORM FEATURES
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">Platform Features</p>
+  <h2 class="section__heading">Everything an agent needs. Everything a buyer expects.</h2>
+
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--listing">◈</div>
+      <h3 class="feature-card__name">Listing Management</h3>
+      <p class="feature-card__desc">
+        Complete property CRUD with the full listing form — title, description, address, price, bedrooms, bathrooms, square footage, property type, and status. Multi-image upload to Supabase Storage with gallery display. Listings table with filters for managing inventory. Individual listing detail pages with edit capability.
+      </p>
+      <p class="feature-card__tags">create · edit · gallery · filters · image upload · detail pages</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--openhouse">⊞</div>
+      <h3 class="feature-card__name">Open House System</h3>
+      <p class="feature-card__desc">
+        End-to-end open house management — create events linked to properties, set dates and times, manage registrations via a public registration API, and run AI-powered live chat during events. Public-facing open house pages let buyers browse upcoming events and register. Dashboard pages for creating and managing individual events.
+      </p>
+      <p class="feature-card__tags">create events · registrations · public pages · ai chat · management</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--market">✦</div>
+      <h3 class="feature-card__name">Market Insights</h3>
+      <p class="feature-card__desc">
+        Agent dashboard with live market data — own listing performance, market-wide pricing, price comparisons, and AI-generated recommendations. Pulls data from the agent's active listings and compares against broader market context. Trend indicators show whether the agent's pricing is above or below market.
+      </p>
+      <p class="feature-card__tags">pricing trends · comparisons · recommendations · live data</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--calc">◆</div>
+      <h3 class="feature-card__name">Financial Calculators</h3>
+      <p class="feature-card__desc">
+        Three embedded calculators for buyer-facing pages. Mortgage calculator with adjustable rate, term, down payment, and PMI. Investment calculator with ROI projections, cash flow analysis, and rental income modeling. Moving cost estimator that factors distance, home size, and service level.
+      </p>
+      <p class="feature-card__tags">mortgage · investment roi · cash flow · moving costs</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--neighborhood">⊡</div>
+      <h3 class="feature-card__name">Neighborhood Intelligence</h3>
+      <p class="feature-card__desc">
+        Comprehensive neighborhood pages with school ratings, crime statistics (FBI data with caching), parks and recreation information, and employment data. Neighborhood cards on the home page and dedicated browse pages. Individual neighborhood detail pages with all associated properties.
+      </p>
+      <p class="feature-card__tags">schools · crime data · parks · employment · area profiles</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--leads">⟐</div>
+      <h3 class="feature-card__name">Lead &amp; Viewing Management</h3>
+      <p class="feature-card__desc">
+        Lead capture from property inquiries, open house registrations, and contact forms. Leads dashboard for agents to track, manage, and follow up. Viewing scheduling tied to specific properties and agents. Contact forms on property pages, agent pages, and the general sell page all feed into the leads pipeline.
+      </p>
+      <p class="feature-card__tags">lead capture · viewing schedule · contact forms · pipeline</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--agent">⬡</div>
+      <h3 class="feature-card__name">Agent System</h3>
+      <p class="feature-card__desc">
+        Full agent lifecycle — public agent directory, individual agent profile pages with listing counts, become-an-agent application flow, and agent request API. Agent dashboard serves as the central hub with navigation to all management tools: listings, leads, open houses, AI assistant, market insights, and settings.
+      </p>
+      <p class="feature-card__tags">directory · profiles · applications · dashboard · admin</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--ai">⊠</div>
+      <h3 class="feature-card__name">Property Search &amp; Browse</h3>
+      <p class="feature-card__desc">
+        Public property listing page with search bar, filters, and property cards. Individual property detail pages with image gallery, full specs, financial calculators, neighborhood data, AI chatbot, and contact forms. Featured properties on the home page pulled from the database. Related properties shown on detail pages.
+      </p>
+      <p class="feature-card__tags">search · filters · detail pages · gallery · featured · related</p>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     TECH STACK & ARCHITECTURE
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">Architecture</p>
+  <h2 class="section__heading">106 files. Zero mock data.</h2>
+  <div class="section__body" style="max-width:720px;">
+    <p>
+      REALITOR is built on Next.js 14 with Supabase for authentication, database, and file storage. The AI layer runs on Anthropic Claude with dedicated API routes for each of the five AI features. The frontend uses Tailwind CSS with Headless UI and Heroicons for the component library. Every database query hits real Supabase tables — there is no mock data anywhere in the codebase.
+    </p>
+  </div>
+
+  <div class="tech-ribbon">
+    <span class="tech-tag">Next.js 14</span>
+    <span class="tech-tag">React 18</span>
+    <span class="tech-tag">JavaScript</span>
+    <span class="tech-tag">Supabase</span>
+    <span class="tech-tag">PostgreSQL</span>
+    <span class="tech-tag">Anthropic Claude</span>
+    <span class="tech-tag">Tailwind CSS</span>
+    <span class="tech-tag">Headless UI</span>
+    <span class="tech-tag">Heroicons</span>
+    <span class="tech-tag">Lucide React</span>
+    <span class="tech-tag">Supabase Auth</span>
+    <span class="tech-tag">Supabase Storage</span>
+    <span class="tech-tag">Speech API</span>
+    <span class="tech-tag">Cheerio</span>
+  </div>
+
+  <div class="arch-grid" style="margin-top: 48px;">
+    <div class="arch-cell">
+      <p class="arch-cell__label">Frontend · 30 Pages</p>
+      <p class="arch-cell__content"><strong>Next.js 14</strong> with React 18. <strong>30 page routes</strong> covering public property browsing, agent dashboard, open house management, authentication, admin tools, and seller onboarding. <strong>31 React components</strong> including property cards, image upload, financial calculators, neighborhood data, search filters, and all five AI interfaces. Styled with <strong>Tailwind CSS</strong>.</p>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Backend · 19 API Routes</p>
+      <p class="arch-cell__content"><strong>19 API routes</strong> covering AI chat, voice processing (transcribe, speak, process), property chat, open house chat and registration, AI description generation, listing import, featured properties, admin sync and cache, agent requests, crime data, neighborhood data, parks, and employment. Each route handles authentication, validation, and error responses.</p>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Database · 7 Tables</p>
+      <p class="arch-cell__content"><strong>Supabase PostgreSQL</strong> with 7 tables: profiles, agents, neighborhoods, properties, property_images, leads, and viewings. <strong>15 RLS policies</strong> enforce access control — agents can only manage their own listings, users can only view public data, and admin operations are role-gated. <strong>Supabase Storage</strong> handles property image uploads with public bucket access.</p>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">AI · 5 Features</p>
+      <p class="arch-cell__content"><strong>Anthropic Claude</strong> powers the conversational AI assistant, property chatbot, open house chat, and listing description generator. <strong>Voice assistant</strong> uses browser Speech Recognition API for input and Speech Synthesis for output, with server-side processing via dedicated voice API routes. <strong>Cheerio</strong> handles web scraping for property data import.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     SECURITY
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">Security</p>
+  <h2 class="section__heading">15 policies. Zero shortcuts.</h2>
+  <div class="section__body" style="max-width:720px;">
+    <p>
+      REALITOR follows Allen Code Co's security-first standard. Every database table has Row Level Security policies. Authentication middleware protects all dashboard routes. Public endpoints are intentionally scoped and validated.
+    </p>
+  </div>
+
+  <div class="security-grid">
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">15 RLS Policies</p>
+      <p class="security-item__desc">All 7 database tables have Row Level Security policies — 15 total. Agents can only modify their own listings. Leads are scoped to the receiving agent. Property images are tied to their parent listing. Public read access is intentionally configured for buyer-facing data.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Auth Middleware</p>
+      <p class="security-item__desc">Supabase Auth with SSR middleware protecting all dashboard, admin, and agent-specific routes. Authentication state checked server-side before page render. Public pages accessible without login.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Secure Image Upload</p>
+      <p class="security-item__desc">Property images upload directly to Supabase Storage with server-side validation. Storage bucket configured with appropriate access policies. Images served through Supabase CDN with Next.js image domain whitelisting.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">API Route Protection</p>
+      <p class="security-item__desc">All 19 API routes validate authentication where required. Admin routes (cache, sync, env check) are restricted to authorized users. Public endpoints (featured properties, open house registration) are intentionally open with input validation.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Data Caching</p>
+      <p class="security-item__desc">Crime data from external APIs is cached for one week to minimize API calls and prevent rate limiting. Property sync operations are admin-gated. Cache management available through the admin dashboard.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Zero Mock Data</p>
+      <p class="security-item__desc">Every database query in the codebase hits real Supabase tables. No mock data, no placeholder content, no hardcoded responses. Validated with automated detection — zero false positives on real data checks.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     WHAT A BUYER GETS
+     ═══════════════════════════════════════════ -->
+<section class="section container--narrow reveal">
+  <p class="section__label">What's Included</p>
+  <h2 class="section__heading">Everything ships</h2>
+  <div class="section__body">
+    <p>
+      An acquisition includes the complete Next.js 14 codebase — 106 source files, 20,700+ lines of JavaScript — the full Supabase schema with 7 tables and 15 RLS policies, all 31 React components, all 19 API routes, the five-feature Anthropic Claude AI integration, the voice assistant pipeline, three financial calculators, the neighborhood intelligence system with school, crime, parks, and employment data, and the complete open house management system.
+    </p>
+    <p>
+      REALITOR is the largest application in the Allen Code Co portfolio by line count. The codebase includes a property sync service for importing external listings, an admin dashboard for cache and data management, and a complete authentication flow with agent-specific onboarding. The listing form supports multi-image upload with gallery display. The property detail pages integrate all buyer tools — chatbot, calculators, neighborhood data, and contact forms — into a single cohesive experience.
+    </p>
+    <p>
+      A buyer with a Supabase account and an Anthropic API key can deploy the complete platform to Vercel and have it running in production within minutes. The database schema includes all tables, policies, and storage bucket configuration. The Vercel deployment configuration is included. There are no hidden dependencies, no mock data, and no placeholder components.
+    </p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     ACQUISITION CTA
+     ═══════════════════════════════════════════ -->
+<section class="cta-section container reveal">
+  <h2 class="cta__heading">The smartest listing<br>on the market.</h2>
+  <p class="cta__body">
+    REALITOR is available for outright acquisition. Complete source code, AI integration, 
+    voice pipeline, financial calculators, neighborhood intelligence, and deployment configuration — ready to brand and launch.
+  </p>
+  <a href="https://www.allencodeco.com/#contact" class="cta-card__btn">Contact Allen Code Co →</a>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <span class="footer__brand">© 2025 Allen Code Co — Winchester, Virginia</span>
+      <div class="footer__links">
+        <a href="products.html" class="footer__link">Products</a>
+        <a href="https://www.allencodeco.com" class="footer__link">Portfolio</a>
+        <a href="mailto:chris@allencodeco.com" class="footer__link">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
