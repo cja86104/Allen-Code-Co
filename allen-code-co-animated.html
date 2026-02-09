@@ -19,7 +19,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- GSAP & Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -34,25 +34,25 @@
 
     <style>
         :root {
-            --bg-dark: #0a0a0f;
-            --bg-darker: #050508;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --bg-dark: #F2F0EB;
+            --bg-darker: #EAE7E1;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card-hover: rgba(255, 253, 249, 0.95);
             
-            --accent: #f59e0b;
-            --accent-bright: #fbbf24;
-            --accent-glow: rgba(245, 158, 11, 0.15);
+            --accent: #D97706;
+            --accent-bright: #B45309;
+            --accent-glow: rgba(217, 119, 6, 0.12);
             
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.4);
+            --text-primary: #1C1917;
+            --text-secondary: #57534E;
+            --text-muted: #A8A29E;
             
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.15);
+            --border: #E7E5E4;
+            --border-hover: #D6D3D1;
             
-            --gradient-1: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            --gradient-text: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%);
+            --gradient-1: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            --gradient-2: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+            --gradient-text: linear-gradient(135deg, #1C1917 0%, #57534E 100%);
         }
 
         * {
@@ -78,7 +78,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-dark);
             color: var(--text-primary);
             overflow-x: hidden;
@@ -90,20 +90,20 @@
             position: fixed;
             width: 20px;
             height: 20px;
-            border: 2px solid var(--accent);
+            border: 2px solid #1C1917;
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
             transition: transform 0.1s ease, background 0.2s ease;
             transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
+            /* mix-blend-mode removed for light theme */
         }
 
         .cursor-dot {
             position: fixed;
             width: 6px;
             height: 6px;
-            background: var(--accent);
+            background: #1C1917;
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
@@ -112,8 +112,8 @@
 
         .cursor.hover {
             transform: translate(-50%, -50%) scale(2);
-            background: var(--accent);
-            border-color: var(--accent);
+            background: #D97706;
+            border-color: #D97706;
         }
 
         /* Preloader */
@@ -123,7 +123,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--bg-darker);
+            background: #1C1917;
             z-index: 10000;
             display: flex;
             align-items: center;
@@ -135,6 +135,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: clamp(2rem, 8vw, 6rem);
             font-weight: 800;
+            color: #FAF9F6;
             letter-spacing: -0.02em;
             overflow: hidden;
         }
@@ -144,7 +145,7 @@
         }
 
         .preloader-counter {
-            font-family: 'Space Grotesk', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 1.5rem;
             color: var(--accent);
             margin-top: 2rem;
@@ -159,7 +160,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 1000;
-            opacity: 0.03;
+            opacity: 0.025;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
@@ -175,7 +176,7 @@
         }
 
         header.scrolled {
-            background: rgba(10, 10, 15, 0.8);
+            background: rgba(242, 240, 235, 0.88);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
@@ -254,7 +255,7 @@
 
         .nav-cta {
             background: var(--accent);
-            color: var(--bg-dark) !important;
+            color: #FFFFFF !important;
             padding: 0.75rem 1.5rem;
             border-radius: 100px;
             font-weight: 600;
@@ -303,8 +304,8 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+                linear-gradient(rgba(28,25,23,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(28,25,23,0.04) 1px, transparent 1px);
             background-size: 80px 80px;
             mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
             -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
@@ -334,7 +335,7 @@
         .hero-badge-dot {
             width: 8px;
             height: 8px;
-            background: #22c55e;
+            background: #16A34A;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
@@ -399,7 +400,7 @@
 
         .btn-primary {
             background: var(--accent);
-            color: var(--bg-dark);
+            color: #FFFFFF;
         }
 
         .btn-primary:hover {
@@ -411,12 +412,12 @@
         .btn-secondary {
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid var(--border);
+            border: 1px solid #D6D3D1;
         }
 
         .btn-secondary:hover {
             border-color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(28, 25, 23, 0.04);
         }
 
         .btn-arrow {
@@ -474,7 +475,7 @@
 
         .section-label {
             display: inline-block;
-            font-family: 'Space Grotesk', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
             color: var(--accent);
             letter-spacing: 3px;
@@ -483,11 +484,11 @@
         }
 
         .section-title {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 700;
             line-height: 1.1;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
         }
 
         .section-title .word {
@@ -523,7 +524,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%);
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.06) 0%, transparent 60%);
             opacity: 0;
             transition: opacity 0.5s ease;
         }
@@ -570,19 +571,19 @@
         }
 
         .status-live {
-            background: rgba(34, 197, 94, 0.15);
-            color: #22c55e;
+            background: rgba(22, 163, 74, 0.1);
+            color: #16A34A;
         }
 
         .status-dev {
-            background: rgba(59, 130, 246, 0.15);
-            color: #3b82f6;
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563EB;
         }
 
         .product-card h3 {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: 1.75rem;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 1rem;
         }
 
@@ -603,7 +604,7 @@
             font-size: 0.75rem;
             font-weight: 500;
             padding: 0.35rem 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(28, 25, 23, 0.04);
             border: 1px solid var(--border);
             border-radius: 100px;
             color: var(--text-muted);
@@ -636,7 +637,7 @@
         }
 
         .about-content h2 {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 700;
             line-height: 1.1;
@@ -656,7 +657,7 @@
 
         .about-highlight {
             background: var(--bg-card);
-            border-left: 3px solid var(--accent);
+            border-left: 3px solid #D97706;
             padding: 1.5rem 2rem;
             margin: 2rem 0;
             border-radius: 0 12px 12px 0;
@@ -678,26 +679,41 @@
         .value-item {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
+            border-radius: 16px;
+            padding: 2.25rem;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .value-item:hover {
-            border-color: var(--border-hover);
+            border-color: #D97706;
             transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(28, 25, 23, 0.06);
         }
 
         .value-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            width: 44px;
+            height: 44px;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .value-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: #D97706;
+            stroke-width: 1.75;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .value-item h4 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.15rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
         }
 
         .value-item p {
@@ -709,9 +725,9 @@
         /* Marquee */
         .marquee-section {
             padding: 4rem 0;
-            background: var(--bg-card);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
+            background: rgba(28, 25, 23, 0.02);
+            border-top: 1px solid #E7E5E4;
+            border-bottom: 1px solid #E7E5E4;
             overflow: hidden;
         }
 
@@ -755,8 +771,8 @@
             transform: translate(-50%, -50%);
             width: 800px;
             height: 800px;
-            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
-            opacity: 0.3;
+            background: radial-gradient(ellipse at center, rgba(217, 119, 6, 0.08) 0%, transparent 60%);
+            opacity: 0.5;
         }
 
         .acquire-grid {
@@ -769,7 +785,7 @@
         }
 
         .acquire-content h2 {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 700;
             margin-bottom: 1.5rem;
@@ -829,13 +845,13 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: var(--gradient-1);
+            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
         }
 
         .acquire-visual h3 {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: 2rem;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
@@ -868,7 +884,7 @@
             border-radius: 12px;
             padding: 1.5rem;
             text-align: center;
-            font-family: 'Space Grotesk', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-weight: 500;
             font-size: 0.9rem;
             color: var(--text-secondary);
@@ -876,8 +892,8 @@
         }
 
         .tech-item:hover {
-            border-color: var(--accent);
-            color: var(--text-primary);
+            border-color: #D97706;
+            color: #1C1917;
             transform: translateY(-4px);
         }
 
@@ -894,9 +910,9 @@
         }
 
         .cta-content h2 {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Playfair Display', Georgia, serif;
             font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
+            font-weight: 700;
             line-height: 1;
             margin-bottom: 1.5rem;
         }
@@ -950,8 +966,8 @@
         }
 
         .social-link:hover {
-            border-color: var(--accent);
-            color: var(--accent);
+            border-color: #D97706;
+            color: #D97706;
         }
 
         .footer-col h4 {
@@ -1016,7 +1032,7 @@
         }
 
         .form-group input::placeholder {
-            color: var(--text-muted);
+            color: #A8A29E;
         }
 
         textarea {
@@ -1035,8 +1051,8 @@
         .form-group input:focus,
         textarea:focus {
             outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-glow);
+            border-color: #D97706;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
         }
 
         /* Responsive */
@@ -1134,8 +1150,8 @@
                         <path d="M42 45 L48 38" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
                         <defs>
                             <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#f59e0b"/>
-                                <stop offset="100%" style="stop-color:#ef4444"/>
+                                <stop offset="0%" style="stop-color:#D97706"/>
+                                <stop offset="100%" style="stop-color:#B45309"/>
                             </linearGradient>
                         </defs>
                     </svg>
@@ -1143,7 +1159,8 @@
                 <span class="logo-text">Allen Code Co.</span>
             </a>
             <nav>
-                <a href="#products">Products</a>
+                <a href="products.html">Products</a>
+                <a href="chris-allen-portfolio.html">Portfolio</a>
                 <a href="#about">About</a>
                 <a href="#acquire">Acquire</a>
                 <a href="#tech">Tech</a>
@@ -1177,7 +1194,7 @@
                     Start a Project
                     <span class="btn-arrow">→</span>
                 </a>
-                <a href="#products" class="btn btn-secondary">
+                <a href="products.html" class="btn btn-secondary">
                     View Our Work
                 </a>
             </div>
@@ -1226,8 +1243,11 @@
                             <span class="product-tag">SaaS</span>
                             <span class="product-tag">Stripe</span>
                         </div>
-                        <a href="https://myteacherstoolbox.com" class="product-link" target="_blank">
-                            View Live <span>→</span>
+                        <a href="my-teachers-toolbox-showcase.html" class="product-link">
+                            View Showcase <span>→</span>
+                        </a>
+                        <a href="https://myteacherstoolbox.com" class="product-link" target="_blank" style="color: var(--text-muted);">
+                            Visit Live Site <span>↗</span>
                         </a>
                     </div>
                 </div>
@@ -1247,8 +1267,8 @@
                             <span class="product-tag">Voice</span>
                             <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="#contact" class="product-link">
-                            Get Updates <span>→</span>
+                        <a href="underfireai-showcase.html" class="product-link">
+                            View Showcase <span>→</span>
                         </a>
                     </div>
                 </div>
@@ -1267,8 +1287,8 @@
                             <span class="product-tag">Image Gen</span>
                             <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="#contact" class="product-link">
-                            Get Updates <span>→</span>
+                        <a href="vision-home-ai-showcase.html" class="product-link">
+                            View Showcase <span>→</span>
                         </a>
                     </div>
                 </div>
@@ -1287,8 +1307,11 @@
                             <span class="product-tag">Automation</span>
                             <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="https://www.foundershelm.com" class="product-link" target="_blank">
-                            View Live <span>→</span>
+                        <a href="founders-helm-showcase.html" class="product-link">
+                            View Showcase <span>→</span>
+                        </a>
+                        <a href="https://www.foundershelm.com" class="product-link" target="_blank" style="color: var(--text-muted);">
+                            Visit Live Site <span>↗</span>
                         </a>
                     </div>
                 </div>
@@ -1308,8 +1331,8 @@
                             <span class="product-tag">Voice</span>
                             <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="#contact" class="product-link">
-                            Get Updates <span>→</span>
+                        <a href="kirra-companion-showcase.html" class="product-link">
+                            View Showcase <span>→</span>
                         </a>
                     </div>
                 </div>
@@ -1361,22 +1384,22 @@
 
                 <div class="values-grid">
                     <div class="value-item">
-                        <div class="value-icon">🎯</div>
+                        <div class="value-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></div>
                         <h4>Zero Placeholders</h4>
                         <p>Every feature works. Every button does something. No "coming soon."</p>
                     </div>
                     <div class="value-item">
-                        <div class="value-icon">🚀</div>
+                        <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
                         <h4>Production First</h4>
                         <p>Built to deploy, not to pitch. Real infrastructure from day one.</p>
                     </div>
                     <div class="value-item">
-                        <div class="value-icon">⚡</div>
+                        <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M4 14a1 1 0 01-.78-1.63l9.9-10.2a.5.5 0 01.86.46l-1.92 6.02A1 1 0 0013 10h7a1 1 0 01.78 1.63l-9.9 10.2a.5.5 0 01-.86-.46l1.92-6.02A1 1 0 0011 14H4z"/></svg></div>
                         <h4>Systematic Process</h4>
                         <p>Tested. Linted. Documented. Quality at every step.</p>
                     </div>
                     <div class="value-item">
-                        <div class="value-icon">🤖</div>
+                        <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 014 4v2H8V6a4 4 0 014-4z"/><rect x="3" y="8" width="18" height="14" rx="2"/><path d="M9 15h6"/><path d="M12 12v6"/></svg></div>
                         <h4>AI That Works</h4>
                         <p>Real integrations that solve problems, not buzzwords.</p>
                     </div>
@@ -1419,7 +1442,7 @@
                             Fully deployed with active users.
                         </p>
                         <a href="https://myteacherstoolbox.com" class="btn btn-secondary" target="_blank">
-                            View Live Demo
+                            View Live
                         </a>
                     </div>
 
@@ -1431,7 +1454,7 @@
                             CRM, invoicing, project management, and automation in one platform.
                         </p>
                         <a href="https://www.foundershelm.com" class="btn btn-secondary" target="_blank">
-                            View Live Demo
+                            View Live
                         </a>
                     </div>
                 </div>
@@ -1477,7 +1500,7 @@
                     </div>
                     <textarea name="message" placeholder="Tell us about your project..." rows="5" required></textarea>
                     <input type="hidden" name="_subject" value="New project inquiry - Allen Code Co">
-                    <input type="hidden" name="_next" value="https://allencodeco.com/thanks">
+                    <input type="hidden" name="_next" value="https://www.allencodeco.com/thanks">
                     <button type="submit" class="btn btn-primary">
                         Send Message <span class="btn-arrow">→</span>
                     </button>
@@ -1495,7 +1518,7 @@
         <div class="section-inner">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="logo">
+                    <a href="#" class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
                         <div class="logo-mark">
                             <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M25 5 L8 45" stroke="url(#logoGrad2)" stroke-width="3" stroke-linecap="round"/>
@@ -1504,8 +1527,8 @@
                                 <path d="M42 45 L48 38" stroke="url(#logoGrad2)" stroke-width="3" stroke-linecap="round"/>
                                 <defs>
                                     <linearGradient id="logoGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#f59e0b"/>
-                                        <stop offset="100%" style="stop-color:#ef4444"/>
+                                        <stop offset="0%" style="stop-color:#D97706"/>
+                                        <stop offset="100%" style="stop-color:#B45309"/>
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -1516,20 +1539,18 @@
                         Software development studio building 
                         production-ready applications that actually ship.
                     </p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link">X</a>
-                        <a href="#" class="social-link">in</a>
-                        <a href="https://github.com/cja86104" class="social-link" target="_blank">GH</a>
-                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        Winchester, Virginia
+                    </p>
                 </div>
 
                 <div class="footer-col">
                     <h4>Products</h4>
                     <ul class="footer-links">
-                        <li><a href="https://myteacherstoolbox.com" target="_blank">My Teachers Toolbox</a></li>
-                        <li><a href="#">UnderFireAI</a></li>
-                        <li><a href="https://foundershelm.com" target="_blank">Founders Helm</a></li>
-                        <li><a href="#">Vision Home AI</a></li>
+                        <li><a href="my-teachers-toolbox-showcase.html">My Teachers Toolbox</a></li>
+                        <li><a href="founders-helm-showcase.html">Founders Helm</a></li>
+                        <li><a href="kirra-companion-showcase.html">Kirra Companion</a></li>
+                        <li><a href="products.html">View All Products</a></li>
                     </ul>
                 </div>
 
@@ -1537,26 +1558,24 @@
                     <h4>Company</h4>
                     <ul class="footer-links">
                         <li><a href="#about">About</a></li>
+                        <li><a href="chris-allen-portfolio.html">Portfolio</a></li>
                         <li><a href="#acquire">Acquire</a></li>
                         <li><a href="#tech">Tech Stack</a></li>
-                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
                     <h4>Connect</h4>
                     <ul class="footer-links">
-                        <li><a href="#contact">Email</a></li>
-                        <li><a href="#">Twitter/X</a></li>
-                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="mailto:chris@allencodeco.com">chris@allencodeco.com</a></li>
                         <li><a href="https://github.com/cja86104" target="_blank">GitHub</a></li>
+                        <li><a href="#contact">Contact Form</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
                 <p>© 2025 Allen Code Co. All rights reserved.</p>
-                <p>Winchester, Virginia</p>
             </div>
         </div>
     </footer>
@@ -1880,6 +1899,5 @@
             ScrollTrigger.refresh();
         });
     </script>
-<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
