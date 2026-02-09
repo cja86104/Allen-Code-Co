@@ -27,5 +27,8 @@
     "eslint": "^9.39.2",
     "eslint-plugin-html": "^8.1.4",
     "htmlhint": "^1.8.0"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.6.1"
   }
 }
