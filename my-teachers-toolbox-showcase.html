@@ -7,627 +7,838 @@
 <meta name="description" content="Production K-5 education platform with AI lesson planning, 12-section emergency toolkit, communication hub, standards alignment, and Stripe billing. 81,000+ lines of code. Live at myteacherstoolbox.com.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-primary: #F5F8FF;
+    --bg-card: #FFFFFF;
+    --bg-elevated: #EEF4FF;
+    --border: rgba(29, 78, 216, 0.15);
+    --border-dark: rgba(29, 78, 216, 0.25);
+    --text-primary: #1E2A4A;
+    --text-secondary: #3A4D6B;
+    --text-muted: #6B82A8;
+    --accent: #1D4ED8;
+    --accent-hover: #1E40AF;
+    --accent-glow: rgba(29, 78, 216, 0.10);
+    --green: #16A34A;
+    --amber: #D97706;
+    --purple: #7C3AED;
+    --teal: #0D9488;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Outfit', system-ui, sans-serif;
+  }
 
-:root {
-  --bg-primary: #0C0B0A;
-  --bg-secondary: #141312;
-  --bg-card: #1A1918;
-  --bg-elevated: #222120;
-  --border: #2A2928;
-  --border-subtle: #1F1E1D;
-  --text-primary: #FFFFFF;
-  --text-secondary: #60A5FA;
-  --text-muted: #F5A623;
-  --accent: #E8832A;
-  --accent-warm: #D4731A;
-  --accent-glow: rgba(232, 131, 42, 0.08);
-  --accent-soft: #F5A623;
-  --green: #4ADE80;
-  --blue: #60A5FA;
-  --red: #F87171;
-  --purple: #C084FC;
-  --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body: 'Outfit', -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --radius: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-}
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
-html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
-a { text-decoration: none; color: inherit; }
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-weight: 500;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-}
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 48px; }
 
-/* NAV */
-.topbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: 52px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2rem; border-bottom: 1px solid var(--border-subtle);
-  background: rgba(12, 11, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-}
-.topbar__brand { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.02em; transition: color 0.3s; }
-.topbar__brand:hover { color: var(--accent); }
-.topbar__nav { display: flex; align-items: center; gap: 1.5rem; }
-.topbar__link { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.02em; transition: color 0.3s; }
-.topbar__link:hover { color: var(--accent); }
-.topbar__tag { font-family: var(--font-mono); font-size: 0.68rem; color: var(--green); background: rgba(74, 222, 128, 0.08); padding: 0.3rem 0.85rem; border-radius: 100px; letter-spacing: 0.04em; border: 1px solid rgba(74, 222, 128, 0.15); display: flex; align-items: center; gap: 0.5rem; }
-.topbar__tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+  /* ── Navigation ─────────────────────────── */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 24px 0;
+    background: rgba(245, 248, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid var(--border);
+  }
+  .topbar__inner {
+    max-width: 1400px; margin: 0 auto; padding: 0 48px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .topbar__brand {
+    font-size: 20px; font-weight: 700; color: var(--text-muted);
+    text-decoration: none; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .topbar__brand:hover { color: var(--accent); }
+  .topbar__nav { display: flex; align-items: center; gap: 32px; }
+  .topbar__link {
+    font-size: 20px; font-weight: 600; color: var(--text-muted);
+    text-decoration: none;
+  }
+  .topbar__link:hover { color: var(--accent); }
+  .topbar__tag {
+    font-size: 16px; font-weight: 700; color: var(--green);
+    background: rgba(22, 163, 74, 0.1); border: 2px solid rgba(22, 163, 74, 0.3);
+    padding: 10px 20px; border-radius: 100px; text-transform: uppercase;
+  }
 
-/* HERO */
-.hero { padding: 8rem 2rem 5rem; text-align: center; position: relative; overflow: hidden; }
-.hero::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 80%; height: 60%; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); pointer-events: none; }
-.hero__eyebrow { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 1.5rem; }
-.hero__title { font-family: var(--font-display); font-size: clamp(2.5rem, 5.5vw, 4.5rem); font-weight: 400; line-height: 1.1; color: var(--text-primary); margin-bottom: 0.75rem; letter-spacing: -0.02em; }
-.hero__title em { font-style: italic; color: var(--accent); }
-.hero__subtitle { font-family: var(--font-display); font-size: clamp(1rem, 2vw, 1.35rem); font-style: italic; color: var(--text-secondary); margin-bottom: 2.5rem; font-weight: 400; }
-.hero__meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem 2.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.03em; }
-.hero__meta-item { display: flex; align-items: center; gap: 0.5rem; }
-.hero__meta-value { color: var(--text-primary); font-weight: 600; }
+  /* ── Hero ────────────────────────────────── */
+  .hero {
+    padding: 200px 0 120px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 900px; height: 900px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero__eyebrow {
+    font-size: 24px; font-weight: 700; color: var(--accent);
+    letter-spacing: 4px; text-transform: uppercase; margin-bottom: 40px;
+  }
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: 140px; font-weight: 400; line-height: 0.95;
+    margin-bottom: 48px;
+  }
+  .hero__title em { font-style: italic; color: var(--accent); }
+  .hero__subtitle {
+    font-size: 36px; color: var(--text-secondary);
+    max-width: 900px; line-height: 1.5; margin-bottom: 64px;
+  }
+  .hero__meta { display: flex; flex-wrap: wrap; gap: 64px; }
+  .hero__meta-item { display: flex; flex-direction: column; gap: 12px; }
+  .hero__meta-label {
+    font-size: 16px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 2px;
+  }
+  .hero__meta-value { font-size: 26px; font-weight: 700; color: var(--text-primary); }
 
-/* STATS */
-.stats { padding: 0 2rem; margin-top: 3rem; }
-.stats__inner { max-width: 1000px; margin: 0 auto; display: flex; justify-content: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-.stats__item { flex: 1; text-align: center; padding: 1.5rem 1rem; border-right: 1px solid var(--border); }
-.stats__item:last-child { border-right: none; }
-.stats__value { font-family: var(--font-display); font-size: 1.6rem; color: var(--text-primary); margin-bottom: 0.25rem; }
-.stats__label { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+  /* ── Divider ─────────────────────────────── */
+  .divider { border: none; height: 2px; background: var(--border); margin: 0; }
 
-/* SECTION HEADERS */
-.section-label { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 0.75rem; }
-.section-title { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 400; color: var(--text-primary); margin-bottom: 1.5rem; letter-spacing: -0.01em; }
-.section-title em { font-style: italic; color: var(--accent); }
+  /* ── Sections ────────────────────────────── */
+  .section { padding: 120px 0; }
+  .section__label {
+    font-size: 20px; font-weight: 700; color: var(--accent);
+    letter-spacing: 4px; text-transform: uppercase; margin-bottom: 32px;
+  }
+  .section__heading {
+    font-family: var(--font-display);
+    font-size: 72px; font-weight: 400; line-height: 1.1; margin-bottom: 40px;
+  }
+  .section__body { font-size: 28px; color: var(--text-secondary); line-height: 1.7; max-width: 1000px; }
+  .section__body p + p { margin-top: 32px; }
 
-/* NARRATIVE */
-.narrative { padding: 5rem 2rem; border-top: 1px solid var(--border-subtle); }
-.narrative__inner { max-width: 760px; margin: 0 auto; }
-.narrative__text { font-size: 1.08rem; line-height: 1.9; color: var(--text-secondary); margin-bottom: 1.5rem; }
-.narrative__callout { background: var(--bg-card); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.75rem 2rem; margin: 2.5rem 0; }
-.narrative__callout p { font-family: var(--font-display); font-size: 1.15rem; font-style: italic; color: var(--text-primary); line-height: 1.65; }
+  /* ── Stats Bar ───────────────────────────── */
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    gap: 2px; background: var(--border); border: 2px solid var(--border);
+    border-radius: 24px; overflow: hidden; margin: 80px 0;
+  }
+  .stat { background: var(--bg-card); padding: 56px 24px; text-align: center; }
+  .stat__number {
+    font-family: var(--font-display); font-size: 80px;
+    color: var(--accent); line-height: 1; margin-bottom: 16px;
+  }
+  .stat__desc {
+    font-size: 22px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
 
-/* FEATURES GRID */
-.features { padding: 5rem 2rem; border-top: 1px solid var(--border-subtle); background: var(--bg-secondary); }
-.features__inner { max-width: 1000px; margin: 0 auto; }
-.features__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2rem; }
-.feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; transition: all 0.4s; }
-.feature-card:hover { border-color: rgba(232, 131, 42, 0.2); transform: translateY(-3px); }
-.feature-card__icon { font-size: 1.75rem; margin-bottom: 1rem; }
-.feature-card__name { font-family: var(--font-display); font-size: 1.2rem; color: var(--text-primary); margin-bottom: 0.5rem; }
-.feature-card__desc { font-size: 0.92rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 1rem; }
-.feature-card__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.feature-card__tag { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.04em; padding: 0.25rem 0.6rem; border-radius: 6px; background: var(--bg-elevated); color: var(--text-muted); }
+  /* ── Feature Grid ────────────────────────── */
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 2px; background: var(--border); border: 2px solid var(--border);
+    border-radius: 24px; overflow: hidden; margin-top: 64px;
+  }
+  .feature-card {
+    background: var(--bg-card); padding: 56px;
+  }
+  .feature-card:hover { background: var(--bg-elevated); }
+  .feature-card__icon {
+    width: 80px; height: 80px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px; margin-bottom: 32px; border: 2px solid var(--border);
+  }
+  .feature-card__icon--planner { background: rgba(29,78,216,0.1); }
+  .feature-card__icon--emergency { background: rgba(220,38,38,0.1); }
+  .feature-card__icon--communication { background: rgba(13,148,136,0.1); }
+  .feature-card__icon--standards { background: rgba(124,58,237,0.1); }
+  .feature-card__icon--runsheet { background: rgba(217,119,6,0.1); }
+  .feature-card__icon--teams { background: rgba(22,163,74,0.1); }
+  .feature-card__icon--documents { background: rgba(8,145,178,0.1); }
+  .feature-card__icon--activities { background: rgba(249,115,22,0.1); }
+  .feature-card__icon--timesavers { background: rgba(147,51,234,0.1); }
 
-/* EMERGENCY TOOLKIT */
-.emergency { padding: 5rem 2rem; border-top: 1px solid var(--border-subtle); }
-.emergency__inner { max-width: 1000px; margin: 0 auto; }
-.emergency__intro { font-size: 1.05rem; line-height: 1.85; color: var(--text-secondary); max-width: 700px; margin-bottom: 2.5rem; }
-.emergency__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-.em-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: all 0.3s; }
-.em-card:hover { border-color: rgba(232, 131, 42, 0.2); }
-.em-card__name { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 0.5rem; }
-.em-card__desc { font-size: 0.88rem; line-height: 1.65; color: var(--text-secondary); }
+  .feature-card__name {
+    font-family: var(--font-display); font-size: 40px;
+    margin-bottom: 24px; color: var(--text-primary);
+  }
+  .feature-card__desc {
+    font-size: 22px; color: var(--text-secondary); line-height: 1.7;
+  }
+  .feature-card__desc strong {
+    color: var(--text-primary); font-weight: 700;
+  }
+  .feature-card__tags {
+    margin-top: 32px; font-size: 18px; font-weight: 600;
+    color: var(--text-muted); line-height: 2;
+    padding-top: 24px; border-top: 2px solid var(--border);
+  }
 
-/* AI SECTION */
-.ai-section { padding: 5rem 2rem; border-top: 1px solid var(--border-subtle); background: var(--bg-secondary); }
-.ai-section__inner { max-width: 1000px; margin: 0 auto; }
-.ai-section__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: 2rem; }
-.ai-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; transition: all 0.3s; }
-.ai-card:hover { border-color: rgba(232, 131, 42, 0.2); }
-.ai-card__header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
-.ai-card__icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; background: var(--accent-glow); }
-.ai-card__name { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
-.ai-card__desc { font-size: 0.95rem; line-height: 1.75; color: var(--text-secondary); }
+  /* ── Emergency Grid ─────────────────────── */
+  .emergency-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--border); border: 2px solid var(--border);
+    border-radius: 24px; overflow: hidden; margin-top: 64px;
+  }
+  .emergency-card {
+    background: var(--bg-card); padding: 48px;
+  }
+  .emergency-card:hover { background: var(--bg-elevated); }
+  .emergency-card__name {
+    font-size: 18px; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px;
+  }
+  .emergency-card__desc {
+    font-size: 22px; color: var(--text-secondary); line-height: 1.7;
+  }
+  .emergency-card__desc strong { color: var(--text-primary); font-weight: 700; }
 
-/* PRICING */
-.pricing { padding: 5rem 2rem; border-top: 1px solid var(--border-subtle); }
-.pricing__inner { max-width: 800px; margin: 0 auto; }
-.pricing__cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
-.price-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; transition: all 0.4s; }
-.price-card:hover { transform: translateY(-3px); }
-.price-card--featured { border-color: rgba(232, 131, 42, 0.3); box-shadow: 0 0 0 1px rgba(232, 131, 42, 0.15), 0 8px 40px rgba(232, 131, 42, 0.08); }
-.price-card__name { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; }
-.price-card__price { font-family: var(--font-display); font-size: 2.75rem; color: var(--text-primary); margin-bottom: 0.25rem; }
-.price-card__price span { font-family: var(--font-body); font-size: 1rem; color: var(--text-muted); }
-.price-card__features { list-style: none; margin-top: 1.5rem; }
-.price-card__features li { font-size: 0.9rem; color: var(--text-secondary); padding: 0.4rem 0; padding-left: 1.5rem; position: relative; line-height: 1.5; }
-.price-card__features li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-size: 0.8rem; }
+  /* ── AI Grid ─────────────────────────────── */
+  .ai-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; background: var(--border); border: 2px solid var(--border);
+    border-radius: 24px; overflow: hidden; margin-top: 64px;
+  }
+  .ai-cell { background: var(--bg-card); padding: 56px; }
+  .ai-cell:hover { background: var(--bg-elevated); }
+  .ai-cell__icon {
+    font-size: 40px; margin-bottom: 24px;
+  }
+  .ai-cell__label {
+    font-family: var(--font-display); font-size: 40px;
+    margin-bottom: 24px; color: var(--text-primary);
+  }
+  .ai-cell__content { font-size: 22px; color: var(--text-secondary); line-height: 1.7; }
+  .ai-cell__content strong { color: var(--text-primary); font-weight: 700; }
+  .ai-cell__tags {
+    margin-top: 32px; font-size: 18px; font-weight: 600;
+    color: var(--text-muted); line-height: 2;
+    padding-top: 24px; border-top: 2px solid var(--border);
+  }
 
-/* ARCHITECTURE */
-.architecture { padding: 5rem 2rem; border-top: 1px solid var(--border-subtle); background: var(--bg-secondary); }
-.architecture__inner { max-width: 1000px; margin: 0 auto; }
-.architecture__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2rem; }
-.arch-cell { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; }
-.arch-cell__label { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.75rem; }
-.arch-cell__content { font-size: 0.9rem; line-height: 1.75; color: var(--text-secondary); }
+  /* ── Architecture Grid ───────────────────── */
+  .arch-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; background: var(--border); border: 2px solid var(--border);
+    border-radius: 24px; overflow: hidden; margin-top: 64px;
+  }
+  .arch-cell { background: var(--bg-card); padding: 56px; }
+  .arch-cell__label {
+    font-size: 18px; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 3px; margin-bottom: 24px;
+  }
+  .arch-cell__content { font-size: 24px; color: var(--text-secondary); line-height: 1.7; }
+  .arch-cell__content strong { color: var(--text-primary); font-weight: 700; }
 
-/* TECH STACK */
-.techstack { padding: 4rem 2rem; border-top: 1px solid var(--border-subtle); }
-.techstack__inner { max-width: 1000px; margin: 0 auto; text-align: center; }
-.techstack__grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 1.5rem; }
-.tech-pill { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; padding: 0.5rem 1.15rem; border-radius: 100px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); transition: all 0.3s; }
-.tech-pill:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+  /* ── Tech Stack Ribbon ───────────────────── */
+  .tech-ribbon { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 56px; }
+  .tech-tag {
+    font-size: 20px; font-weight: 600; color: var(--text-secondary);
+    background: var(--bg-card); border: 2px solid var(--border);
+    padding: 16px 28px; border-radius: 14px;
+  }
+  .tech-tag:hover { color: var(--accent); border-color: var(--accent); }
 
-/* WHAT'S INCLUDED */
-.included { padding: 5rem 2rem; border-top: 1px solid var(--border-subtle); background: var(--bg-secondary); }
-.included__inner { max-width: 760px; margin: 0 auto; }
-.included__list { margin-top: 2rem; }
-.included__item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border-subtle); }
-.included__item:last-child { border-bottom: none; }
-.included__check { color: var(--green); font-size: 0.9rem; margin-top: 0.15rem; flex-shrink: 0; }
-.included__text { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
-.included__text strong { color: var(--text-primary); }
+  /* ── Security Grid ──────────────────────── */
+  .security-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--border); border: 2px solid var(--border);
+    border-radius: 24px; overflow: hidden; margin-top: 64px;
+  }
+  .security-item { background: var(--bg-card); padding: 48px; }
+  .security-item__check { color: var(--green); font-size: 32px; margin-bottom: 20px; }
+  .security-item__title { font-weight: 700; font-size: 28px; margin-bottom: 16px; }
+  .security-item__desc { font-size: 22px; color: var(--text-secondary); line-height: 1.6; }
 
-/* CTA */
-.cta { padding: 6rem 2rem; border-top: 1px solid var(--border-subtle); position: relative; overflow: hidden; }
-.cta::before { content: ''; position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 80%; height: 60%; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); pointer-events: none; }
-.cta__inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
-.cta__cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
-.cta-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; transition: all 0.4s; }
-.cta-card:hover { transform: translateY(-3px); }
-.cta-card--featured { border-color: rgba(232, 131, 42, 0.3); box-shadow: 0 0 0 1px rgba(232, 131, 42, 0.15), 0 8px 40px rgba(232, 131, 42, 0.08); }
-.cta-card__label { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.75rem; }
-.cta-card__value { font-family: var(--font-display); font-size: 2.5rem; color: var(--text-primary); margin-bottom: 0.5rem; }
-.cta-card__desc { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; }
-.cta-card__btn { display: inline-block; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.75rem 2rem; border-radius: 100px; background: var(--accent); color: #fff; transition: all 0.3s; }
-.cta-card__btn:hover { background: var(--accent-warm); transform: translateY(-2px); }
+  /* ── Pricing Grid ────────────────────────── */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 2px; background: var(--border); border: 2px solid var(--border);
+    border-radius: 24px; overflow: hidden; margin-top: 64px;
+  }
+  .pricing-card { background: var(--bg-card); padding: 56px; }
+  .pricing-card--featured { border-top: 6px solid var(--accent); }
+  .pricing-card__tier {
+    font-size: 18px; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px;
+  }
+  .pricing-card__price {
+    font-family: var(--font-display); font-size: 72px; margin-bottom: 12px;
+  }
+  .pricing-card__price span { font-family: var(--font-body); font-size: 26px; color: var(--text-muted); }
+  .pricing-card__features {
+    margin-top: 40px; font-size: 24px; color: var(--text-secondary); line-height: 2.2;
+  }
+  .pricing-card__features .check { color: var(--green); margin-right: 16px; font-weight: 700; }
+  .pricing-card__features .x { color: var(--text-muted); margin-right: 16px; opacity: 0.4; }
 
-/* FOOTER */
-.footer { padding: 2rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; }
-.footer__brand { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); }
-.footer__brand span { color: var(--accent); }
-.footer__links { display: flex; gap: 1.5rem; }
-.footer__link { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); opacity: 0.6; transition: all 0.3s; }
-.footer__link:hover { opacity: 1; color: var(--accent); }
+  /* ── Included Section ────────────────────── */
+  .included-list {
+    margin-top: 64px; border: 2px solid var(--border);
+    border-radius: 24px; overflow: hidden;
+  }
+  .included-item {
+    display: flex; align-items: flex-start; gap: 32px;
+    padding: 40px 56px; background: var(--bg-card);
+    border-bottom: 2px solid var(--border);
+    font-size: 24px; color: var(--text-secondary); line-height: 1.6;
+  }
+  .included-item:last-child { border-bottom: none; }
+  .included-item:hover { background: var(--bg-elevated); }
+  .included-item__check { color: var(--green); font-size: 28px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .included-item strong { color: var(--text-primary); font-weight: 700; }
 
-/* REVEAL */
-.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-d1 { transition-delay: 0.1s; }
-.reveal-d2 { transition-delay: 0.2s; }
-.reveal-d3 { transition-delay: 0.3s; }
-.reveal-d4 { transition-delay: 0.4s; }
+  /* ── CTA Section ────────────────────────── */
+  .cta-section {
+    padding: 160px 0; text-align: center; position: relative;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .cta__heading {
+    font-family: var(--font-display); font-size: 96px;
+    line-height: 1.05; margin-bottom: 40px; position: relative;
+  }
+  .cta__body {
+    font-size: 32px; color: var(--text-secondary); max-width: 800px;
+    margin: 0 auto 64px; line-height: 1.6; position: relative;
+  }
+  .cta-card__btn {
+    display: inline-block; padding: 28px 64px; background: var(--accent);
+    color: #fff; font-weight: 700; font-size: 28px; border-radius: 20px;
+    text-decoration: none; position: relative;
+    transition: all 0.3s;
+  }
+  .cta-card__btn:hover { background: var(--accent-hover); transform: translateY(-4px); box-shadow: 0 24px 48px rgba(29, 78, 216, 0.3); }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .features__grid, .emergency__grid, .architecture__grid { grid-template-columns: 1fr; }
-  .ai-section__grid, .pricing__cards, .cta__cards { grid-template-columns: 1fr; }
-  .stats__inner { flex-direction: column; }
-  .stats__item { border-right: none; border-bottom: 1px solid var(--border); }
-  .stats__item:last-child { border-bottom: none; }
-  .footer { flex-direction: column; gap: 0.75rem; text-align: center; }
-}
-@media (max-width: 600px) {
-  .hero { padding: 6rem 1.25rem 3rem; }
-  .hero__meta { flex-direction: column; align-items: center; }
-}
+  /* ── Footer ──────────────────────────────── */
+  .footer { padding: 80px 0; border-top: 2px solid var(--border); }
+  .footer__inner {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer__brand { font-size: 20px; color: var(--text-muted); }
+  .footer__links { display: flex; gap: 48px; }
+  .footer__link { font-size: 22px; color: var(--text-muted); text-decoration: none; }
+  .footer__link:hover { color: var(--accent); }
+
+  /* ── Responsive ──────────────────────────── */
+  @media (max-width: 1200px) {
+    .hero__title { font-size: 100px; }
+    .stats-bar { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .topbar__inner { padding: 0 24px; }
+    .hero__title { font-size: 72px; }
+    .hero__subtitle { font-size: 28px; }
+    .section__heading { font-size: 48px; }
+    .feature-grid, .emergency-grid, .ai-grid, .arch-grid, .security-grid, .pricing-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .stat__number { font-size: 56px; }
+    .footer__inner { flex-direction: column; gap: 24px; text-align: center; }
+    .footer__links { flex-direction: column; gap: 16px; align-items: center; }
+  }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- TOP BAR -->
 <nav class="topbar">
-  <a href="https://www.allencodeco.com" class="topbar__brand">Allen Code Co.</a>
-  <div class="topbar__nav">
-    <a href="products.html" class="topbar__link">← Products</a>
-    <span class="topbar__tag">Live in Production</span>
+  <div class="topbar__inner">
+    <a href="https://www.allencodeco.com" class="topbar__brand">Allen Code Co</a>
+    <div class="topbar__nav">
+      <a href="products.html" class="topbar__link">← Products</a>
+      <span class="topbar__tag">Live in Production</span>
+    </div>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero__eyebrow reveal">K-5 Education Platform</div>
-  <h1 class="hero__title reveal reveal-d1">My Teachers <em>Toolbox</em></h1>
-  <p class="hero__subtitle reveal reveal-d2">50+ tools designed by a teacher, built by a developer, used in the classroom every day.</p>
-  <div class="hero__meta reveal reveal-d3">
-    <div class="hero__meta-item">Status: <span class="hero__meta-value">&nbsp;Live</span></div>
-    <div class="hero__meta-item">URL: <span class="hero__meta-value">&nbsp;myteacherstoolbox.com</span></div>
-    <div class="hero__meta-item">Stack: <span class="hero__meta-value">&nbsp;Next.js · TypeScript · Supabase</span></div>
-    <div class="hero__meta-item">Billing: <span class="hero__meta-value">&nbsp;Stripe · Two Tiers</span></div>
-  </div>
-
-  <div class="stats reveal reveal-d4">
-    <div class="stats__inner">
-      <div class="stats__item">
-        <div class="stats__value">81,000+</div>
-        <div class="stats__label">Lines of Code</div>
+  <div class="container">
+    <p class="hero__eyebrow">K-5 Education Platform</p>
+    <h1 class="hero__title">My Teachers<br><em>Toolbox</em></h1>
+    <p class="hero__subtitle">
+      50+ tools designed by a teacher, built by a developer, used in the classroom every day. 
+      AI lesson planning, emergency readiness, parent communication, and standards alignment — all in one platform.
+    </p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Status</span>
+        <span class="hero__meta-value">Live in Production</span>
       </div>
-      <div class="stats__item">
-        <div class="stats__value">99</div>
-        <div class="stats__label">API Routes</div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Stack</span>
+        <span class="hero__meta-value">Next.js 15 · React 19 · Supabase</span>
       </div>
-      <div class="stats__item">
-        <div class="stats__value">71</div>
-        <div class="stats__label">Components</div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Domain</span>
+        <span class="hero__meta-value">myteacherstoolbox.com</span>
       </div>
-      <div class="stats__item">
-        <div class="stats__value">15</div>
-        <div class="stats__label">Dashboard Modules</div>
-      </div>
-      <div class="stats__item">
-        <div class="stats__value">12</div>
-        <div class="stats__label">Emergency Sections</div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Billing</span>
+        <span class="hero__meta-value">Stripe · Two Tiers</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- NARRATIVE -->
-<section class="narrative">
-  <div class="narrative__inner">
-    <div class="section-label reveal">The Origin</div>
-    <div class="section-title reveal reveal-d1">Built for the teacher who <em>needed it</em></div>
-    <p class="narrative__text reveal reveal-d2">
-      My wife Criste has been teaching for over twenty years. Every morning she'd juggle five different apps, three browser tabs, and a paper binder just to plan one day of instruction. When she woke up sick at 5am, creating substitute plans meant an hour of frantic typing before the school day started. The tools available were either designed for administrators, priced for districts, or built by people who'd never stood in front of a classroom.
-    </p>
-    <p class="narrative__text reveal reveal-d2">
-      So I built her one. Not a prototype — a real platform. AI-powered lesson plans in 90 seconds. Emergency sub plans ready before the bus arrives. Parent communication templates, standards alignment, behavior management tools, and an entire emergency toolkit with 12 categories of solutions for everything that can go wrong in a school day.
-    </p>
-    <div class="narrative__callout reveal reveal-d3">
-      <p>She uses it every single day. Not because she has to — because it actually saves her time. That's the only metric that matters for teacher tools: does it give time back?</p>
+<hr class="divider">
+
+<!-- STATS -->
+<div class="container">
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat__number">81K+</div>
+      <div class="stat__desc">Lines of Code</div>
     </div>
-    <p class="narrative__text reveal">
-      My Teachers Toolbox isn't theoretical. It's been tested in a real classroom, refined through daily use, and built around the workflows that actual K-5 teachers follow. Every feature exists because a real teacher asked for it.
+    <div class="stat">
+      <div class="stat__number">99</div>
+      <div class="stat__desc">API Routes</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">71</div>
+      <div class="stat__desc">Components</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">12</div>
+      <div class="stat__desc">Emergency Sections</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">5</div>
+      <div class="stat__desc">AI Systems</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">15</div>
+      <div class="stat__desc">Dashboard Modules</div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="section container">
+  <p class="section__label">The Origin</p>
+  <h2 class="section__heading">Built for the teacher who needed it.</h2>
+  <div class="section__body">
+    <p>
+      My wife Criste has been teaching K-5 for over twenty years. Every morning she juggled five different apps, three browser tabs, and a paper binder just to plan one day of instruction. When she woke up sick at 5am, creating substitute plans meant an hour of frantic typing before the school day started. The tools available were designed for administrators, priced for districts, or built by people who'd never stood in front of a classroom.
+    </p>
+    <p>
+      So I built her one. Not a prototype — a real platform. AI-powered lesson plans in 90 seconds. Emergency sub plans ready before the bus arrives. Parent communication templates, standards alignment, behavior management tools, and an entire emergency toolkit with 12 categories of solutions for everything that can go wrong in a school day. She uses it every single day — not because she has to, but because it actually saves her time.
     </p>
   </div>
 </section>
+
+<hr class="divider">
 
 <!-- CORE FEATURES -->
-<section class="features">
-  <div class="features__inner">
-    <div class="section-label reveal">Platform Features</div>
-    <div class="section-title reveal reveal-d1">50+ Tools. <em>One Toolbox.</em></div>
-    <div class="features__grid">
+<section class="section container">
+  <p class="section__label">Platform Features</p>
+  <h2 class="section__heading">50+ tools. One toolbox.</h2>
+  <div class="section__body">
+    <p>Every feature exists because a real teacher asked for it. Designed around the workflows actual K-5 teachers follow — not what administrators think teachers need.</p>
+  </div>
 
-      <div class="feature-card reveal">
-        <div class="feature-card__icon">🧠</div>
-        <div class="feature-card__name">AI Week Planner</div>
-        <div class="feature-card__desc">Complete weekly lesson plans in 90 seconds. Standards-aligned, differentiated, with materials lists and classroom management tips. Powered by DeepSeek with custom education prompts.</div>
-        <div class="feature-card__tags">
-          <span class="feature-card__tag">AI</span>
-          <span class="feature-card__tag">Standards</span>
-          <span class="feature-card__tag">Differentiation</span>
-        </div>
-      </div>
-
-      <div class="feature-card reveal reveal-d1">
-        <div class="feature-card__icon">🚨</div>
-        <div class="feature-card__name">Emergency Toolkit</div>
-        <div class="feature-card__desc">12 categories of solutions for everything that can go wrong. Sub plans, behavior interventions, incident reports, safety protocols, SEL activities, coverage coordination, and more.</div>
-        <div class="feature-card__tags">
-          <span class="feature-card__tag">12 Sections</span>
-          <span class="feature-card__tag">Sub Plans</span>
-          <span class="feature-card__tag">Safety</span>
-        </div>
-      </div>
-
-      <div class="feature-card reveal reveal-d2">
-        <div class="feature-card__icon">💬</div>
-        <div class="feature-card__name">Communication Hub</div>
-        <div class="feature-card__desc">Newsletter builder, email template library, conference prep tools, and communication log. Everything a teacher needs for parent and administration communication in one place.</div>
-        <div class="feature-card__tags">
-          <span class="feature-card__tag">Newsletters</span>
-          <span class="feature-card__tag">Templates</span>
-          <span class="feature-card__tag">Conferences</span>
-        </div>
-      </div>
-
-      <div class="feature-card reveal">
-        <div class="feature-card__icon">📐</div>
-        <div class="feature-card__name">Standards Search</div>
-        <div class="feature-card__desc">Searchable standards library with alignment tools. Find and attach standards to lesson plans, verify coverage across units, and ensure curriculum meets state requirements.</div>
-        <div class="feature-card__tags">
-          <span class="feature-card__tag">Search</span>
-          <span class="feature-card__tag">Alignment</span>
-          <span class="feature-card__tag">Tracking</span>
-        </div>
-      </div>
-
-      <div class="feature-card reveal reveal-d1">
-        <div class="feature-card__icon">📋</div>
-        <div class="feature-card__name">Daily Runsheet</div>
-        <div class="feature-card__desc">AI-generated daily schedule with time blocks, transitions, and prep notes. Takes your weekly plan and breaks it into an actionable minute-by-minute guide for each school day.</div>
-        <div class="feature-card__tags">
-          <span class="feature-card__tag">AI Generated</span>
-          <span class="feature-card__tag">Schedule</span>
-          <span class="feature-card__tag">Daily</span>
-        </div>
-      </div>
-
-      <div class="feature-card reveal reveal-d2">
-        <div class="feature-card__icon">👥</div>
-        <div class="feature-card__name">Student Teams</div>
-        <div class="feature-card__desc">Student roster management with grade team collaboration. Track students, share resources across classrooms, and coordinate with other teachers in your grade level.</div>
-        <div class="feature-card__tags">
-          <span class="feature-card__tag">Roster</span>
-          <span class="feature-card__tag">Collaboration</span>
-          <span class="feature-card__tag">Grade Teams</span>
-        </div>
-      </div>
-
-      <div class="feature-card reveal">
-        <div class="feature-card__icon">📄</div>
-        <div class="feature-card__name">Document Generator</div>
-        <div class="feature-card__desc">Create name labels, curriculum documents, and downloadable materials. Export to PDF and DOCX formats. Includes a desktop name label generator for classroom setup.</div>
-        <div class="feature-card__tags">
-          <span class="feature-card__tag">PDF</span>
-          <span class="feature-card__tag">DOCX</span>
-          <span class="feature-card__tag">Labels</span>
-        </div>
-      </div>
-
-      <div class="feature-card reveal reveal-d1">
-        <div class="feature-card__icon">🎮</div>
-        <div class="feature-card__name">Activity Library</div>
-        <div class="feature-card__desc">Searchable activity database with filtering by subject, grade, type, and time. Ratings system, favorites, and detailed instructions. Ready-to-use classroom activities.</div>
-        <div class="feature-card__tags">
-          <span class="feature-card__tag">Search</span>
-          <span class="feature-card__tag">Filter</span>
-          <span class="feature-card__tag">Ratings</span>
-        </div>
-      </div>
-
-      <div class="feature-card reveal reveal-d2">
-        <div class="feature-card__icon">⚡</div>
-        <div class="feature-card__name">Timesavers</div>
-        <div class="feature-card__desc">Automated reminders, batch task processing, and quick wins. The tools that eliminate the small repetitive tasks that steal hours from a teacher's week.</div>
-        <div class="feature-card__tags">
-          <span class="feature-card__tag">Automation</span>
-          <span class="feature-card__tag">Batch</span>
-          <span class="feature-card__tag">Quick Wins</span>
-        </div>
-      </div>
-
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--planner">🧠</div>
+      <h3 class="feature-card__name">AI Week Planner</h3>
+      <p class="feature-card__desc">Complete weekly lesson plans in 90 seconds. Enter your grade level, subjects, standards targets, and any special notes — the AI generates a <strong>full 5-day plan</strong> across all subjects with objectives, materials lists, differentiation strategies, and classroom management tips. Custom-engineered prompts (176 lines) ensure K-5 specificity rather than generic lesson content. Plans are <strong>standards-aligned</strong> by default and can be refined section-by-section with the inline refinement toolbar. Save plans to your library, duplicate and modify for the following week, or export directly to PDF and DOCX. The AI understands grade-appropriate vocabulary, age-appropriate activities, and common K-5 scheduling constraints like specials, lunch, and transitions.</p>
+      <p class="feature-card__tags">90-second generation · 5-day full coverage · standards-aligned · inline refinement · save, duplicate, export</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--emergency">🚨</div>
+      <h3 class="feature-card__name">Emergency Toolkit</h3>
+      <p class="feature-card__desc">The most comprehensive emergency resource system built for K-5 teachers. <strong>12 categories</strong> of solutions covering every scenario that disrupts a school day: substitute readiness, behavior intervention, safety protocols, SEL support, incident documentation, coverage coordination, parent communication, field trip logistics, assessment tools, planning pivots, timesaving shortcuts, and calming strategies. Each category contains purpose-built templates, checklists, and AI-generated content ready to deploy in seconds. <strong>Sub plans generate in under 60 seconds</strong> — class routines, schedules, student notes, and activity instructions all in one document. Behavior plans include de-escalation techniques, reward systems, and parent communication templates already formatted for the situation. The Emergency Toolkit is accessible from every page of the platform — because emergencies don't wait for you to navigate menus.</p>
+      <p class="feature-card__tags">12 categories · sub plans in 60 seconds · behavior plans · safety protocols · always accessible</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--communication">💬</div>
+      <h3 class="feature-card__name">Communication Hub</h3>
+      <p class="feature-card__desc">Every parent-facing communication a teacher needs, built in and ready to use. The <strong>Newsletter Builder</strong> generates professional class newsletters with classroom updates, upcoming events, learning highlights, and volunteer opportunities — with tone customization between formal, warm, and casual. The <strong>Email Template Library</strong> covers 30+ scenarios: field trip reminders, behavior notices, positive updates, IEP invitations, conference scheduling, supply requests, and more. <strong>Conference Prep Tools</strong> help organize talking points, student data, and next steps before parent-teacher conferences. A <strong>Communication Log</strong> tracks every parent interaction by student, so you always know what was said and when. All communications are exportable as PDF, email-ready, or printable formats.</p>
+      <p class="feature-card__tags">newsletter builder · 30+ email templates · conference prep · communication log · pdf + email export</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--standards">📐</div>
+      <h3 class="feature-card__name">Standards Search & Alignment</h3>
+      <p class="feature-card__desc">A fully searchable standards library with semantic search powered by OpenAI embeddings. Search by keyword, grade level, domain, or subject and get instant results with full standard descriptions and sub-components. <strong>Alignment tools</strong> let you attach standards directly to lesson plans and verify complete coverage across units. The system tracks which standards you've addressed in each week's planning so you can identify gaps before end-of-unit assessments. <strong>Coverage reporting</strong> shows standards addressed, frequency, and flagged gaps for curriculum review. Standards data is organized by Common Core ELA and Math, NGSS Science, and Social Studies frameworks. Lesson plans generated by the AI planner include automatic standards tagging based on your grade and subject selections — you can accept, modify, or add additional standards before saving.</p>
+      <p class="feature-card__tags">semantic search · OpenAI embeddings · coverage tracking · gap analysis · auto-tagging in AI plans</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--runsheet">📋</div>
+      <h3 class="feature-card__name">Daily Runsheet</h3>
+      <p class="feature-card__desc">Takes your weekly lesson plan and breaks it into an <strong>actionable minute-by-minute guide</strong> for each school day. The AI-generated runsheet adapts to your school's specific schedule blocks — specials, lunch, recess, intervention periods — and builds transitions, prep reminders, and material setup notes into the timing. Each runsheet is a complete operating document: what you're teaching, when you're teaching it, what you need to have ready, and what to watch for during transitions. <strong>Custom time blocks</strong> let you set your exact schedule rather than using a generic template. Runsheets print cleanly on a single page or display on-screen. The runsheet is generated from your weekly plan automatically — no re-entering content. When a plan changes, regenerate the runsheet in seconds.</p>
+      <p class="feature-card__tags">minute-by-minute scheduling · custom time blocks · transition reminders · prep notes · auto-generated from weekly plan</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--teams">👥</div>
+      <h3 class="feature-card__name">Student Teams & Collaboration</h3>
+      <p class="feature-card__desc">Full student roster management with <strong>grade team collaboration</strong>. Maintain a complete student list with grade level, notes, and flags. Professional-tier teachers can share resources across classrooms — send a lesson plan, activity, or document directly to another teacher on your grade team without leaving the platform. <strong>Grade team coordination</strong> supports shared planning, resource pooling, and consistent messaging to parents across the same grade level. Student notes are private to each teacher and never shared without explicit action. The collaboration system is designed around how actual grade teams work: asynchronous sharing, not real-time co-editing, because teachers are busy and have different prep periods.</p>
+      <p class="feature-card__tags">student roster management · grade team sharing · resource pooling · private notes · async collaboration</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--documents">📄</div>
+      <h3 class="feature-card__name">Document Generator</h3>
+      <p class="feature-card__desc">A complete document pipeline for classroom materials. <strong>PDF generation</strong> via jsPDF and pdf-lib handles lesson plan exports, runsheets, curriculum documents, and any structured content from the platform. <strong>DOCX generation</strong> via the docx package creates editable Word documents that teachers can take into their district's existing systems. The <strong>Name Label Generator</strong> produces classroom-ready printable name tags and desk labels — enter your student roster, choose a label template (Avery-compatible sizes), and download a ready-to-print PDF. <strong>Curriculum document builder</strong> creates scope-and-sequence documentation and unit overviews formatted for professional presentation to administrators. All exports happen client-side where possible for speed, with server-side processing for complex multi-page documents.</p>
+      <p class="feature-card__tags">PDF export · DOCX export · name label generator · curriculum documents · Avery-compatible label sizes</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--activities">🎮</div>
+      <h3 class="feature-card__name">Activity Library</h3>
+      <p class="feature-card__desc">A searchable database of classroom-ready activities built for K-5 instruction. Filter by <strong>subject</strong> (ELA, Math, Science, Social Studies, SEL), <strong>grade level</strong> (K through 5), <strong>activity type</strong> (whole class, small group, individual, station), <strong>time required</strong> (5 min, 10 min, 15–30 min, full period), and <strong>materials needed</strong>. Each activity includes full instructions, differentiation suggestions, and implementation notes from real classroom use. A <strong>ratings system</strong> lets you mark activities as favorites and rate them after use. The AI Activity Generator can create custom activities on demand — specify your constraints and get a classroom-tested activity structure in seconds. Activities integrate directly into lesson plans: click to attach an activity from the library and it populates the relevant section of your weekly plan.</p>
+      <p class="feature-card__tags">multi-filter search · subject · grade · type · time · ratings system · AI activity generation · plan integration</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--timesavers">⚡</div>
+      <h3 class="feature-card__name">Timesavers</h3>
+      <p class="feature-card__desc">The small tasks that steal hours from a teacher's week — My Teachers Toolbox automates them. <strong>Automated reminders</strong> surface upcoming deadlines, parent communication follow-ups, and curriculum coverage gaps before they become problems. <strong>Batch documentation tools</strong> handle repetitive paperwork: generate multiple parent updates at once, process a full week of reflection notes in one session, or create a complete set of conference summaries from short bullet-point input. The <strong>Quick Wins</strong> section surfaces actions that take under two minutes but have high impact — a missing standard on tomorrow's plan, an unanswered parent email flagged for follow-up, a student note that needs updating. Tech tutorial library gives step-by-step guides for common classroom tech (Google Classroom, Seesaw, Dojo) so teachers stop googling the same things.</p>
+      <p class="feature-card__tags">automated reminders · batch documentation · quick wins panel · tech tutorials · coverage gap alerts</p>
     </div>
   </div>
 </section>
+
+<hr class="divider">
 
 <!-- EMERGENCY TOOLKIT DEEP DIVE -->
-<section class="emergency">
-  <div class="emergency__inner">
-    <div class="section-label reveal">Emergency Toolkit</div>
-    <div class="section-title reveal reveal-d1">12 Categories of <em>"Oh No" Solutions</em></div>
-    <p class="emergency__intro reveal reveal-d2">
-      It's 5am and you just woke up sick. A student incident needs documented before lunch. A parent needs an IEP update by end of day. The Emergency Toolkit handles every scenario a K-5 teacher faces — organized, ready, and one click away.
-    </p>
-    <div class="emergency__grid">
-      <div class="em-card reveal"><div class="em-card__name">Sub Readiness</div><div class="em-card__desc">Emergency substitute plans generated in under 60 seconds. Class routines, schedules, student notes, and activity instructions — ready before the bus arrives.</div></div>
-      <div class="em-card reveal reveal-d1"><div class="em-card__name">Assessment</div><div class="em-card__desc">Quick assessment tools for evaluating student progress on the fly. Rubrics, observation forms, and data collection templates.</div></div>
-      <div class="em-card reveal reveal-d2"><div class="em-card__name">Communication</div><div class="em-card__desc">Emergency parent emails, incident notifications, and administration updates. Pre-built templates for sensitive situations.</div></div>
-      <div class="em-card reveal"><div class="em-card__name">Coverage</div><div class="em-card__desc">Classroom coverage coordination when teachers are absent. Schedule adjustments and substitute assignment tracking.</div></div>
-      <div class="em-card reveal reveal-d1"><div class="em-card__name">Emergency Response</div><div class="em-card__desc">Lockdown procedures, evacuation checklists, medical emergency protocols, and incident documentation forms.</div></div>
-      <div class="em-card reveal reveal-d2"><div class="em-card__name">Logistics</div><div class="em-card__desc">Field trip planning, supply requests, room setup guides, and event coordination tools for classroom logistics.</div></div>
-      <div class="em-card reveal"><div class="em-card__name">Management</div><div class="em-card__desc">Behavior intervention plans, classroom management strategies, de-escalation techniques, and reward systems.</div></div>
-      <div class="em-card reveal reveal-d1"><div class="em-card__name">Planning</div><div class="em-card__desc">Emergency lesson planning for when the original plan falls apart. Quick-pivot activities and backup materials.</div></div>
-      <div class="em-card reveal reveal-d2"><div class="em-card__name">Safety</div><div class="em-card__desc">Student safety protocols, allergy management, medication tracking, and health-related documentation.</div></div>
-      <div class="em-card reveal"><div class="em-card__name">SEL</div><div class="em-card__desc">Social-emotional learning activities for difficult days. Calming strategies, check-in tools, and emotional regulation resources.</div></div>
-      <div class="em-card reveal reveal-d1"><div class="em-card__name">Timesavers</div><div class="em-card__desc">Emergency time-saving shortcuts — batch grading templates, auto-fill reports, and quick documentation tools.</div></div>
-      <div class="em-card reveal reveal-d2"><div class="em-card__name">Calming Strategies</div><div class="em-card__desc">Guided breathing exercises, mindfulness activities, and classroom reset protocols for high-stress moments.</div></div>
+<section class="section container">
+  <p class="section__label">Emergency Toolkit</p>
+  <h2 class="section__heading">12 categories of "Oh No" solutions.</h2>
+  <div class="section__body">
+    <p>It's 5am and you just woke up sick. A student incident needs documented before lunch. A parent needs an update by end of day. The Emergency Toolkit handles every scenario a K-5 teacher faces — organized, ready, one click away.</p>
+  </div>
+
+  <div class="emergency-grid">
+    <div class="emergency-card">
+      <p class="emergency-card__name">Sub Readiness</p>
+      <p class="emergency-card__desc">Emergency substitute plans generated in under 60 seconds. Enter your class grade and any special notes — the AI produces a complete substitute package: <strong>class schedule</strong>, routine descriptions, student behavior notes, seating chart instructions, emergency contacts, and <strong>three full activity blocks</strong> with materials and instructions the sub can follow without prep. Plans are formatted as a single printable document. Regenerate in seconds if the sub situation changes.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Assessment</p>
+      <p class="emergency-card__desc">Quick assessment tools for evaluating student progress on the fly. <strong>Observation rubrics</strong> with grade-appropriate benchmarks, <strong>anecdotal note templates</strong> with structured fields for evidence and next steps, and <strong>data collection forms</strong> formatted for small-group instruction. Export assessment records as CSV for gradebook import or PDF for portfolio documentation.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Communication</p>
+      <p class="emergency-card__desc">Emergency parent emails and administration updates for sensitive situations. <strong>Incident notification templates</strong> with appropriate tone calibration — serious but not alarming. <strong>Behavior communication scripts</strong> for initial outreach, follow-up, and escalation. All templates include guidance on what to include, what to leave out, and how to document that communication occurred.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Coverage</p>
+      <p class="emergency-card__desc">Classroom coverage coordination when teachers need to leave unexpectedly. <strong>Coverage request templates</strong> for communicating with team teachers and administration. <strong>Student transition protocols</strong> for moving students to another classroom safely. Notes format designed so the covering teacher can get up to speed in under two minutes.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Emergency Response</p>
+      <p class="emergency-card__desc">Formal emergency protocols for serious incidents. <strong>Lockdown checklists</strong> with step-by-step procedures and student accountability documentation. <strong>Evacuation protocols</strong> with student roster tracking. <strong>Medical emergency response guides</strong> and post-incident documentation forms that meet district reporting requirements. All content is procedure-based, not legally prescriptive.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Logistics</p>
+      <p class="emergency-card__desc">Field trip planning checklists, supply request forms, room setup guides, and event coordination tools. The <strong>Field Trip Organizer</strong> walks through permission slips, chaperone ratios, medical needs, transportation, and day-of logistics. <strong>Room Setup Guides</strong> document your classroom configuration for substitute teachers and after-break setups.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Management</p>
+      <p class="emergency-card__desc">Behavior intervention plans, classroom management strategies, and de-escalation techniques for difficult moments. <strong>Behavior Documentation Templates</strong> record incident details, antecedents, responses, and outcomes in a format usable for IEP meetings and administration reports. <strong>De-escalation scripts</strong> with phrase-by-phrase guidance for common classroom conflict scenarios.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Planning</p>
+      <p class="emergency-card__desc">Emergency lesson planning for when the original plan falls apart — technology fails, materials don't arrive, or the schedule changes at 7am. <strong>Quick-pivot activity bank</strong> organized by grade and time available. <strong>No-materials backup lessons</strong> for ELA and Math that work with zero prep. Activities are genuinely engaging, not busywork.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Safety</p>
+      <p class="emergency-card__desc">Student safety documentation for daily health management. <strong>Allergy and medication tracking</strong> templates formatted for substitute and coverage use. <strong>Health documentation forms</strong> for recording daily observations, nurse visits, and parent notifications. All safety templates are designed to support — not replace — official school health protocols.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">SEL</p>
+      <p class="emergency-card__desc">Social-emotional learning activities for difficult days — the class that won't settle after a fire drill, the student who arrives in crisis, or the week before winter break. <strong>Check-in tools</strong> gauge the room's emotional temperature quickly. <strong>Calming activity sequences</strong> with duration estimates. Tier 1, 2, and 3 SEL interventions organized by intensity and appropriate use case.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Timesavers</p>
+      <p class="emergency-card__desc">Emergency time-saving shortcuts for the days when there is no time. <strong>Batch parent notification tools</strong> handle a whole-class update in one action. <strong>Auto-fill report templates</strong> populate from student roster data. <strong>Quick documentation</strong> for the 20 things that need to be written down before end of day — incident logs, behavior tracking, IEP notes, and attendance irregularities.</p>
+    </div>
+    <div class="emergency-card">
+      <p class="emergency-card__name">Calming Strategies</p>
+      <p class="emergency-card__desc">Guided classroom reset protocols for high-stress moments. <strong>Breathing exercise sequences</strong> with timing and visual cues. <strong>Mindfulness activities</strong> calibrated for K-5 attention spans — under 5 minutes, no materials required. <strong>Classroom reset routines</strong> that transition students from chaos back to learning readiness. Each strategy includes teacher facilitation notes and a quick read-aloud script.</p>
     </div>
   </div>
 </section>
 
-<!-- AI SYSTEM -->
-<section class="ai-section">
-  <div class="ai-section__inner">
-    <div class="section-label reveal">AI Integration</div>
-    <div class="section-title reveal reveal-d1">5 AI-Powered <em>Systems</em></div>
-    <div class="ai-section__grid">
-      <div class="ai-card reveal">
-        <div class="ai-card__header">
-          <div class="ai-card__icon">📝</div>
-          <div class="ai-card__name">Lesson Generation</div>
-        </div>
-        <div class="ai-card__desc">Complete lesson plans with objectives, materials, procedures, differentiation, and assessment. Standards-aligned with grade-appropriate language. Custom prompt engineering for K-5 specificity.</div>
-      </div>
-      <div class="ai-card reveal reveal-d1">
-        <div class="ai-card__header">
-          <div class="ai-card__icon">📅</div>
-          <div class="ai-card__name">Week Planner</div>
-        </div>
-        <div class="ai-card__desc">Five-day lesson plan generation across all subjects. Maintains coherent progression across the week with built-in review days and assessment checkpoints. 176-line prompt system.</div>
-      </div>
-      <div class="ai-card reveal">
-        <div class="ai-card__header">
-          <div class="ai-card__icon">📰</div>
-          <div class="ai-card__name">Newsletter Generation</div>
-        </div>
-        <div class="ai-card__desc">Parent-facing newsletters with classroom updates, upcoming events, and student highlights. Maintains professional tone while staying warm and approachable for families.</div>
-      </div>
-      <div class="ai-card reveal reveal-d1">
-        <div class="ai-card__header">
-          <div class="ai-card__icon">📋</div>
-          <div class="ai-card__name">Runsheet Generation</div>
-        </div>
-        <div class="ai-card__desc">Daily schedule breakdowns from weekly plans. Minute-by-minute timing with transitions, prep notes, and material reminders. Adapts to your school's specific schedule blocks.</div>
-      </div>
-      <div class="ai-card reveal">
-        <div class="ai-card__header">
-          <div class="ai-card__icon">🪞</div>
-          <div class="ai-card__name">Reflection Coach</div>
-        </div>
-        <div class="ai-card__desc">AI-powered teaching reflection that helps analyze what worked, what didn't, and why. Provides actionable suggestions for improving instruction based on your self-assessment.</div>
-      </div>
-      <div class="ai-card reveal reveal-d1">
-        <div class="ai-card__header">
-          <div class="ai-card__icon">🔍</div>
-          <div class="ai-card__name">Content Refinement</div>
-        </div>
-        <div class="ai-card__desc">Section-level content refinement toolbar. Highlight any part of a generated lesson and refine it — adjust reading level, add differentiation, expand activities, or simplify language.</div>
-      </div>
+<hr class="divider">
+
+<!-- AI SYSTEMS -->
+<section class="section container">
+  <p class="section__label">AI Integration</p>
+  <h2 class="section__heading">Five AI systems, purpose-built for K-5.</h2>
+  <div class="section__body">
+    <p>Each AI system uses a custom-engineered prompt with deep K-5 specificity. Powered by DeepSeek with OpenAI Embeddings for semantic search. Caching layer for cost control at scale.</p>
+  </div>
+
+  <div class="ai-grid">
+    <div class="ai-cell">
+      <div class="ai-cell__icon">📝</div>
+      <p class="ai-cell__label">Lesson Generation</p>
+      <p class="ai-cell__content">Complete lesson plans with <strong>objectives</strong> written to Bloom's Taxonomy levels, <strong>materials lists</strong> with quantity estimates per student, <strong>instructional procedures</strong> with timing for each phase (hook, instruction, guided practice, independent work, closure), <strong>differentiation strategies</strong> for below-level, on-level, and above-level learners, and <strong>formative assessment</strong> checkpoints embedded throughout. The system understands K-5 vocabulary ranges by grade, appropriate activity durations for different age groups, and the pacing challenges specific to self-contained elementary classrooms. The 176-line custom prompt prevents generic outputs and forces grade-specific, actionable content.</p>
+      <p class="ai-cell__tags">Bloom's Taxonomy objectives · materials lists · differentiation · formative assessment · grade-specific vocabulary</p>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell__icon">📅</div>
+      <p class="ai-cell__label">Week Planner</p>
+      <p class="ai-cell__content">Five-day lesson plan generation across all subjects in a single generation call. The week planner maintains <strong>coherent skill progression</strong> across days — Monday introduces, Tuesday practices, Wednesday extends, Thursday applies, Friday reviews and assesses. Built-in <strong>review day scaffolding</strong> prevents coverage without retention. The planner respects <strong>subject balance</strong> across the week based on your grade's schedule requirements. When you specify a focus standard, the planner threads that standard across multiple subjects where authentic connections exist. Save complete week plans to your library and pull forward to the following week with one click — the AI updates dates, adjusts for holidays or events, and refreshes activities while preserving structure.</p>
+      <p class="ai-cell__tags">5-day coherent progression · skill scaffolding · subject balance · cross-subject connections · week-forward duplication</p>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell__icon">📰</div>
+      <p class="ai-cell__label">Newsletter Generation</p>
+      <p class="ai-cell__content">Parent-facing class newsletters that communicate what's happening in your classroom in a voice that's <strong>professional without being distant</strong>. Enter your week's highlights, upcoming events, and any special requests — the AI drafts a complete newsletter with a warm opening, <strong>subject-by-subject learning highlights</strong>, upcoming dates, volunteer opportunities, and a closing call to action. Three tone options: <strong>Warm and personal</strong> for teachers who build close parent relationships, <strong>Professional and informative</strong> for schools that prefer formal communication, and <strong>Casual and approachable</strong> for building community with new families. Newsletters export as print-ready PDF, email-formatted HTML, or plain text for pasting into platforms like Seesaw, ClassDojo, or school email systems.</p>
+      <p class="ai-cell__tags">subject-by-subject highlights · 3 tone options · PDF · HTML · plain text export · school platform compatible</p>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell__icon">📋</div>
+      <p class="ai-cell__label">Runsheet Generation</p>
+      <p class="ai-cell__content">Takes a complete weekly lesson plan and breaks each day into a <strong>minute-by-minute operating schedule</strong>. The runsheet AI understands transition overhead — moving students to the carpet, distributing materials, bathroom breaks, lining up — and builds realistic buffer time between activities rather than optimistic back-to-back scheduling. Output includes <strong>teacher prep reminders</strong> (materials to have ready, tech to test, displays to set up) timed to before the school day and before each subject block. Transitions are spelled out explicitly: what students do, what the teacher does, and what comes next. The runsheet is the document the teacher carries — not a planning artifact but an <strong>in-day operational guide</strong> that eliminates decision fatigue.</p>
+      <p class="ai-cell__tags">transition overhead budgeted · prep reminders · material setup notes · in-day operational format · single-page print</p>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell__icon">🪞</div>
+      <p class="ai-cell__label">Reflection Coach</p>
+      <p class="ai-cell__content">AI-powered teaching reflection that transforms quick self-assessments into <strong>structured professional growth</strong>. Enter what you taught, what worked, what didn't, and how students responded — the Reflection Coach identifies the instructional pattern at play, provides a framework for understanding it (instruction vs. engagement vs. pacing vs. content match), and generates <strong>specific, actionable next-steps</strong> rather than generic encouragement. The system tracks reflection history so it can surface patterns over time — if you're consistently flagging transition issues, it surfaces that pattern and offers targeted strategies. Reflection records export as documentation for professional development reviews, instructional coaching sessions, or personal growth portfolios.</p>
+      <p class="ai-cell__tags">pattern identification · instructional framework analysis · specific next-steps · history tracking · PD documentation export</p>
+    </div>
+    <div class="ai-cell">
+      <div class="ai-cell__icon">🔍</div>
+      <p class="ai-cell__label">Content Refinement</p>
+      <p class="ai-cell__content">Section-level AI refinement toolbar that works inside any generated content. Highlight any portion of a lesson plan, newsletter, or runsheet and choose a refinement action: <strong>Adjust Reading Level</strong> (up or down a grade), <strong>Add Differentiation</strong> (insert below-level and above-level modifications), <strong>Expand Activity</strong> (add more detail, timing, or steps), <strong>Simplify Language</strong> (reduce vocabulary complexity), <strong>Add Transitions</strong> (insert bridge language between sections), or <strong>Strengthen Standards Connection</strong> (tighten the explicit standards alignment). Refinements are applied inline without regenerating the full document. Changes are tracked so you can revert to the original generation at any point. The refinement system respects your edits — it operates on your current version, not a cached original.</p>
+      <p class="ai-cell__tags">reading level adjustment · differentiation insertion · activity expansion · inline changes · revert to original</p>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="pricing">
-  <div class="pricing__inner">
-    <div class="section-label reveal" style="text-align:center;">Billing</div>
-    <div class="section-title reveal reveal-d1" style="text-align:center;">Two <em>Tiers</em></div>
-    <div class="pricing__cards">
-      <div class="price-card reveal reveal-d2">
-        <div class="price-card__name">Essential</div>
-        <div class="price-card__price">$19.99<span>/mo</span></div>
-        <ul class="price-card__features">
-          <li>Up to 20 AI lesson plans/month</li>
-          <li>Full Emergency Toolkit access</li>
-          <li>Standards search & alignment</li>
-          <li>Newsletter & email builder</li>
-          <li>PDF exports</li>
-          <li>Tech tutorials library</li>
-        </ul>
-      </div>
-      <div class="price-card price-card--featured reveal reveal-d3">
-        <div class="price-card__name">Professional</div>
-        <div class="price-card__price">$29.99<span>/mo</span></div>
-        <ul class="price-card__features">
-          <li>Unlimited AI lesson plans</li>
-          <li>Everything in Essential, plus:</li>
-          <li>Student team collaboration</li>
-          <li>Grade team resource sharing</li>
-          <li>Downloadable materials generation</li>
-          <li>AI activity library</li>
-          <li>Conference prep tools</li>
-          <li>Priority support</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+<hr class="divider">
 
 <!-- ARCHITECTURE -->
-<section class="architecture">
-  <div class="architecture__inner">
-    <div class="section-label reveal">Architecture</div>
-    <div class="section-title reveal reveal-d1">How It's <em>Built</em></div>
-    <div class="architecture__grid">
-      <div class="arch-cell reveal">
-        <div class="arch-cell__label">Frontend</div>
-        <div class="arch-cell__content">Next.js 15 with React 19, Server Components, and Tailwind CSS. 71 components across 16 module directories — planner, communication, documents, emergency, standards, activities, AI, and more.</div>
+<section class="section container">
+  <p class="section__label">Architecture</p>
+  <h2 class="section__heading">Production-grade from day one.</h2>
+
+  <div class="tech-ribbon">
+    <span class="tech-tag">Next.js 15</span>
+    <span class="tech-tag">React 19</span>
+    <span class="tech-tag">TypeScript</span>
+    <span class="tech-tag">Supabase</span>
+    <span class="tech-tag">PostgreSQL</span>
+    <span class="tech-tag">Stripe</span>
+    <span class="tech-tag">Tailwind CSS</span>
+    <span class="tech-tag">DeepSeek</span>
+    <span class="tech-tag">OpenAI Embeddings</span>
+    <span class="tech-tag">jsPDF</span>
+    <span class="tech-tag">pdf-lib</span>
+    <span class="tech-tag">docx</span>
+    <span class="tech-tag">Zod</span>
+    <span class="tech-tag">Sentry</span>
+    <span class="tech-tag">Vercel</span>
+    <span class="tech-tag">Vercel Analytics</span>
+    <span class="tech-tag">Radix UI</span>
+    <span class="tech-tag">Sonner</span>
+    <span class="tech-tag">Lucide Icons</span>
+    <span class="tech-tag">date-fns</span>
+  </div>
+
+  <div class="arch-grid">
+    <div class="arch-cell">
+      <p class="arch-cell__label">Frontend</p>
+      <p class="arch-cell__content"><strong>Next.js 15 App Router</strong> with React 19 Server Components. <strong>71 components</strong> across 16 module directories — planner, communication, documents, emergency, standards, activities, AI, and more. Component library built on <strong>Radix UI</strong> with <strong>Tailwind CSS</strong>. <strong>Sonner</strong> for toast notifications. <strong>Lucide Icons</strong> throughout. Full <strong>responsive design</strong> for tablet and desktop — built for the classroom environment where teachers move between devices.</p>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Backend & Database</p>
+      <p class="arch-cell__content"><strong>99 API routes</strong> handling lesson generation, communication, document creation, export, Stripe billing, user management, standards search, activities, and the complete emergency toolkit. <strong>Supabase PostgreSQL</strong> with tables for profiles, lesson plans, activities, standards, favorites, API usage tracking, and billing. <strong>Row Level Security</strong> on all tables for multi-tenant data isolation. Custom enums for lesson types, subject categories, grade levels, and subscription tiers.</p>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">AI Layer</p>
+      <p class="arch-cell__content"><strong>DeepSeek</strong> integration with 5 custom prompt systems — lesson generation, week planning, newsletter writing, runsheet creation, and reflection coaching. Each prompt is purpose-engineered for K-5 specificity, not generic education. <strong>OpenAI Embeddings</strong> power semantic standards search. <strong>Caching layer</strong> reduces AI API costs on repeated similar requests. AI usage tracked per user account for rate limiting on free tier.</p>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Export & Documents</p>
+      <p class="arch-cell__content"><strong>PDF generation</strong> via jsPDF and pdf-lib. <strong>DOCX generation</strong> via the docx package. Lesson plan exporter with formatting, layout options, and page break control. <strong>Name label generator</strong> with Avery-compatible label templates. Curriculum document builder with professional formatting for administration presentation. All exports handle multi-page documents with proper headers, footers, and page numbering.</p>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Payments & Subscriptions</p>
+      <p class="arch-cell__content"><strong>Stripe</strong> integration with full subscription lifecycle management. <strong>Two tiers</strong>: Essential ($19.99/mo) and Professional ($29.99/mo). Checkout flow, customer portal for self-service upgrades/downgrades, and webhook handling for subscription state changes. <strong>Free trial period</strong> with plan feature enforcement via subscription status checks on every protected route. Billing portal gives teachers full control without contacting support.</p>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Monitoring & Infrastructure</p>
+      <p class="arch-cell__content"><strong>Vercel deployment</strong> with edge functions for performance. <strong>Sentry</strong> error tracking with source maps for production debugging. <strong>Vercel Analytics</strong> for usage patterns and page performance. <strong>Zod validation</strong> on all API inputs. <strong>SEO-optimized blog</strong> with 3 published content articles, dynamic routing, sitemap.xml, and robots.txt. Middleware for auth verification on all protected routes.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECURITY -->
+<section class="section container">
+  <p class="section__label">Security</p>
+  <h2 class="section__heading">Student data protected.</h2>
+
+  <div class="security-grid">
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Row Level Security</p>
+      <p class="security-item__desc">All database tables enforce RLS. Teachers only access their own students, plans, and data.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Auth Middleware</p>
+      <p class="security-item__desc">Supabase Auth with session verification on every protected route. No unauthenticated API access.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Webhook Verification</p>
+      <p class="security-item__desc">All Stripe events verified with signing secret before processing subscription changes.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Input Validation</p>
+      <p class="security-item__desc">All API inputs validated with Zod schemas. Malformed requests rejected at the API layer.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">AI Context Isolation</p>
+      <p class="security-item__desc">No student or teacher data persists in AI model context between sessions.</p>
+    </div>
+    <div class="security-item">
+      <p class="security-item__check">✓</p>
+      <p class="security-item__title">Error Monitoring</p>
+      <p class="security-item__desc">Sentry captures all production errors with source maps. No sensitive data in error payloads.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PRICING -->
+<section class="section container">
+  <p class="section__label">Pricing Model</p>
+  <h2 class="section__heading">Two tiers.</h2>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <p class="pricing-card__tier">Essential</p>
+      <p class="pricing-card__price">$19.99<span>/mo</span></p>
+      <div class="pricing-card__features">
+        <span class="check">✓</span> Up to 20 AI lesson plans/month<br>
+        <span class="check">✓</span> Full Emergency Toolkit access<br>
+        <span class="check">✓</span> Standards search & alignment<br>
+        <span class="check">✓</span> Newsletter & email builder<br>
+        <span class="check">✓</span> PDF exports<br>
+        <span class="check">✓</span> Tech tutorials library<br>
+        <span class="x">✗</span> Grade team collaboration<br>
+        <span class="x">✗</span> AI Activity Generator<br>
+        <span class="x">✗</span> Conference prep tools
       </div>
-      <div class="arch-cell reveal reveal-d1">
-        <div class="arch-cell__label">Backend</div>
-        <div class="arch-cell__content">99 API routes handling lesson generation, communication, document creation, export, Stripe billing, user management, standards search, activities, and the complete emergency toolkit.</div>
-      </div>
-      <div class="arch-cell reveal reveal-d2">
-        <div class="arch-cell__label">AI Layer</div>
-        <div class="arch-cell__content">DeepSeek integration with 5 custom prompt systems — lesson generation, week planning, newsletter writing, runsheet creation, and reflection coaching. Embeddings for semantic search. Caching layer for cost control.</div>
-      </div>
-      <div class="arch-cell reveal">
-        <div class="arch-cell__label">Database</div>
-        <div class="arch-cell__content">Supabase PostgreSQL with tables for profiles, lesson plans, activities, standards, favorites, API usage tracking, and billing. Row Level Security for multi-tenant data isolation.</div>
-      </div>
-      <div class="arch-cell reveal reveal-d1">
-        <div class="arch-cell__label">Export & Documents</div>
-        <div class="arch-cell__content">PDF generation via jsPDF and pdf-lib. DOCX generation via the docx package. Lesson plan exporter with formatting, name label generator, and curriculum document builder.</div>
-      </div>
-      <div class="arch-cell reveal reveal-d2">
-        <div class="arch-cell__label">Production Infrastructure</div>
-        <div class="arch-cell__content">Vercel deployment with Sentry error monitoring and Vercel Analytics. Stripe webhook handling for subscription management. Zod validation on all API inputs. SEO-optimized blog with 3 content pages.</div>
+    </div>
+    <div class="pricing-card pricing-card--featured">
+      <p class="pricing-card__tier">Professional</p>
+      <p class="pricing-card__price">$29.99<span>/mo</span></p>
+      <div class="pricing-card__features">
+        <span class="check">✓</span> Unlimited AI lesson plans<br>
+        <span class="check">✓</span> Everything in Essential, plus:<br>
+        <span class="check">✓</span> Grade team resource sharing<br>
+        <span class="check">✓</span> Student team collaboration<br>
+        <span class="check">✓</span> Downloadable materials generation<br>
+        <span class="check">✓</span> AI Activity Library<br>
+        <span class="check">✓</span> Conference prep tools<br>
+        <span class="check">✓</span> Priority support
       </div>
     </div>
   </div>
 </section>
 
-<!-- TECH STACK -->
-<section class="techstack">
-  <div class="techstack__inner">
-    <div class="section-label reveal">Technology</div>
-    <div class="techstack__grid reveal reveal-d1">
-      <span class="tech-pill">Next.js 15</span>
-      <span class="tech-pill">React 19</span>
-      <span class="tech-pill">TypeScript</span>
-      <span class="tech-pill">Supabase</span>
-      <span class="tech-pill">PostgreSQL</span>
-      <span class="tech-pill">Stripe</span>
-      <span class="tech-pill">Tailwind CSS</span>
-      <span class="tech-pill">DeepSeek</span>
-      <span class="tech-pill">OpenAI Embeddings</span>
-      <span class="tech-pill">jsPDF</span>
-      <span class="tech-pill">pdf-lib</span>
-      <span class="tech-pill">docx</span>
-      <span class="tech-pill">Zod</span>
-      <span class="tech-pill">Sentry</span>
-      <span class="tech-pill">Vercel</span>
-      <span class="tech-pill">Vercel Analytics</span>
-      <span class="tech-pill">Radix UI</span>
-      <span class="tech-pill">Sonner</span>
-      <span class="tech-pill">Lucide Icons</span>
-      <span class="tech-pill">date-fns</span>
-    </div>
-  </div>
-</section>
+<hr class="divider">
 
 <!-- WHAT'S INCLUDED -->
-<section class="included">
-  <div class="included__inner">
-    <div class="section-label reveal">What's Included</div>
-    <div class="section-title reveal reveal-d1">Complete <em>Platform</em></div>
-    <div class="included__list">
-      <div class="included__item reveal"><div class="included__check">✓</div><div class="included__text"><strong>Full source code</strong> — 81,000+ lines of production TypeScript with 99 API routes</div></div>
-      <div class="included__item reveal reveal-d1"><div class="included__check">✓</div><div class="included__text"><strong>Live Stripe billing</strong> — Two-tier subscription with checkout, portal, and webhook handling</div></div>
-      <div class="included__item reveal"><div class="included__check">✓</div><div class="included__text"><strong>5 AI prompt systems</strong> — Lesson plans, week planning, newsletters, runsheets, and reflection coaching</div></div>
-      <div class="included__item reveal reveal-d1"><div class="included__check">✓</div><div class="included__text"><strong>12-section Emergency Toolkit</strong> — The most comprehensive emergency resource system built for K-5</div></div>
-      <div class="included__item reveal"><div class="included__check">✓</div><div class="included__text"><strong>Document export pipeline</strong> — PDF and DOCX generation for lesson plans, labels, and curriculum materials</div></div>
-      <div class="included__item reveal reveal-d1"><div class="included__check">✓</div><div class="included__text"><strong>SEO blog</strong> — 3 published articles with dynamic routing, sitemap, and robots.txt</div></div>
-      <div class="included__item reveal"><div class="included__check">✓</div><div class="included__text"><strong>Legal pages</strong> — Privacy policy, terms of service, refund policy, FAQ, and contact</div></div>
-      <div class="included__item reveal reveal-d1"><div class="included__check">✓</div><div class="included__text"><strong>Production monitoring</strong> — Sentry error tracking, Vercel Analytics, and API usage logging</div></div>
-      <div class="included__item reveal"><div class="included__check">✓</div><div class="included__text"><strong>Onboarding flow</strong> — Guided setup for new teachers including profile, grade level, and preference configuration</div></div>
-      <div class="included__item reveal reveal-d1"><div class="included__check">✓</div><div class="included__text"><strong>Deployment config</strong> — Vercel-ready with environment variables, middleware, and production optimizations</div></div>
+<section class="section container">
+  <p class="section__label">What's Included</p>
+  <h2 class="section__heading">Complete platform.</h2>
+
+  <div class="included-list">
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>Full source code</strong> — 81,000+ lines of production TypeScript across 71 components and 99 API routes. Clean, documented, and deployment-ready.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>Live Stripe billing</strong> — Two-tier subscription system with checkout flow, customer portal, and complete webhook handling for subscription lifecycle events.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>5 AI prompt systems</strong> — Custom-engineered prompts for lesson plans, week planning, newsletters, runsheets, and reflection coaching. K-5 specific, not generic education content.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>12-section Emergency Toolkit</strong> — The most comprehensive emergency resource system built for K-5. Sub plans, safety protocols, SEL, behavior management, and more.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>Document export pipeline</strong> — PDF and DOCX generation for lesson plans, runsheets, name labels, curriculum documents, and newsletters.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>Standards library with semantic search</strong> — OpenAI Embeddings-powered search across Common Core ELA, Math, NGSS, and Social Studies frameworks with alignment tracking.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>SEO blog</strong> — 3 published articles with dynamic routing, sitemap.xml, and robots.txt. Organic traffic foundation already in place.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>Legal pages</strong> — Privacy policy, terms of service, refund policy, FAQ, and contact page. All production-complete.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>Production monitoring</strong> — Sentry error tracking with source maps, Vercel Analytics, and per-user API usage logging for cost management.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>Onboarding flow</strong> — Guided setup for new teachers including profile, grade level selection, subject preferences, and platform orientation.</span>
+    </div>
+    <div class="included-item">
+      <span class="included-item__check">✓</span>
+      <span><strong>Deployment config</strong> — Vercel-ready with full environment variable documentation, middleware setup, and production build optimizations.</span>
     </div>
   </div>
 </section>
 
+<hr class="divider">
+
 <!-- CTA -->
-<section class="cta">
-  <div class="cta__inner">
-    <div class="section-label reveal" style="text-align:center;">Acquisition</div>
-    <div class="section-title reveal reveal-d1" style="text-align:center;">Get <em>My Teachers Toolbox</em></div>
-    <div class="cta__cards">
-      <div class="cta-card reveal reveal-d2">
-        <div class="cta-card__label">Estimated Build Value</div>
-        <div class="cta-card__value">$120K+</div>
-        <div class="cta-card__desc">81,000+ lines of production code. 99 API routes. 12-section emergency toolkit. 5 AI systems. Live Stripe billing. Blog, legal pages, monitoring, and full deployment infrastructure.</div>
-      </div>
-      <div class="cta-card cta-card--featured reveal reveal-d3">
-        <div class="cta-card__label">Acquire the Application</div>
-        <div class="cta-card__value">Let's Talk</div>
-        <div class="cta-card__desc">A live, production K-5 education platform with a real user base and a direct distribution channel to working teachers. Skip the build — launch immediately.</div>
-        <a href="https://www.allencodeco.com" class="cta-card__btn">Contact Allen Code Co →</a>
-      </div>
-    </div>
-  </div>
+<section class="cta-section container">
+  <h2 class="cta__heading">Built for teachers.<br>Ready for scale.</h2>
+  <p class="cta__body">
+    My Teachers Toolbox is available for acquisition. Complete source code, 5 AI systems, 
+    12-section Emergency Toolkit, document export pipeline, Stripe billing, and live production infrastructure — ready to grow.
+  </p>
+  <a href="https://www.allencodeco.com/#contact" class="cta-card__btn">Contact Allen Code Co →</a>
 </section>
+
+<hr class="divider">
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer__brand">Allen Code <span>Co.</span></div>
-  <div class="footer__links">
-    <a href="https://www.myteacherstoolbox.com" class="footer__link">Visit Live Site</a>
-    <a href="products.html" class="footer__link">Products</a>
-    <a href="https://www.allencodeco.com" class="footer__link">Portfolio</a>
-    <a href="https://www.allencodeco.com" class="footer__link">Contact</a>
+  <div class="container">
+    <div class="footer__inner">
+      <span class="footer__brand">© 2025 Allen Code Co — Winchester, Virginia</span>
+      <div class="footer__links">
+        <a href="https://www.myteacherstoolbox.com" class="footer__link">Visit Live Site</a>
+        <a href="products.html" class="footer__link">Products</a>
+        <a href="https://www.allencodeco.com" class="footer__link">Portfolio</a>
+        <a href="https://www.allencodeco.com/#contact" class="footer__link">Contact</a>
+      </div>
+    </div>
   </div>
 </footer>
 
-<script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
 </body>
 </html>
