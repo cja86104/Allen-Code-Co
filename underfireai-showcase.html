@@ -4,13 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UnderFireAI — AI Interview Coaching Platform | Allen Code Co</title>
-<meta name="description" content="AI-powered interview coaching with hidden interviewer personalities, immersive scene generation, salary negotiation training, voice mode, live coding challenges, STAR response analysis, resume vulnerability scanning, and real-time scoring. Train under fire so the real thing feels easy.">
+<meta name="description" content="AI-powered interview coaching with hidden interviewer personalities, voice mode, salary negotiation simulator, live coding challenges, STAR response analysis, resume vulnerability scanning, and real-time scoring. Train under fire so the real thing feels easy.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Light Cream Theme - matches UnderFireAI app exactly */
     --bg-primary: #FAF8F5;
     --bg-card: #FFFFFF;
     --bg-elevated: #FFF7ED;
@@ -32,25 +31,17 @@
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-
   body {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-weight: 500;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
+    background: var(--bg-primary); color: var(--text-primary);
+    font-family: var(--font-body); font-weight: 500;
+    line-height: 1.7; -webkit-font-smoothing: antialiased;
   }
-
   .container { max-width: 1400px; margin: 0 auto; padding: 0 48px; }
 
-  /* ── Navigation ─────────────────────────── */
   .topbar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 24px 0;
-    background: rgba(250, 248, 245, 0.95);
-    backdrop-filter: blur(20px);
-    border-bottom: 2px solid var(--border);
+    padding: 24px 0; background: rgba(250, 248, 245, 0.95);
+    backdrop-filter: blur(20px); border-bottom: 2px solid var(--border);
   }
   .topbar__inner {
     max-width: 1400px; margin: 0 auto; padding: 0 48px;
@@ -62,10 +53,7 @@
   }
   .topbar__brand:hover { color: var(--accent); }
   .topbar__nav { display: flex; align-items: center; gap: 32px; }
-  .topbar__link {
-    font-size: 20px; font-weight: 600; color: var(--text-muted);
-    text-decoration: none;
-  }
+  .topbar__link { font-size: 20px; font-weight: 600; color: var(--text-muted); text-decoration: none; }
   .topbar__link:hover { color: var(--accent); }
   .topbar__tag {
     font-size: 16px; font-weight: 700; color: var(--green);
@@ -73,14 +61,9 @@
     padding: 10px 20px; border-radius: 100px; text-transform: uppercase;
   }
 
-  /* ── Hero ────────────────────────────────── */
-  .hero {
-    padding: 200px 0 120px;
-    position: relative;
-  }
+  .hero { padding: 200px 0 120px; position: relative; }
   .hero::before {
-    content: '';
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
     width: 900px; height: 900px;
     background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
     pointer-events: none;
@@ -90,9 +73,8 @@
     letter-spacing: 4px; text-transform: uppercase; margin-bottom: 40px;
   }
   .hero__title {
-    font-family: var(--font-display);
-    font-size: 160px; font-weight: 400; line-height: 0.95;
-    margin-bottom: 48px;
+    font-family: var(--font-display); font-size: 160px;
+    font-weight: 400; line-height: 0.95; margin-bottom: 48px;
   }
   .hero__title em { font-style: italic; color: var(--accent); }
   .hero__subtitle {
@@ -101,134 +83,80 @@
   }
   .hero__meta { display: flex; flex-wrap: wrap; gap: 64px; }
   .hero__meta-item { display: flex; flex-direction: column; gap: 12px; }
-  .hero__meta-label {
-    font-size: 16px; font-weight: 700; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 2px;
-  }
+  .hero__meta-label { font-size: 16px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
   .hero__meta-value { font-size: 26px; font-weight: 700; color: var(--text-primary); }
 
-  /* ── Divider ─────────────────────────────── */
   .divider { border: none; height: 2px; background: var(--border); margin: 0; }
 
-  /* ── Sections ────────────────────────────── */
   .section { padding: 120px 0; }
-  .section__label {
-    font-size: 20px; font-weight: 700; color: var(--accent);
-    letter-spacing: 4px; text-transform: uppercase; margin-bottom: 32px;
-  }
-  .section__heading {
-    font-family: var(--font-display);
-    font-size: 72px; font-weight: 400; line-height: 1.1; margin-bottom: 40px;
-  }
+  .section__label { font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 32px; }
+  .section__heading { font-family: var(--font-display); font-size: 72px; font-weight: 400; line-height: 1.1; margin-bottom: 40px; }
   .section__body { font-size: 28px; color: var(--text-secondary); line-height: 1.7; max-width: 1000px; }
   .section__body p + p { margin-top: 32px; }
 
-  /* ── Stats Bar ───────────────────────────── */
   .stats-bar {
     display: grid; grid-template-columns: repeat(6, 1fr);
     gap: 2px; background: var(--border); border: 2px solid var(--border);
     border-radius: 24px; overflow: hidden; margin: 80px 0;
   }
   .stat { background: var(--bg-card); padding: 56px 24px; text-align: center; }
-  .stat__number {
-    font-family: var(--font-display); font-size: 80px;
-    color: var(--accent); line-height: 1; margin-bottom: 16px;
-  }
-  .stat__desc {
-    font-size: 22px; font-weight: 700; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 1px;
-  }
+  .stat__number { font-family: var(--font-display); font-size: 80px; color: var(--accent); line-height: 1; margin-bottom: 16px; }
+  .stat__desc { font-size: 22px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-  /* ── Feature Grid ────────────────────────── */
   .feature-grid {
     display: grid; grid-template-columns: repeat(2, 1fr);
     gap: 2px; background: var(--border); border: 2px solid var(--border);
     border-radius: 24px; overflow: hidden; margin-top: 64px;
   }
-  .feature-card {
-    background: var(--bg-card); padding: 56px;
-  }
+  .feature-card { background: var(--bg-card); padding: 56px; }
   .feature-card:hover { background: var(--bg-elevated); }
   .feature-card__icon {
     width: 80px; height: 80px; border-radius: 20px;
     display: flex; align-items: center; justify-content: center;
     font-size: 40px; margin-bottom: 32px; border: 2px solid var(--border);
   }
-  .feature-card__icon--interview { background: rgba(249,115,22,0.1); }
-  .feature-card__icon--scene { background: rgba(99,102,241,0.1); }
-  .feature-card__icon--voice { background: rgba(8,145,178,0.1); }
-  .feature-card__icon--scoring { background: rgba(22,163,74,0.1); }
-  .feature-card__icon--resume { background: rgba(147,51,234,0.1); }
-  .feature-card__icon--negotiate { background: rgba(37,99,235,0.1); }
-  .feature-card__icon--job { background: rgba(13,148,136,0.1); }
-  .feature-card__icon--personality { background: rgba(220,38,38,0.1); }
-  .feature-card__icon--replay { background: rgba(249,115,22,0.1); }
+  .feature-card__icon--fire     { background: rgba(249,115,22,0.1); }
+  .feature-card__icon--voice    { background: rgba(8,145,178,0.1); }
+  .feature-card__icon--code     { background: rgba(99,102,241,0.1); }
+  .feature-card__icon--scoring  { background: rgba(22,163,74,0.1); }
+  .feature-card__icon--negotiate{ background: rgba(37,99,235,0.1); }
+  .feature-card__icon--resume   { background: rgba(147,51,234,0.1); }
+  .feature-card__icon--job      { background: rgba(13,148,136,0.1); }
+  .feature-card__icon--builder  { background: rgba(220,38,38,0.1); }
+  .feature-card__icon--replay   { background: rgba(249,115,22,0.1); }
   .feature-card__icon--progress { background: rgba(217,119,6,0.1); }
-  .feature-card__icon--theme { background: rgba(147,51,234,0.1); }
-  .feature-card__name {
-    font-family: var(--font-display); font-size: 40px;
-    margin-bottom: 24px; color: var(--text-primary);
-  }
-  .feature-card__desc {
-    font-size: 22px; color: var(--text-secondary); line-height: 1.7;
-  }
-  .feature-card__desc strong {
-    color: var(--text-primary); font-weight: 700;
-  }
+  .feature-card__icon--webhook  { background: rgba(8,145,178,0.1); }
+  .feature-card__icon--hud      { background: rgba(147,51,234,0.1); }
+  .feature-card__name { font-family: var(--font-display); font-size: 40px; margin-bottom: 24px; color: var(--text-primary); }
+  .feature-card__desc { font-size: 22px; color: var(--text-secondary); line-height: 1.7; }
+  .feature-card__desc strong { color: var(--text-primary); font-weight: 700; }
   .feature-card__tags {
-    margin-top: 32px; font-size: 18px; font-weight: 600;
-    color: var(--text-muted); line-height: 2;
-    padding-top: 24px; border-top: 2px solid var(--border);
+    margin-top: 32px; font-size: 18px; font-weight: 600; color: var(--text-muted);
+    line-height: 2; padding-top: 24px; border-top: 2px solid var(--border);
   }
-  .feature-card__badge {
-    display: inline-block; font-size: 16px; font-weight: 700;
-    padding: 8px 16px; border-radius: 10px; margin-bottom: 20px;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .feature-card__badge--premium { background: rgba(217,119,6,0.15); color: var(--amber); }
-  .feature-card__badge--pro { background: rgba(147,51,234,0.15); color: var(--purple); }
 
-  /* ── Archetype Grid ──────────────────────── */
   .archetype-grid {
     display: grid; grid-template-columns: repeat(2, 1fr);
     gap: 2px; background: var(--border); border: 2px solid var(--border);
     border-radius: 24px; overflow: hidden; margin-top: 64px;
   }
-  .archetype-card {
-    background: var(--bg-card); padding: 56px;
-  }
+  .archetype-card { background: var(--bg-card); padding: 56px; }
   .archetype-card:hover { background: var(--bg-elevated); }
-  .archetype-card__name {
-    font-family: var(--font-display); font-size: 40px;
-    margin-bottom: 16px; color: var(--text-primary);
-  }
-  .archetype-card__quote {
-    font-style: italic; font-size: 26px; color: var(--accent);
-    margin-bottom: 24px; line-height: 1.4;
-  }
-  .archetype-card__desc {
-    font-size: 24px; color: var(--text-secondary); line-height: 1.6;
-  }
-  .archetype-card__traits {
-    margin-top: 28px; font-size: 18px; font-weight: 600;
-    color: var(--text-muted); line-height: 2;
-  }
+  .archetype-card__name { font-family: var(--font-display); font-size: 40px; margin-bottom: 16px; color: var(--text-primary); }
+  .archetype-card__quote { font-style: italic; font-size: 26px; color: var(--accent); margin-bottom: 24px; line-height: 1.4; }
+  .archetype-card__desc { font-size: 24px; color: var(--text-secondary); line-height: 1.6; }
+  .archetype-card__traits { margin-top: 28px; font-size: 18px; font-weight: 600; color: var(--text-muted); line-height: 2; }
 
-  /* ── Architecture Grid ───────────────────── */
   .arch-grid {
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 2px; background: var(--border); border: 2px solid var(--border);
     border-radius: 24px; overflow: hidden; margin-top: 64px;
   }
   .arch-cell { background: var(--bg-card); padding: 56px; }
-  .arch-cell__label {
-    font-size: 18px; font-weight: 700; color: var(--accent);
-    text-transform: uppercase; letter-spacing: 3px; margin-bottom: 24px;
-  }
+  .arch-cell__label { font-size: 18px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 24px; }
   .arch-cell__content { font-size: 24px; color: var(--text-secondary); line-height: 1.7; }
   .arch-cell__content strong { color: var(--text-primary); font-weight: 700; }
 
-  /* ── Tech Stack Ribbon ───────────────────── */
   .tech-ribbon { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 56px; }
   .tech-tag {
     font-size: 20px; font-weight: 600; color: var(--text-secondary);
@@ -237,21 +165,16 @@
   }
   .tech-tag:hover { color: var(--accent); border-color: var(--accent); }
 
-  /* ── Scoring Section ─────────────────────── */
   .scoring-grid {
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 2px; background: var(--border); border: 2px solid var(--border);
     border-radius: 24px; overflow: hidden; margin-top: 64px;
   }
   .scoring-cell { background: var(--bg-card); padding: 56px; }
-  .scoring-cell__label {
-    font-size: 18px; font-weight: 700; color: var(--accent);
-    text-transform: uppercase; letter-spacing: 3px; margin-bottom: 24px;
-  }
+  .scoring-cell__label { font-size: 18px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 24px; }
   .scoring-cell__content { font-size: 24px; color: var(--text-secondary); line-height: 1.7; }
   .scoring-cell__content strong { color: var(--text-primary); font-weight: 700; }
 
-  /* ── Pricing Grid ────────────────────────── */
   .pricing-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 2px; background: var(--border); border: 2px solid var(--border);
@@ -259,21 +182,16 @@
   }
   .pricing-card { background: var(--bg-card); padding: 56px; }
   .pricing-card--featured { border-top: 6px solid var(--accent); }
-  .pricing-card__tier {
-    font-size: 18px; font-weight: 700; color: var(--accent);
-    text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px;
-  }
-  .pricing-card__price {
-    font-family: var(--font-display); font-size: 72px; margin-bottom: 12px;
-  }
+  .pricing-card__tier { font-size: 18px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 16px; }
+  .pricing-card__name { font-family: var(--font-display); font-size: 48px; margin-bottom: 8px; }
+  .pricing-card__desc { font-size: 20px; color: var(--text-muted); margin-bottom: 32px; }
+  .pricing-card__price { font-family: var(--font-display); font-size: 80px; margin-bottom: 4px; line-height: 1; }
   .pricing-card__price span { font-family: var(--font-body); font-size: 26px; color: var(--text-muted); }
-  .pricing-card__features {
-    margin-top: 40px; font-size: 24px; color: var(--text-secondary); line-height: 2.2;
-  }
+  .pricing-card__per { font-size: 20px; font-weight: 700; color: var(--text-muted); margin-bottom: 40px; }
+  .pricing-card__per--green { color: var(--green); }
+  .pricing-card__features { font-size: 22px; color: var(--text-secondary); line-height: 2.2; }
   .pricing-card__features .check { color: var(--green); margin-right: 16px; font-weight: 700; }
-  .pricing-card__features .x { color: var(--text-muted); margin-right: 16px; opacity: 0.4; }
 
-  /* ── Security Grid ──────────────────────── */
   .security-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 2px; background: var(--border); border: 2px solid var(--border);
@@ -284,42 +202,30 @@
   .security-item__title { font-weight: 700; font-size: 28px; margin-bottom: 16px; }
   .security-item__desc { font-size: 22px; color: var(--text-secondary); line-height: 1.6; }
 
-  /* ── CTA Section ────────────────────────── */
-  .cta-section {
-    padding: 160px 0; text-align: center; position: relative;
-  }
+  .cta-section { padding: 160px 0; text-align: center; position: relative; }
   .cta-section::before {
     content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
     width: 800px; height: 800px;
     background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
     pointer-events: none;
   }
-  .cta__heading {
-    font-family: var(--font-display); font-size: 96px;
-    line-height: 1.05; margin-bottom: 40px; position: relative;
-  }
-  .cta__body {
-    font-size: 32px; color: var(--text-secondary); max-width: 800px;
-    margin: 0 auto 64px; line-height: 1.6; position: relative;
-  }
+  .cta__heading { font-family: var(--font-display); font-size: 96px; line-height: 1.05; margin-bottom: 40px; position: relative; }
+  .cta__body { font-size: 32px; color: var(--text-secondary); max-width: 800px; margin: 0 auto 64px; line-height: 1.6; position: relative; }
   .cta-card__btn {
     display: inline-block; padding: 28px 64px; background: var(--accent);
     color: #fff; font-weight: 700; font-size: 28px; border-radius: 20px;
     text-decoration: none; position: relative;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
   }
-  .cta-card__btn:hover { background: var(--accent-hover); transform: translateY(-4px); box-shadow: 0 24px 48px rgba(249, 115, 22, 0.3); }
+  .cta-card__btn:hover { background: var(--accent-hover); transform: translateY(-4px); box-shadow: 0 24px 48px rgba(249,115,22,0.3); }
 
-  /* ── Footer ──────────────────────────────── */
   .footer { padding: 80px 0; border-top: 2px solid var(--border); }
-  .footer__inner {
-    display: flex; justify-content: space-between; align-items: center;
-  }
+  .footer__inner { display: flex; justify-content: space-between; align-items: center; }
   .footer__brand { font-size: 20px; color: var(--text-muted); }
   .footer__links { display: flex; gap: 48px; }
   .footer__link { font-size: 22px; color: var(--text-muted); text-decoration: none; }
   .footer__link:hover { color: var(--accent); }
 
-  /* ── Responsive ──────────────────────────── */
   @media (max-width: 1200px) {
     .hero__title { font-size: 100px; }
     .stats-bar { grid-template-columns: repeat(3, 1fr); }
@@ -337,7 +243,6 @@
 </head>
 <body>
 
-<!-- TOP BAR -->
 <nav class="topbar">
   <div class="topbar__inner">
     <a href="https://www.allencodeco.com" class="topbar__brand">Allen Code Co</a>
@@ -348,14 +253,14 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="container">
     <p class="hero__eyebrow">AI-Powered Interview Coaching</p>
     <h1 class="hero__title">Under<br><em>Fire AI</em></h1>
     <p class="hero__subtitle">
-      Train under fire so the real thing feels easy. AI interviewers with hidden personalities, 
-      immersive scene generation, salary negotiation training, voice mode, live coding challenges, and real-time scoring.
+      Train under fire so the real thing feels easy. AI interviewers with hidden personalities,
+      voice mode, salary negotiation training, live coding challenges, resume vulnerability scanning, and real-time STAR scoring.
+      Credit-based pricing — no subscriptions, every feature unlocked from day one.
     </p>
     <div class="hero__meta">
       <div class="hero__meta-item">
@@ -370,219 +275,187 @@
         <span class="hero__meta-label">Domain</span>
         <span class="hero__meta-value">underfireai.com</span>
       </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Pricing</span>
+        <span class="hero__meta-value">Credit packs — from $25 one-time</span>
+      </div>
     </div>
   </div>
 </section>
 
 <hr class="divider">
 
-<!-- STATS -->
 <div class="container">
   <div class="stats-bar">
-    <div class="stat">
-      <div class="stat__number">95+</div>
-      <div class="stat__desc">Source Files</div>
-    </div>
-    <div class="stat">
-      <div class="stat__number">18K+</div>
-      <div class="stat__desc">Lines of Code</div>
-    </div>
-    <div class="stat">
-      <div class="stat__number">8</div>
-      <div class="stat__desc">Archetypes</div>
-    </div>
-    <div class="stat">
-      <div class="stat__number">12</div>
-      <div class="stat__desc">DB Tables</div>
-    </div>
-    <div class="stat">
-      <div class="stat__number">15+</div>
-      <div class="stat__desc">API Routes</div>
-    </div>
-    <div class="stat">
-      <div class="stat__number">2</div>
-      <div class="stat__desc">Themes</div>
-    </div>
+    <div class="stat"><div class="stat__number">239</div><div class="stat__desc">Source Files</div></div>
+    <div class="stat"><div class="stat__number">47K+</div><div class="stat__desc">Lines of Code</div></div>
+    <div class="stat"><div class="stat__number">8</div><div class="stat__desc">Archetypes</div></div>
+    <div class="stat"><div class="stat__number">17</div><div class="stat__desc">DB Tables</div></div>
+    <div class="stat"><div class="stat__number">37</div><div class="stat__desc">API Routes</div></div>
+    <div class="stat"><div class="stat__number">6</div><div class="stat__desc">Interview Types</div></div>
   </div>
 </div>
 
-<!-- OVERVIEW -->
 <section class="section container">
   <p class="section__label">Overview</p>
   <h2 class="section__heading">The interview you can't prepare a script for.</h2>
   <div class="section__body">
     <p>
-      UnderFireAI is an AI-powered interview coaching platform built on a single insight: real interviews are unpredictable. Traditional prep gives you questions to rehearse. UnderFireAI gives you an AI interviewer with a hidden personality — and makes you adapt in real time.
+      UnderFireAI is an AI-powered interview coaching platform built on a single insight: real interviews are unpredictable. Traditional prep gives you questions to rehearse. UnderFireAI gives you an AI interviewer with a hidden personality — and makes you discover and adapt to it in real time, exactly as you would with a real person across the table.
     </p>
     <p>
-      Beyond mock interviews, the platform includes salary negotiation training, resume vulnerability scanning, job description analysis, and comprehensive progress tracking. The UI features a polished light/dark theme system. This is production-grade software, not a prototype.
+      Beyond mock interviews, the platform includes a full salary negotiation simulator, resume vulnerability scanning, job description gap analysis, live code execution in 7 languages, deep progress tracking, and a 3D HUD overlay built with React Three Fiber. Pricing is credit-based — one-time packs, every feature unlocked with every purchase, no subscriptions, no tiers. Production-deployed and ready to monetize immediately.
     </p>
   </div>
 </section>
 
 <hr class="divider">
 
-<!-- ARCHETYPES -->
 <section class="section container">
   <p class="section__label">The Secret Sauce</p>
   <h2 class="section__heading">Eight hidden archetypes.</h2>
   <div class="section__body">
     <p>
-      Each interviewer has distinct behavioral patterns, red flags that trigger skepticism, and green flags that earn respect. Premium users can blend archetypes together.
+      Each interviewer runs on six independent personality trait scores — directness, depth preference, warmth, patience, technical focus, and skepticism — all 0–100. Mood evolves in real time on a −100 to +100 scale across 14 tracked triggers. The personality is hidden during the session and only revealed in the post-session analysis.
     </p>
   </div>
 
   <div class="archetype-grid">
     <div class="archetype-card">
       <h3 class="archetype-card__name">The Skeptic</h3>
-      <p class="archetype-card__quote">"Can you give me a specific example?"</p>
-      <p class="archetype-card__desc">Doubts everything. Wants proof, metrics, and specifics. Impressed by concrete data.</p>
-      <p class="archetype-card__traits">red flags: vague answers · green flags: data, specifics</p>
+      <p class="archetype-card__quote">"Can you give me a specific example? With numbers?"</p>
+      <p class="archetype-card__desc">Skepticism: 90/100. Doubts everything, demands proof. Will challenge every claim you make — and every claim you can't back up.</p>
+      <p class="archetype-card__traits">red flags: vague answers, buzzwords, unverifiable claims · green flags: data, concrete outcomes · difficulty: +1</p>
     </div>
     <div class="archetype-card">
       <h3 class="archetype-card__name">The Griller</h3>
-      <p class="archetype-card__quote">"Let's go deeper on that..."</p>
-      <p class="archetype-card__desc">Deep technical dives. Surface knowledge gets exposed fast. Loves intellectual honesty.</p>
-      <p class="archetype-card__traits">red flags: bluffing · green flags: depth, honesty</p>
+      <p class="archetype-card__quote">"Let's go five levels deeper on that."</p>
+      <p class="archetype-card__desc">Depth preference: 95/100. Follow-up tendency: 95%. Goes deep on every topic. Surface knowledge gets exposed immediately.</p>
+      <p class="archetype-card__traits">red flags: bluffing, memorized answers · green flags: depth, honest gaps · difficulty: +2</p>
     </div>
     <div class="archetype-card">
       <h3 class="archetype-card__name">The Friendly</h3>
-      <p class="archetype-card__quote">"That's great! What was the hardest part?"</p>
-      <p class="archetype-card__desc">Warm and supportive — until they aren't. Hard questions when your guard is down.</p>
-      <p class="archetype-card__traits">red flags: arrogance · green flags: humility</p>
+      <p class="archetype-card__quote">"That's great! Tell me about the hardest part."</p>
+      <p class="archetype-card__desc">Warmth: 90/100. Warm and supportive — then throws curveballs when your guard is down. 50% curveball frequency.</p>
+      <p class="archetype-card__traits">red flags: arrogance, taking all credit · green flags: humility, team focus · difficulty: −1</p>
     </div>
     <div class="archetype-card">
       <h3 class="archetype-card__name">The Silent Judge</h3>
       <p class="archetype-card__quote">"Mm-hm. Continue."</p>
-      <p class="archetype-card__desc">Minimal feedback. Short responses. Poker face. Tests self-directed confidence.</p>
-      <p class="archetype-card__traits">red flags: need validation · green flags: confidence</p>
+      <p class="archetype-card__desc">Verbosity: 20/100. Zero feedback, zero reassurance. Poker face the entire time. Tests whether you can drive without validation.</p>
+      <p class="archetype-card__traits">red flags: need for approval, rambling · green flags: confidence, structure · difficulty: +1</p>
     </div>
     <div class="archetype-card">
       <h3 class="archetype-card__name">The Rapid Fire</h3>
-      <p class="archetype-card__quote">"Good. Next — you have 30 seconds."</p>
-      <p class="archetype-card__desc">Fast-paced, time pressure, interruptions. Rewards concise, structured answers.</p>
-      <p class="archetype-card__traits">red flags: long-winded · green flags: concise</p>
+      <p class="archetype-card__quote">"Good. Next — 30 seconds."</p>
+      <p class="archetype-card__desc">Patience: 20/100. Curveball frequency: 70%. Fast-paced, may interrupt. Punishes long-winded answers and rewards crisp delivery.</p>
+      <p class="archetype-card__traits">red flags: rambling, slow thinking · green flags: concise, prioritized · difficulty: +1</p>
     </div>
     <div class="archetype-card">
       <h3 class="archetype-card__name">The Culture Fit</h3>
-      <p class="archetype-card__quote">"Tell me about a team disagreement..."</p>
-      <p class="archetype-card__desc">Obsessed with team dynamics, collaboration, conflict resolution.</p>
-      <p class="archetype-card__traits">red flags: blame-shifting · green flags: collaboration</p>
+      <p class="archetype-card__quote">"Tell me about a time your team disagreed."</p>
+      <p class="archetype-card__desc">Warmth: 70/100. Obsessed with team dynamics, collaboration, and conflict resolution. Follow-up tendency: 70%.</p>
+      <p class="archetype-card__traits">red flags: blame-shifting, lone wolf · green flags: collaboration stories, humility · difficulty: ±0</p>
     </div>
     <div class="archetype-card">
-      <h3 class="archetype-card__name">The Tech Expert</h3>
-      <p class="archetype-card__quote">"Walk me through the time complexity."</p>
-      <p class="archetype-card__desc">Tests technical depth relentlessly. Probes architecture decisions and trade-offs.</p>
-      <p class="archetype-card__traits">red flags: hand-waving · green flags: reasoning</p>
+      <h3 class="archetype-card__name">The Technical Expert</h3>
+      <p class="archetype-card__quote">"Walk me through the time and space complexity."</p>
+      <p class="archetype-card__desc">Technical focus: 100/100. Depth preference: 90/100. Tests architecture decisions, trade-offs, and current best practices without mercy.</p>
+      <p class="archetype-card__traits">red flags: buzzword soup, overconfidence · green flags: nuanced reasoning · difficulty: +2</p>
     </div>
     <div class="archetype-card">
       <h3 class="archetype-card__name">The Executive</h3>
-      <p class="archetype-card__quote">"How does this align strategically?"</p>
-      <p class="archetype-card__desc">Big picture thinking. Strategy over tactics. Tests business acumen.</p>
-      <p class="archetype-card__traits">red flags: narrow focus · green flags: vision</p>
+      <p class="archetype-card__quote">"How does this align with the broader strategy?"</p>
+      <p class="archetype-card__desc">Formality: 80/100. Big picture over tactics. Cares about business impact, leadership presence, and clear communication of outcomes.</p>
+      <p class="archetype-card__traits">red flags: narrow focus, passive attitude · green flags: vision, strategic clarity · difficulty: +1</p>
     </div>
   </div>
 </section>
 
 <hr class="divider">
 
-<!-- FEATURES -->
 <section class="section container">
   <p class="section__label">Platform Features</p>
   <h2 class="section__heading">Everything a real interview has. Plus the feedback it doesn't.</h2>
 
   <div class="feature-grid">
     <div class="feature-card">
-      <div class="feature-card__icon feature-card__icon--interview">🔥</div>
+      <div class="feature-card__icon feature-card__icon--fire">🔥</div>
       <h3 class="feature-card__name">AI Mock Interviews</h3>
-      <p class="feature-card__desc">Six complete interview types to master every format: <strong>Behavioral</strong> interviews test STAR storytelling. <strong>Technical</strong> interviews probe problem-solving and system design. <strong>Case Study</strong> interviews challenge you with business problems. <strong>HR Screen</strong> covers culture fit and salary expectations. <strong>Panel</strong> interviews simulate multiple interviewers with different agendas — each with their own conviction score that evolves as you answer. <strong>Phone Screen</strong> practices the rapid-fire first impression round. Match company culture: FAANG, startup, consulting, enterprise, agency, or government. Four difficulty levels: Entry, Mid, Senior, and Executive. Configure session length from 15 to 60 minutes. Timer optional with countdown pressure.</p>
-      <p class="feature-card__tags">6 interview types · panel mode with multiple interviewers · company culture matching · 4 difficulty levels · configurable timer</p>
+      <p class="feature-card__desc">Six complete interview types covering every format. <strong>Behavioral</strong> — STAR method, 5–8 questions, 70% follow-up rate. <strong>Technical</strong> — system design, 4–6 questions, 80% follow-up intensity. <strong>Case Study</strong> — business problems, 90% follow-up rate. <strong>HR Screen</strong> — culture fit, 6–10 questions. <strong>Panel</strong> — multiple AI interviewers simultaneously, each with distinct archetype, conviction score, and area of focus that evolves as you answer. <strong>Phone Screen</strong> — rapid-fire first impression rounds. Six company styles with distinct modifiers: FAANG (high formality, +20 technical depth), Startup (−20 formality, +20 pace), Consulting (+30 formality, case focus), Finance, Enterprise, and Government. Difficulty 1–10 with configurable session length.</p>
+      <p class="feature-card__tags">6 interview types · panel multi-interviewer · 6 company styles · difficulty 1–10 · configurable length</p>
     </div>
     <div class="feature-card">
-      <div class="feature-card__icon feature-card__icon--scene">🏢</div>
-      <h3 class="feature-card__name">AI Scene Generation</h3>
-      <p class="feature-card__desc">Every interview starts with an <strong>AI-generated scene</strong> that sets the atmosphere. The system creates a vivid description of your interview room — the furniture, the lighting, the view, the details that make you feel like you're really there. Then it generates a <strong>photorealistic image</strong> of the space using SDXL. Different company styles produce different environments: <strong>FAANG</strong> gives you sleek glass-walled conference rooms with whiteboards and city views. <strong>Startup</strong> puts you in an open office with bean bags and energy drinks. <strong>Consulting</strong> seats you in mahogany boardrooms with leather chairs. <strong>Enterprise</strong> is neutral meeting rooms with corporate art. <strong>Agency</strong> surrounds you with mood boards and design awards. <strong>Government</strong> is fluorescent-lit rooms with flags and security cameras. The scene description includes atmosphere text and specific visual details that appear throughout the session.</p>
-      <p class="feature-card__tags">AI scene descriptions · photorealistic room images · 6 company environments · immersive atmosphere · visual details</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-card__badge feature-card__badge--pro">Pro+</span>
       <div class="feature-card__icon feature-card__icon--voice">🎤</div>
       <h3 class="feature-card__name">Voice Interview Mode</h3>
-      <p class="feature-card__desc">Real interviews happen out loud — text practice only gets you so far. Voice mode lets you <strong>speak your answers naturally</strong> while the AI interviewer responds with realistic synthesized speech. Practice verbal delivery, pacing, filler word elimination, and thinking on your feet. The system transcribes your responses in real time so you can review exactly what you said. Choose from <strong>multiple interviewer voices</strong> — male and female options with different personalities (professional, dynamic, warm, authoritative). Voice mode exposes the gap between knowing an answer and delivering it confidently under pressure.</p>
-      <p class="feature-card__tags">realistic voice synthesis · real-time transcription · 6 voice options · verbal delivery coaching · autoplay option</p>
+      <p class="feature-card__desc">Speak naturally and the AI interviewer responds via <strong>Cartesia Sonic 3</strong> — 40ms time-to-first-audio, streaming delivery. Six selectable AI voices matched to interviewer personality: <strong>Kiefer</strong> (professional, direct — suggested for Skeptic, Griller), <strong>Kyle</strong> (dynamic, energetic — Rapid Fire), <strong>Leo</strong> (deep, authoritative — Executive, Technical Expert), <strong>Katie</strong> (professional, clear — Silent Judge), <strong>Tessa</strong> (warm, engaging — Culture Fit, Friendly), <strong>Maya</strong> (friendly, approachable — Friendly, Culture Fit). Reads answers are easy. Delivering them confidently out loud under pressure is the skill that actually closes offers.</p>
+      <p class="feature-card__tags">Cartesia Sonic 3 TTS · 6 AI voices · 40ms latency · streaming · personality-matched voice suggestions</p>
     </div>
     <div class="feature-card">
-      <span class="feature-card__badge feature-card__badge--pro">Pro+</span>
-      <div class="feature-card__icon feature-card__icon--replay">⏪</div>
-      <h3 class="feature-card__name">Full Interview Replay</h3>
-      <p class="feature-card__desc">Every interview session is recorded and available for detailed playback analysis. <strong>Playback controls</strong> let you play/pause, skip forward/back, jump to start/end, and adjust speed (0.5x, 1x, 1.5x, 2x). <strong>Visual timeline</strong> shows your entire session with markers for strong moments, weak moments, and turning points. <strong>Stats bar</strong> displays average scores across all dimensions: STAR, Clarity, Confidence, Relevance, Depth. Click any message to expand full analysis with coaching notes. <strong>For coding interviews</strong>, the replay includes a dedicated code panel showing all submissions with test results, execution time, and AI evaluation. Review exactly what you said, when you said it, and how the interviewer's mood shifted throughout.</p>
-      <p class="feature-card__tags">playback controls · visual timeline · stats bar · message analysis expansion · code submission replay</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-card__badge feature-card__badge--pro">Pro+</span>
       <div class="feature-card__icon feature-card__icon--code">💻</div>
       <h3 class="feature-card__name">Live Coding Interviews</h3>
-      <p class="feature-card__desc">Technical interviews with <strong>real code execution</strong> in a sandboxed environment. Write code in <strong>7 languages</strong>: JavaScript, TypeScript, Python, Java, Go, Rust, and C++. <strong>Syntax-highlighted editor</strong> with the coding challenge description, starter code, and hints panel. Run code against visible test cases to check your work, then submit for full evaluation including hidden tests. Timer tracks your time remaining. <strong>Hints system</strong> — reveal hints if you're stuck (affects score). Challenges cover <strong>14 categories</strong>: arrays, strings, linked lists, trees, graphs, dynamic programming, sorting, searching, stacks, queues, hash tables, recursion, math, and bit manipulation. Submissions evaluated on correctness, efficiency, code quality, and problem-solving approach with time/space complexity analysis.</p>
-      <p class="feature-card__tags">sandboxed execution · 7 languages · 14 challenge categories · hints system · test case runner · complexity analysis</p>
+      <p class="feature-card__desc">Real code execution via <strong>Judge0</strong> sandboxed environment. Seven languages: JavaScript, TypeScript, Python, Java, Go, Rust, and C++. Syntax-highlighted editor with challenge description, starter code, and optional hints. Run against visible test cases, then submit for evaluation against full hidden test suite. Timer counts down. Hints system tracks usage and factors into score. Submissions evaluated on Correctness, Efficiency (time/space complexity), Code Quality, and Problem Solving approach. <strong>Code replay panel</strong> after session shows every submission, test results, execution time, and AI evaluation alongside the message transcript.</p>
+      <p class="feature-card__tags">Judge0 sandboxed execution · 7 languages · visible + hidden tests · hints system · complexity analysis · code replay</p>
     </div>
     <div class="feature-card">
       <div class="feature-card__icon feature-card__icon--scoring">📊</div>
-      <h3 class="feature-card__name">Real-Time Scoring & Coaching</h3>
-      <p class="feature-card__desc">Every response analyzed across five dimensions: <strong>STAR</strong> (story structure), <strong>Clarity</strong> (organization), <strong>Confidence</strong> (language strength), <strong>Relevance</strong> (question answered), and <strong>Depth</strong> (detail level). <strong>Filler Word Report</strong> with exact counts — shows how many times you said "um", "like", "basically", etc., and explains how to fix it. <strong>Coaching notes</strong> on each response with specific feedback. <strong>Key Moments</strong> identified: strong moments that impressed, weak moments that cost points, turning points where the interview shifted. Session scorecard includes AI-generated <strong>interviewer impression</strong> — how the hidden personality actually felt about you.</p>
-      <p class="feature-card__tags">5 scoring dimensions · filler word report · per-response coaching · key moments · interviewer impression</p>
+      <h3 class="feature-card__name">Real-Time STAR Scoring</h3>
+      <p class="feature-card__desc">Every response analyzed across six dimensions with <strong>type-specific weighting</strong>. Behavioral interviews weight STAR at 25%. Technical interviews weight Depth at 35% and drop STAR to 5%. Case Study drops STAR to 0% entirely. HR weights Confidence and Communication highest. <strong>Filler word detection</strong> counts exact instances per response. Response time and word count tracked. Per-response coaching notes are specific and actionable — not generic advice. Session scorecard: overall score, five category breakdowns, Strengths, Improvements, Key Moments, and an <strong>AI-generated Interviewer Impression</strong> written from the hidden personality's actual point of view.</p>
+      <p class="feature-card__tags">6 dimensions · type-weighted scoring · filler word counts · coaching notes per response · interviewer impression</p>
     </div>
     <div class="feature-card">
-      <span class="feature-card__badge feature-card__badge--premium">Premium</span>
       <div class="feature-card__icon feature-card__icon--negotiate">💰</div>
-      <h3 class="feature-card__name">Salary Negotiation Prep</h3>
-      <p class="feature-card__desc">Most candidates leave money on the table because they've never practiced negotiating. Enter your <strong>current offer</strong> and <strong>target salary</strong>, then negotiate against a realistic AI recruiter who pushes back, makes counteroffers, and tests your resolve. The recruiter won't volunteer extra budget — you have to earn it through confident asks, smart framing, and strategic leverage. Scored on four dimensions: <strong>Confidence</strong> (delivery strength), <strong>Framing</strong> (value proposition), <strong>Strategy</strong> (leverage use), and <strong>Composure</strong> (pressure handling). At the end, AI generates a <strong>simulated final offer</strong> showing exactly how much your negotiation skills are worth — the gap between what you got and what you left on the table.</p>
-      <p class="feature-card__tags">realistic recruiter ai · 4 scoring dimensions · simulated final offer · tactics feedback · counter-offer handling</p>
+      <h3 class="feature-card__name">Salary Negotiation Simulator</h3>
+      <p class="feature-card__desc">A fully separate module — dedicated session management, its own API routes (<code>/api/negotiate/</code>), and independent scoring pipeline. Enter your offer and target, then negotiate against an AI recruiter who <strong>pushes back hard</strong> and makes counter-offers. The recruiter won't volunteer extra budget — you have to earn it. Scored on four dimensions: <strong>Confidence</strong> (strength of your asks), <strong>Framing</strong> (value positioning), <strong>Strategy</strong> (leverage and timing), and <strong>Composure</strong> (handling pressure). AI generates a <strong>Simulated Final Offer</strong> — a concrete figure showing exactly what your technique closed and what you left on the table. Full session history and replay included.</p>
+      <p class="feature-card__tags">dedicated session module · realistic AI recruiter · 4 scoring dimensions · simulated final offer · replay</p>
     </div>
     <div class="feature-card">
-      <span class="feature-card__badge feature-card__badge--premium">Premium</span>
       <div class="feature-card__icon feature-card__icon--resume">📄</div>
       <h3 class="feature-card__name">Resume Vulnerability Scanner</h3>
-      <p class="feature-card__desc">Upload your resume for AI analysis by a simulated "skeptical senior interviewer." The scanner identifies <strong>8 vulnerability categories</strong>: vague metrics ("improved performance" without numbers), buzzword stacking, unverifiable claims, timeline gaps, scope overstatement ("led" vs "participated"), missing context (no team size/budget), technical depth concerns, and leadership claims without specifics. For each vulnerability, you get the <strong>exact probing questions</strong> an interviewer would ask (including follow-ups), a severity rating (high/medium/low), and <strong>actual rewritten resume text</strong> you can copy-paste — not vague advice like "add metrics" but specific replacement language with placeholders. Premium users can run interviews targeting these exact vulnerabilities.</p>
-      <p class="feature-card__tags">8 vulnerability categories · exact probing questions · copy-paste resume fixes · targeted practice integration</p>
+      <p class="feature-card__desc">Upload your resume for analysis from a simulated skeptical senior interviewer. Produces an <strong>overall health score</strong> with full breakdown, then identifies specific vulnerabilities: vague metrics without numbers, buzzword stacking, unverifiable claims, employment gaps, scope overstatement, missing context (team size, budget), and technical depth concerns. For every vulnerability you get the <strong>exact probing questions</strong> an interviewer would ask — including follow-ups — severity (high/medium/low), and <strong>copy-paste rewritten resume text</strong>. Not advice like "add metrics." Actual replacement language. Resume context is injected into every interview session so the AI targets your real weak spots automatically.</p>
+      <p class="feature-card__tags">health score · vulnerability categories · exact probing questions · copy-paste fixes · session context injection</p>
     </div>
     <div class="feature-card">
       <div class="feature-card__icon feature-card__icon--job">🎯</div>
-      <h3 class="feature-card__name">Job Analysis & Targeting</h3>
-      <p class="feature-card__desc">Paste any job description and get instant AI analysis. <strong>Match Percentage</strong> against your resume — broken down by must-have vs. nice-to-have qualifications. <strong>Skill Gap Analysis</strong> identifies where your resume falls short and highlights qualifications you exceed. <strong>Requirements Breakdown</strong> organized by technical skills, soft skills, experience level, and industry knowledge. Save jobs to your profile and return later. Premium users can run interview sessions <strong>specifically targeting their weak spots</strong> for each saved job — the AI interviewer will probe exactly the gaps you need to address. <strong>Generate Practice Questions</strong> based on the job's specific requirements.</p>
-      <p class="feature-card__tags">match percentage · skill gap analysis · requirements breakdown · saved jobs · targeted practice generation</p>
+      <h3 class="feature-card__name">Job Description Analysis</h3>
+      <p class="feature-card__desc">Paste any job description and get instant AI gap analysis. <strong>Skill gap breakdown</strong> between JD requirements and your resume — must-have vs. nice-to-have. Match percentage with coverage by technical skills, soft skills, experience level, and industry knowledge. Save JDs to profile. <strong>Generate practice questions</strong> specific to the job's requirements and your identified gaps. Run interview sessions that specifically target where you're exposed for the role — <strong>resume alignment context injected automatically</strong> so the AI probes the exact questions you need to be ready for.</p>
+      <p class="feature-card__tags">skill gap analysis · match percentage · saved jobs · targeted practice generation · auto-injected session context</p>
     </div>
     <div class="feature-card">
-      <span class="feature-card__badge feature-card__badge--premium">Premium</span>
-      <div class="feature-card__icon feature-card__icon--personality">🎭</div>
+      <div class="feature-card__icon feature-card__icon--builder">🎭</div>
       <h3 class="feature-card__name">Custom Interviewer Builder</h3>
-      <p class="feature-card__desc">Build your own AI interviewer from scratch or customize existing archetypes. <strong>Blend up to two archetypes</strong> — combine The Skeptic with The Griller for relentless technical probing, or mix The Friendly with The Silent Judge for psychological whiplash. Add <strong>behavioral constraints</strong>: "compensation pushback", "heavy follow-ups", "time pressure", "requires specific examples", "technical deep-dives". Override individual <strong>personality traits with sliders</strong> — crank skepticism to 100, drop warmth to zero, maximize technical focus. Save custom interviewers to your library. For panel interviews, select <strong>preset panels</strong>: Engineering Loop (Hiring Manager, Tech Lead, Senior Engineer), Cross-Functional (EM, PM, Designer), Exec Panel (VP Eng, CTO, HR), or Startup Founders (CEO, CTO).</p>
-      <p class="feature-card__tags">archetype blending · behavioral constraints · trait sliders · custom library · panel presets</p>
+      <p class="feature-card__desc">Build AI interviewers from scratch. <strong>Blend two archetypes</strong> with configurable mix ratios. Override all six <strong>personality trait sliders</strong> independently — directness, depth preference, warmth, patience, technical focus, skepticism — all 0–100. Set custom red flags, green flags, pet peeves, and favorite topics. Add <strong>behavioral constraints</strong>: heavy follow-ups, time pressure, compensation pushback, requires specific examples. Choose voice. Save to library and reuse. For panel interviews, select <strong>preset panel configurations</strong> (Engineering Loop, Cross-Functional, Exec Panel, Startup Founders) or build a fully custom panel with individually configured interviewers each with their own archetype and area of focus.</p>
+      <p class="feature-card__tags">archetype blending with ratios · 6 trait sliders · behavioral constraints · panel presets · saved library</p>
     </div>
     <div class="feature-card">
-      <span class="feature-card__badge feature-card__badge--premium">Premium</span>
-      <div class="feature-card__icon feature-card__icon--webhook">🔗</div>
-      <h3 class="feature-card__name">Webhook API Integration</h3>
-      <p class="feature-card__desc">Connect UnderFireAI to your existing tools with <strong>outbound webhooks</strong>. Receive real-time notifications when interview sessions complete — including full session data, all scores, feedback, strengths, improvements, and interviewer impression. <strong>HMAC-SHA256 signature</strong> verification for security. <strong>Exponential backoff retry</strong> (up to 3 attempts) for reliable delivery. Configure multiple webhooks per account, each listening to specific events. <strong>Test webhook delivery</strong> directly from the UI before going live. Use webhooks to integrate with Notion, Slack, Airtable, or your own analytics pipeline. Perfect for teams tracking candidate progress or building custom dashboards.</p>
-      <p class="feature-card__tags">session.completed events · HMAC signature · retry with backoff · delivery logging · test from UI</p>
+      <div class="feature-card__icon feature-card__icon--replay">⏪</div>
+      <h3 class="feature-card__name">Full Interview Replay</h3>
+      <p class="feature-card__desc">Every session recorded and available for detailed playback. <strong>Playback controls</strong> with play/pause, skip, jump to start/end, and speed (0.5×, 1×, 1.5×, 2×). <strong>Visual timeline</strong> marks strong moments, weak moments, and turning points across the session. Stats bar shows average scores across all six dimensions. Click any message to expand per-response analysis with coaching notes. <strong>Code replay panel</strong> for technical interviews shows every submission with test results, execution time, language, and AI evaluation. <strong>Mood evolution chart</strong> shows exactly when the interviewer warmed up, went cold, or shifted — message by message across the session.</p>
+      <p class="feature-card__tags">playback controls · visual timeline · per-message expansion · code replay panel · mood evolution chart</p>
     </div>
     <div class="feature-card">
       <div class="feature-card__icon feature-card__icon--progress">📈</div>
-      <h3 class="feature-card__name">Progress & Gamification</h3>
-      <p class="feature-card__desc">Interview skills improve with consistent practice — the Progress system keeps you accountable. Track <strong>total sessions completed</strong>, <strong>practice hours logged</strong>, <strong>current streak</strong>, and <strong>longest streak</strong>. View <strong>score trends over time</strong> with Recharts-powered analytics showing whether you're improving or plateauing. Breakdowns by interview type identify which formats need work. <strong>Badge system</strong> gamifies consistency: earn badges for streaks (3-day, 7-day, 30-day), milestones (first session, 10 sessions, 50 sessions), score achievements (first 80+, first 90+), and special accomplishments. Dashboard shows recent sessions, upcoming goals, and performance metrics at a glance.</p>
-      <p class="feature-card__tags">streak tracking · score trends · interview type breakdown · achievement badges · recharts analytics</p>
+      <h3 class="feature-card__name">Progress & Badge System</h3>
+      <p class="feature-card__desc">Track improvement with data. Dashboard shows total sessions, practice hours logged, current streak, and longest streak. <strong>Recharts-powered score trends</strong> show trajectory across all six scoring dimensions over time — improving, plateauing, or regressing. Breakdowns by interview type reveal which formats need work. <strong>Badge system</strong> across four categories: <strong>Milestone</strong> (first interview, 5, 10, 25 sessions), <strong>Performance</strong> (first 80+ score, first 90+), <strong>Streak</strong> (3-day, 7-day, 30-day consistency), and <strong>Special</strong> achievements. Four badge tiers: Bronze, Silver, Gold, Platinum. Badges earned permanently and tied to profile.</p>
+      <p class="feature-card__tags">streak tracking · 6-dimension score trends · type breakdowns · 4 badge categories · 4 tiers · Recharts</p>
     </div>
     <div class="feature-card">
-      <div class="feature-card__icon feature-card__icon--theme">🌓</div>
-      <h3 class="feature-card__name">Light & Dark Themes</h3>
-      <p class="feature-card__desc">Full theme system designed for long practice sessions. <strong>Light mode</strong> features a warm cream background (#FAF8F5) with dark brown text (#3D3229) — easy on the eyes and professional looking. <strong>Dark mode</strong> uses deep slate tones with proper contrast throughout. <strong>System preference detection</strong> automatically matches your OS setting, with manual override available. Every component, every page, every modal, every card — properly themed. No dark-mode-only hardcoding, no light-mode afterthoughts. Text sized for readability throughout. Smooth transitions between modes.</p>
-      <p class="feature-card__tags">system preference detection · manual toggle · warm cream light · deep slate dark · every component themed</p>
+      <div class="feature-card__icon feature-card__icon--webhook">🔗</div>
+      <h3 class="feature-card__name">Webhook API Integration</h3>
+      <p class="feature-card__desc">Connect UnderFireAI to any external tool with outbound webhooks. Receive real-time <strong>session.completed</strong> events with full session data: all scores, coaching feedback, strengths, improvements, and AI interviewer impression. <strong>HMAC-SHA256 signature</strong> verification on every payload. <strong>Exponential backoff retry</strong> up to 3 attempts with full delivery log history. Configure multiple endpoints per account targeting specific events. <strong>Test delivery from the UI</strong> before going live. Pipe results into Notion, Slack, Airtable, or custom analytics dashboards. Full webhook management system: create, update, delete, test — built and deployed.</p>
+      <p class="feature-card__tags">session.completed events · HMAC-SHA256 · retry with backoff · delivery logging · test from UI</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card__icon feature-card__icon--hud">🌐</div>
+      <h3 class="feature-card__name">3D HUD Overlay</h3>
+      <p class="feature-card__desc">A <strong>React Three Fiber</strong> powered 3D overlay rendered live during interview sessions, built on Three.js r169. Four HUD components: <strong>MetricGauges</strong> (real-time dimension scores as 3D gauges), <strong>StarRing</strong> (STAR method completion visualized as a 3D ring), <strong>HistoryChart</strong> (score history in three-dimensional space), and <strong>MoodIndicator</strong> (interviewer mood rendered dynamically). <strong>WebGL detection</strong> built in — checks at session start, gracefully falls back to the standard 2D layout when unavailable. Feature-flagged via <code>NEXT_PUBLIC_ENABLE_3D_HUD</code> — toggle per Vercel environment without a redeploy. Audio context tracks microphone levels for visual feedback during voice mode.</p>
+      <p class="feature-card__tags">React Three Fiber · Three.js r169 · WebGL detection · graceful fallback · env feature flag · audio context</p>
     </div>
   </div>
 </section>
 
 <hr class="divider">
 
-<!-- SCORING -->
 <section class="section container">
   <p class="section__label">Scoring Engine</p>
   <h2 class="section__heading">The feedback real interviews never give you.</h2>
@@ -590,26 +463,25 @@
   <div class="scoring-grid">
     <div class="scoring-cell">
       <p class="scoring-cell__label">Per-Response Analysis</p>
-      <p class="scoring-cell__content">Every answer you give is analyzed in real time across five dimensions. <strong>STAR Score</strong> (0–100) measures Situation-Task-Action-Result structure compliance — did you tell a complete story or leave gaps? <strong>Clarity Score</strong> rates how structured and easy-to-follow your response was. <strong>Confidence Score</strong> detects hedging language ("I think maybe..."), uncertainty markers, and weak phrasing that undermine credibility. <strong>Relevance Score</strong> checks whether you actually answered the question asked or went off on tangents. <strong>Depth Score</strong> evaluates whether you provided sufficient technical or situational detail. The system also tracks <strong>response time</strong> in seconds, <strong>word count</strong>, and flags specific <strong>filler words</strong> like "um", "like", and "basically" with exact counts.</p>
+      <p class="scoring-cell__content">Six scoring dimensions with <strong>type-specific weights</strong>. Behavioral: STAR 25%, Communication 15%. Technical: Depth 35%, STAR 5%. Case Study: STAR 0%, Depth 30%. HR: Confidence 20%, Communication 20%. Per-response: <strong>filler word detection</strong> with exact counts, response time in seconds, word count, and coaching notes that are specific and actionable — not generic. Each response also tracked against the interviewer's live mood state so you see exactly which answers moved the needle positively or negatively.</p>
     </div>
     <div class="scoring-cell">
       <p class="scoring-cell__label">Session Scorecard</p>
-      <p class="scoring-cell__content">At session end, you receive a comprehensive scorecard synthesizing your entire interview performance. <strong>Overall Score</strong> (0–100) is a weighted average across all categories. Five category breakdowns: <strong>Communication</strong>, <strong>Technical Depth</strong>, <strong>Behavioral Examples</strong>, <strong>Culture Fit</strong>, and <strong>Problem Solving</strong>. Detailed lists of <strong>Strengths</strong> (what you did well) and <strong>Improvements</strong> (specific areas to work on). AI-generated <strong>Interviewer Impression</strong> — a paragraph written from the hidden personality's perspective describing how they felt about you as a candidate. <strong>Key Moments</strong> identified with timestamps — strong moments that won the room, weak moments that lost points, and turning points where the interview shifted.</p>
+      <p class="scoring-cell__content">Comprehensive scorecard at session end. <strong>Overall Score</strong> (0–100) as type-weighted composite. Five category breakdowns: Communication, Technical Depth, Behavioral Examples, Culture Fit, Problem Solving. <strong>Strengths</strong> (what landed), <strong>Improvements</strong> (exactly what to fix). <strong>Key Moments</strong> — strong moments that won the room, weak moments that cost points, turning points where momentum shifted. <strong>AI Interviewer Impression</strong> — a paragraph written from the hidden personality's actual perspective describing how they felt about you as a candidate.</p>
     </div>
     <div class="scoring-cell">
-      <p class="scoring-cell__label">Personality Traits & Mood Evolution</p>
-      <p class="scoring-cell__content">Each AI interviewer runs on six independent 0–100 trait scales that drive their behavior. <strong>Directness:</strong> blunt and to-the-point vs. diplomatic and gentle. <strong>Depth Preference:</strong> surface-level conversation vs. deep technical dives. <strong>Warmth:</strong> cold and distant vs. friendly and encouraging. <strong>Patience:</strong> rapid-fire follow-ups vs. space to think and elaborate. <strong>Technical Focus:</strong> soft skills emphasis vs. hard skills grilling. <strong>Skepticism:</strong> trusting your claims vs. demanding proof for everything. Interviewer <strong>mood evolves in real time</strong> based on your responses — a Skeptic who receives specific metrics may warm up; a Friendly interviewer who detects arrogance may turn cold. Mood data is tracked per message and factored into the final session score.</p>
+      <p class="scoring-cell__label">Personality Traits & Mood Engine</p>
+      <p class="scoring-cell__content">Six independent 0–100 trait scales per interviewer: Directness, Depth Preference, Warmth, Patience, Technical Focus, and Skepticism. <strong>Mood engine</strong> tracks a −100 to +100 score per session updated after every message. 14 mood triggers tracked: green flags (specific examples, STAR format used, honesty detected, favorite topic discussed), red flags (vague response, deflection, pet peeve triggered, STAR format missing), and follow-up quality. Mood state stored per message and visible in replay — so you can see exactly which answers impressed and which lost ground.</p>
     </div>
     <div class="scoring-cell">
       <p class="scoring-cell__label">Coding & Negotiation Scoring</p>
-      <p class="scoring-cell__content"><strong>Coding interviews</strong> score submissions on four dimensions: <strong>Correctness</strong> (test cases passed), <strong>Efficiency</strong> (time and space complexity), <strong>Code Quality</strong> (style, readability, best practices), and <strong>Problem Solving</strong> (approach and methodology). Time complexity and space complexity analyzed. Hints used tracked and factored into score. <strong>Salary negotiation</strong> sessions scored on: <strong>Confidence</strong> in delivery and asks, <strong>Framing</strong> of value propositions, <strong>Strategy</strong> in leveraging your position, and <strong>Composure</strong> under recruiter pressure. AI generates a <strong>Simulated Final Offer</strong> showing exactly how much your negotiation skills earned or left on the table. Coach feedback identifies specific tactics used and opportunities missed.</p>
+      <p class="scoring-cell__content"><strong>Coding submissions</strong>: Correctness (visible + hidden test cases), Efficiency (time and space complexity analysis), Code Quality (style, readability, best practices), and Problem Solving (approach and methodology). Hint usage deducted. Execution time and memory captured per submission. <strong>Negotiation scoring</strong>: Confidence, Framing, Strategy, and Composure — all tracked across the full conversation. <strong>Simulated Final Offer</strong> generated as a concrete dollar figure showing what the technique closed versus the gap left on the table. Full negotiation session replay included.</p>
     </div>
   </div>
 </section>
 
 <hr class="divider">
 
-<!-- TECH STACK -->
 <section class="section container">
   <p class="section__label">Architecture</p>
   <h2 class="section__heading">Production-grade from day one.</h2>
@@ -617,41 +489,48 @@
   <div class="tech-ribbon">
     <span class="tech-tag">Next.js 15</span>
     <span class="tech-tag">React 19</span>
-    <span class="tech-tag">TypeScript</span>
+    <span class="tech-tag">TypeScript 5.7</span>
     <span class="tech-tag">Supabase</span>
     <span class="tech-tag">PostgreSQL</span>
-    <span class="tech-tag">Stripe</span>
+    <span class="tech-tag">Stripe SDK v17</span>
     <span class="tech-tag">Tailwind CSS</span>
     <span class="tech-tag">Radix UI</span>
-    <span class="tech-tag">Framer Motion</span>
-    <span class="tech-tag">Zustand</span>
+    <span class="tech-tag">Framer Motion 11</span>
+    <span class="tech-tag">GSAP 3.14</span>
+    <span class="tech-tag">Zustand 5</span>
+    <span class="tech-tag">TanStack Query 5</span>
     <span class="tech-tag">Zod</span>
     <span class="tech-tag">Recharts</span>
+    <span class="tech-tag">React Three Fiber</span>
+    <span class="tech-tag">Three.js r169</span>
+    <span class="tech-tag">Cartesia Sonic 3</span>
+    <span class="tech-tag">OpenRouter</span>
+    <span class="tech-tag">Judge0</span>
+    <span class="tech-tag">Lenis</span>
   </div>
 
   <div class="arch-grid">
     <div class="arch-cell">
       <p class="arch-cell__label">Frontend</p>
-      <p class="arch-cell__content"><strong>Next.js 15 App Router</strong> with React 19. Component library built on <strong>Radix UI</strong> with <strong>Tailwind CSS</strong>. <strong>Framer Motion</strong> animations. <strong>Zustand</strong> for state. <strong>Recharts</strong> for analytics. Full <strong>light/dark theme</strong> system with system preference detection.</p>
+      <p class="arch-cell__content"><strong>Next.js 15 App Router</strong> with React 19. Full component library on <strong>Radix UI</strong> with <strong>Tailwind CSS</strong>. <strong>Framer Motion 11</strong> and <strong>GSAP 3.14</strong> for animations. <strong>Zustand 5</strong> for client state. <strong>TanStack Query 5</strong> for server state. <strong>Recharts</strong> for analytics. <strong>React Three Fiber</strong> + Three.js r169 for 3D HUD — WebGL-detected with automatic 2D fallback. <strong>Lenis</strong> for smooth scroll. <strong>Sonner</strong> for toasts.</p>
     </div>
     <div class="arch-cell">
       <p class="arch-cell__label">Backend & Database</p>
-      <p class="arch-cell__content"><strong>Supabase</strong> (PostgreSQL) with full Auth integration. <strong>12+ database tables</strong> with Row Level Security on every table. Custom enums for interview_type, company_style, session_status, and more.</p>
+      <p class="arch-cell__content"><strong>Supabase</strong> (PostgreSQL) with SSR Auth integration. <strong>17 database tables</strong>: interview_sessions, interview_messages, session_scores, session_interviewers, interviewers, interviewer_personality, coding_challenges, code_submissions, negotiation_sessions, user_resumes, resume_insights, job_descriptions, user_progress, interview_purchases, profiles, webhooks, webhook_deliveries. Row Level Security enforced on every table.</p>
     </div>
     <div class="arch-cell">
       <p class="arch-cell__label">AI Pipeline</p>
-      <p class="arch-cell__content">Multi-model AI architecture for interviews, analysis, and negotiation. System prompts inject interviewer personality, backstory, and mood state. <strong>Voice synthesis</strong> with multiple voice options. <strong>Scene image generation</strong> creates photorealistic interview environments. Resume analysis and vulnerability scanning.</p>
+      <p class="arch-cell__content">Multi-model via <strong>OpenRouter</strong>. <strong>DeepSeek</strong> (deepseek/deepseek-chat) for live interviews — temperature 0.8, frequency_penalty 0.3. <strong>Mistral Small 3.1 24B</strong> for analysis — separate provider to avoid DeepSeek rate limit collisions, temperature 0.3. <strong>Claude Haiku</strong> as fallback for complex reasoning. <strong>Cartesia Sonic 3</strong> for TTS with 6 voice options. Full backstory generator, mood engine (−100 to +100), and response sanitizer running per session.</p>
     </div>
     <div class="arch-cell">
-      <p class="arch-cell__label">API & Payments</p>
-      <p class="arch-cell__content"><strong>15+ API routes</strong> covering interview creation, session chat, negotiation flow, voice synthesis, scene generation, resume upload, job analysis, code execution, and webhooks. <strong>Stripe</strong> integration with full subscription lifecycle management. Three tiers: Free, Pro, Premium.</p>
+      <p class="arch-cell__label">Payments & API</p>
+      <p class="arch-cell__content"><strong>Stripe SDK v17</strong> with checkout, customer portal, and webhook lifecycle. <strong>Credit-based pricing</strong>: Starter Pack ($25 / 6 credits), Pro Pack ($35 / 11 credits), Refill Pack ($10 / 5 credits) — all one-time, no subscriptions. <strong>37 API routes</strong> across interview creation, session chat, STAR analysis, voice synthesis, resume upload/analysis/insights, job description parsing, code execution, negotiation sessions, progress, webhooks, and Stripe. Outbound webhook system with HMAC-SHA256 and exponential backoff retry.</p>
     </div>
   </div>
 </section>
 
 <hr class="divider">
 
-<!-- SECURITY -->
 <section class="section container">
   <p class="section__label">Security</p>
   <h2 class="section__heading">Production-hardened.</h2>
@@ -660,75 +539,101 @@
     <div class="security-item">
       <p class="security-item__check">✓</p>
       <p class="security-item__title">Row Level Security</p>
-      <p class="security-item__desc">All 12 tables enforce RLS. Users only access their own data.</p>
+      <p class="security-item__desc">All 17 tables enforce RLS policies. Users can only read and write their own data. No cross-user data access possible at any level.</p>
     </div>
     <div class="security-item">
       <p class="security-item__check">✓</p>
       <p class="security-item__title">Auth Middleware</p>
-      <p class="security-item__desc">Supabase Auth with session verification on every route.</p>
+      <p class="security-item__desc">Supabase SSR Auth with session verification on every protected route. Middleware runs before any page or API handler executes.</p>
     </div>
     <div class="security-item">
       <p class="security-item__check">✓</p>
-      <p class="security-item__title">Webhook Verification</p>
-      <p class="security-item__desc">All Stripe events verified with signing secret.</p>
+      <p class="security-item__title">Stripe Webhook Verification</p>
+      <p class="security-item__desc">All incoming Stripe events verified against signing secret before processing. Replay and spoofed events rejected at the gate.</p>
     </div>
     <div class="security-item">
       <p class="security-item__check">✓</p>
-      <p class="security-item__title">Secure Uploads</p>
-      <p class="security-item__desc">Resume uploads validated and parsed server-side.</p>
+      <p class="security-item__title">HMAC Outbound Webhooks</p>
+      <p class="security-item__desc">Every outbound webhook payload signed with HMAC-SHA256. Receiving systems can verify authenticity on their end without trusting the IP alone.</p>
     </div>
     <div class="security-item">
       <p class="security-item__check">✓</p>
-      <p class="security-item__title">AI Context Isolation</p>
-      <p class="security-item__desc">No user data persists between AI sessions.</p>
+      <p class="security-item__title">Sandboxed Code Execution</p>
+      <p class="security-item__desc">Live coding challenges run inside Judge0's isolated execution sandbox. No user code ever touches the application server.</p>
     </div>
     <div class="security-item">
       <p class="security-item__check">✓</p>
       <p class="security-item__title">Input Validation</p>
-      <p class="security-item__desc">All inputs validated with Zod schemas.</p>
+      <p class="security-item__desc">All API inputs validated with Zod schemas before any processing. TypeScript 5.7 enforces type safety end to end.</p>
     </div>
   </div>
 </section>
 
 <hr class="divider">
 
-<!-- PRICING -->
 <section class="section container">
   <p class="section__label">Pricing Model</p>
-  <h2 class="section__heading">Three tiers.</h2>
+  <h2 class="section__heading">Credits. One-time. No subscriptions.</h2>
+  <div class="section__body">
+    <p>Every purchase unlocks every feature immediately — no tiers, no feature gating, no recurring charges. Credits never expire. Buy a pack, use at your own pace, refill whenever you need more.</p>
+  </div>
 
   <div class="pricing-grid">
     <div class="pricing-card">
-      <p class="pricing-card__tier">Free</p>
-      <p class="pricing-card__price">$0</p>
+      <p class="pricing-card__tier">Starter Pack</p>
+      <p class="pricing-card__name">6 Interviews</p>
+      <p class="pricing-card__desc">One-time purchase · all features unlocked</p>
+      <p class="pricing-card__price">$25<span> one-time</span></p>
+      <p class="pricing-card__per">~$4.17 per interview</p>
       <div class="pricing-card__features">
-        <span class="check">✓</span> 3 interviews/month<br>
-        <span class="check">✓</span> Basic feedback<br>
-        <span class="check">✓</span> Text mode<br>
-        <span class="x">✗</span> Voice mode<br>
-        <span class="x">✗</span> Negotiation
+        <span class="check">✓</span> All 6 interview types<br>
+        <span class="check">✓</span> Voice mode (Cartesia Sonic 3)<br>
+        <span class="check">✓</span> All 8 interviewer archetypes<br>
+        <span class="check">✓</span> STAR scoring & coaching<br>
+        <span class="check">✓</span> Resume vulnerability scanner<br>
+        <span class="check">✓</span> Job description analysis<br>
+        <span class="check">✓</span> Custom interviewer creator<br>
+        <span class="check">✓</span> Salary negotiation simulator<br>
+        <span class="check">✓</span> Full analytics & replay<br>
+        <span class="check">✓</span> Badge & progress tracking
       </div>
     </div>
     <div class="pricing-card pricing-card--featured">
-      <p class="pricing-card__tier">Pro</p>
-      <p class="pricing-card__price">$19<span>/mo</span></p>
+      <p class="pricing-card__tier">Pro Pack — Best Value</p>
+      <p class="pricing-card__name">11 Interviews</p>
+      <p class="pricing-card__desc">One-time purchase · all features unlocked</p>
+      <p class="pricing-card__price">$35<span> one-time</span></p>
+      <p class="pricing-card__per">~$3.18 per interview</p>
       <div class="pricing-card__features">
-        <span class="check">✓</span> Unlimited<br>
-        <span class="check">✓</span> Full scoring<br>
-        <span class="check">✓</span> Voice mode<br>
-        <span class="check">✓</span> Session replay<br>
-        <span class="x">✗</span> Negotiation
+        <span class="check">✓</span> All 6 interview types<br>
+        <span class="check">✓</span> Voice mode (Cartesia Sonic 3)<br>
+        <span class="check">✓</span> All 8 interviewer archetypes<br>
+        <span class="check">✓</span> STAR scoring & coaching<br>
+        <span class="check">✓</span> Resume vulnerability scanner<br>
+        <span class="check">✓</span> Job description analysis<br>
+        <span class="check">✓</span> Custom interviewer creator<br>
+        <span class="check">✓</span> Salary negotiation simulator<br>
+        <span class="check">✓</span> Full analytics & replay<br>
+        <span class="check">✓</span> Badge & progress tracking
       </div>
     </div>
     <div class="pricing-card">
-      <p class="pricing-card__tier">Premium</p>
-      <p class="pricing-card__price">$39<span>/mo</span></p>
+      <p class="pricing-card__tier">Refill Pack</p>
+      <p class="pricing-card__name">+5 Interviews</p>
+      <p class="pricing-card__desc">Add credits anytime · lowest per-interview rate</p>
+      <p class="pricing-card__price">$10<span> per refill</span></p>
+      <p class="pricing-card__per pricing-card__per--green">$2.00 per interview</p>
       <div class="pricing-card__features">
-        <span class="check">✓</span> Everything in Pro<br>
-        <span class="check">✓</span> Negotiation prep<br>
-        <span class="check">✓</span> Custom scenarios<br>
-        <span class="check">✓</span> Archetype mixing<br>
-        <span class="check">✓</span> Priority AI
+        <span class="check">✓</span> All 6 interview types<br>
+        <span class="check">✓</span> Voice mode (Cartesia Sonic 3)<br>
+        <span class="check">✓</span> All 8 interviewer archetypes<br>
+        <span class="check">✓</span> STAR scoring & coaching<br>
+        <span class="check">✓</span> Resume vulnerability scanner<br>
+        <span class="check">✓</span> Job description analysis<br>
+        <span class="check">✓</span> Custom interviewer creator<br>
+        <span class="check">✓</span> Salary negotiation simulator<br>
+        <span class="check">✓</span> Full analytics & replay<br>
+        <span class="check">✓</span> Badge & progress tracking
       </div>
     </div>
   </div>
@@ -736,19 +641,18 @@
 
 <hr class="divider">
 
-<!-- CTA -->
 <section class="cta-section container">
   <h2 class="cta__heading">Train under fire.<br>Own the platform.</h2>
   <p class="cta__body">
-    UnderFireAI is available for acquisition. Complete source code, AI interview engine, 
-    negotiation trainer, scoring pipeline, voice mode — ready to launch.
+    UnderFireAI is available for acquisition. Complete source code, AI interview engine,
+    salary negotiation trainer, 3D HUD, live coding, voice mode, scoring pipeline — 
+    production-deployed and ready to scale.
   </p>
   <a href="https://www.allencodeco.com/#contact" class="cta-card__btn">Contact Allen Code Co →</a>
 </section>
 
 <hr class="divider">
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer__inner">
@@ -756,6 +660,11 @@
       <div class="footer__links">
         <a href="products.html" class="footer__link">Products</a>
         <a href="https://www.allencodeco.com" class="footer__link">Portfolio</a>
-        <a href="/cdn-cgi/l/email-protection#d3b0bba1baa093b2bfbfb6bdb0bcb7b6b0bcfdb0bcbe" class="footer__link">Contact</a>
+        <a href="https://www.allencodeco.com/#contact" class="footer__link">Contact</a>
       </div>
-   
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
