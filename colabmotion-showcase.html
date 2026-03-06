@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ColabMotion — Allen Code Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0C0B0A;
+    --bg-secondary: #141312;
+    --bg-card: #1A1918;
+    --bg-elevated: #222120;
+    --border: #2A2928;
+    --border-subtle: #1F1E1D;
+    --text-primary: #FFFFFF;
+    --text-secondary: #60A5FA;
+    --text-muted: #F5A623;
+    --accent: #E8832A;
+    --accent-warm: #D4731A;
+    --accent-glow: rgba(232,131,42,0.15);
+    --accent-soft: #F5A623;
+    --green: #4ADE80;
+    --blue: #60A5FA;
+    --red: #F87171;
+    --purple: #C084FC;
+    --teal: #2DD4BF;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'Outfit', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 60px); }
+  .container--narrow { max-width: 860px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 60px); }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── Navigation ─────────────────────────── */
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 16px 0;
+    background: rgba(12,11,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .topbar__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 60px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topbar__brand {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .topbar__brand:hover { color: var(--accent); }
+  .topbar__tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border: 1px solid rgba(232,131,42,0.25);
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── Hero ────────────────────────────────── */
+  .hero {
+    padding: clamp(140px,18vh,220px) 0 clamp(80px,10vh,140px);
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--text-primary);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .hero__title em { font-style: italic; color: var(--accent); }
+  .hero__subtitle {
+    font-size: clamp(18px, 2.2vw, 22px);
+    color: var(--text-secondary);
+    max-width: 640px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+  .hero__meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .hero__meta-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .hero__meta-value { font-size: 15px; font-weight: 500; color: var(--text-primary); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Divider ─────────────────────────────── */
+  .divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* ── Sections ────────────────────────────── */
+  .section { padding: clamp(60px, 10vh, 120px) 0; }
+  .section__label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .section__heading {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+  .section__body { font-size: 16px; color: var(--text-secondary); line-height: 1.8; }
+  .section__body p + p { margin-top: 20px; }
+
+  /* ── Stats Bar ───────────────────────────── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: clamp(40px, 6vh, 80px) 0;
+  }
+  .stat { background: var(--bg-card); padding: 32px 28px; text-align: center; }
+  .stat__number {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 48px);
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat__desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Feature Grid ────────────────────────── */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2px;
+    background: var(--border-subtle);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .product-card {
+    background: var(--bg-card);
+    padding: clamp(28px, 4vw, 40px);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .product-card:hover { background: var(--bg-elevated); }
+  .product-card__icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+  .product-card__icon--brand    { background: rgba(232,131,42,0.1);  color: var(--accent); }
+  .product-card__icon--market   { background: rgba(74,222,128,0.1);  color: var(--green); }
+  .product-card__icon--kling    { background: rgba(192,132,252,0.1); color: var(--purple); }
+  .product-card__icon--learn    { background: rgba(96,165,250,0.1);  color: var(--blue); }
+  .product-card__icon--ai       { background: rgba(45,212,191,0.1);  color: var(--teal); }
+  .product-card__icon--community{ background: rgba(248,113,113,0.1); color: var(--red); }
+  .product-card__icon--social   { background: rgba(245,166,35,0.1);  color: var(--accent-soft); }
+  .product-card__icon--render   { background: rgba(74,222,128,0.1);  color: var(--green); }
+  .product-card__name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+  .product-card__desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+  .product-card__features {
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 2;
+  }
+
+  /* ── Architecture Grid ───────────────────── */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border-subtle);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  @media (max-width: 768px) { .arch-grid { grid-template-columns: 1fr; } }
+  .arch-cell { background: var(--bg-card); padding: clamp(28px, 4vw, 40px); }
+  .arch-cell__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+  }
+  .arch-cell__content { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+  .arch-cell__content strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ── Tech Ribbon ─────────────────────────── */
+  .tech-ribbon { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  .tech-tag:hover { color: var(--accent); border-color: rgba(232,131,42,0.3); background: var(--accent-glow); }
+
+  /* ── Business Model Grid ─────────────────── */
+  .biz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px;
+    background: var(--border-subtle);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .biz-item { background: var(--bg-card); padding: 28px; }
+  .biz-item__icon { font-size: 24px; margin-bottom: 16px; }
+  .biz-item__title { font-weight: 600; font-size: 15px; margin-bottom: 8px; color: var(--text-primary); }
+  .biz-item__desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .biz-item__highlight {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+  }
+
+  /* ── CTA ─────────────────────────────────── */
+  .cta-section {
+    padding: clamp(80px, 12vh, 160px) 0;
+    text-align: center;
+    position: relative;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  .cta__heading {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.15;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .cta__body {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin: 0 auto 48px;
+    line-height: 1.8;
+    position: relative;
+  }
+  .cta__options {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .cta__card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 40px;
+    text-align: left;
+    width: 300px;
+    transition: all 0.3s ease;
+  }
+  .cta__card:hover { border-color: rgba(232,131,42,0.3); transform: translateY(-4px); }
+  .cta__card--featured { border-color: var(--accent); box-shadow: 0 0 40px var(--accent-glow); }
+  .cta__card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .cta__card-price { font-family: var(--font-display); font-size: 36px; color: var(--text-primary); margin-bottom: 4px; }
+  .cta__card-price span { font-family: var(--font-body); font-size: 14px; color: var(--text-muted); font-weight: 400; }
+  .cta__card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-top: 16px; }
+
+  /* ── Footer ──────────────────────────────── */
+  .footer { padding: 48px 0; border-top: 1px solid var(--border-subtle); }
+  .footer__inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer__brand { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+  .footer__links { display: flex; gap: 24px; }
+  .footer__link { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .footer__link:hover { color: var(--accent); }
+
+  /* ── Scroll Reveal ───────────────────────── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .hero__meta { gap: 20px; }
+    .cta__options { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     TOP BAR
+     ═══════════════════════════════════════════ -->
+<nav class="topbar">
+  <div class="topbar__inner">
+    <a href="allen-code-co-animated.html" class="topbar__brand">Allen Code Co</a>
+    <span class="topbar__tag">In Development</span>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <p class="hero__eyebrow">Motion Design Platform — Community &amp; Marketplace</p>
+    <h1 class="hero__title">Colab<br><em>Motion</em></h1>
+    <p class="hero__subtitle">
+      The home base for motion designers who build with Remotion. Brand Kits, a template marketplace with a 70/30 creator split, AI video generation, a learning platform, and a community built for people who actually ship.
+    </p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Status</span>
+        <span class="hero__meta-value">In Development</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Stack</span>
+        <span class="hero__meta-value">Next.js · Supabase · Remotion</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Pricing Model</span>
+        <span class="hero__meta-value">Free · Starter · Pro · Agency</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Domain</span>
+        <span class="hero__meta-value">colabmotion.com</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     BY THE NUMBERS
+     ═══════════════════════════════════════════ -->
+<div class="container reveal">
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat__number">70%</div>
+      <div class="stat__desc">Creator Revenue Split</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">4</div>
+      <div class="stat__desc">Subscription Tiers</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">5</div>
+      <div class="stat__desc">Core Platform Pillars</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">0</div>
+      <div class="stat__desc">Timeline Editing Required</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">1×</div>
+      <div class="stat__desc">Brand Kit Setup</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     WHAT IT IS
+     ═══════════════════════════════════════════ -->
+<section class="section container--narrow reveal">
+  <p class="section__label">Overview</p>
+  <h2 class="section__heading">Build together. Move everything.</h2>
+  <div class="section__body">
+    <p>
+      ColabMotion is a standalone motion design community platform built specifically for Remotion developers and motion designers who work with code. The problem it solves is straightforward: motion designers waste hours rebuilding the same branded intro, lower third, or social clip from scratch every time a project comes in. Remotion builders have no dedicated place to sell their templates professionally. And there is no community specifically for code-driven motion design.
+    </p>
+    <p>
+      ColabMotion fixes all three at once. The Brand Kit system lets users store their colors, fonts, logo, and animation style once — and apply everything to any Remotion template in one click. The marketplace lets creators sell templates, bundles, and courses at a 70/30 revenue split that always favors the creator. Kling AI video generation means anyone can produce a cinematic video clip from a text prompt without touching a timeline. The learning platform layers free tutorials, AI-taught interactive lessons powered by DeepSeek, and paid creator courses on top of an active community with weekly challenges, a showcase feed, Q&amp;A, real-time chat, and a reputation system that rewards builders who contribute.
+    </p>
+    <p>
+      This is not a general social media scheduler, not a competitor to Premiere or DaVinci, and not a generic AI video wrapper. It is specifically built for the Remotion ecosystem — the intersection of software development and motion design — an audience that currently has no real home.
+    </p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     THE 8 PLATFORM PILLARS
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">Platform Features</p>
+  <h2 class="section__heading">Eight systems, one platform</h2>
+  <div class="section__body" style="max-width:720px;">
+    <p>
+      Every feature of ColabMotion is purpose-built for the Remotion motion design workflow. The Brand Kit lives at the center — it connects templates, renders, and published content into a unified brand identity. Everything else radiates outward from that core.
+    </p>
+  </div>
+
+  <div class="products-grid">
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--brand">🎨</div>
+      <h3 class="product-card__name">Brand Kit System</h3>
+      <p class="product-card__desc">
+        Store everything needed to brand a video in one place: primary, secondary, accent, background, and text colors; heading and body font families from Google Fonts; animation style (bold, minimal, playful, elegant, corporate); social handle; website URL; and four logo variants (primary, icon, dark, light) stored in Supabase Storage with signed 365-day URLs. Apply a Brand Kit to any template and all values inject automatically as Remotion props. Multiple kits per workspace — scale from one per Free user to unlimited on Agency.
+      </p>
+      <p class="product-card__features">color palette · google fonts · animation style · 4 logo variants · multi-kit · remotion props injection</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--market">🛒</div>
+      <h3 class="product-card__name">Template Marketplace</h3>
+      <p class="product-card__desc">
+        A creator-first marketplace for production-quality Remotion templates. Every template defines its canvas size, frame rate, duration, and a JSON Schema for its customizable props. Users apply a Brand Kit and the kit values inject as props before rendering. Creators publish via a review and approval workflow. The revenue model is permanently fixed at 70% to the creator, 30% to the platform — no negotiation, no exceptions. Stripe Connect Express handles all creator payouts through a guided onboarding flow. Free templates are supported on any tier, giving creators full access to the audience without a paywall.
+      </p>
+      <p class="product-card__features">remotion templates · json schema props · stripe connect · 70/30 split · creator review workflow · free + paid</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--kling">🎬</div>
+      <h3 class="product-card__name">Kling AI Video Generation</h3>
+      <p class="product-card__desc">
+        Kling AI is a text-to-video model capable of generating cinematic, physics-accurate video clips from a text prompt. A user types a prompt — a steaming burger bursting through a phone screen, a product launching out of a device, a character walking into a real space — selects duration and style, clicks Generate, and the clip appears in their media library within roughly 30 seconds. Generated clips land in the user's media library and can be pulled into any Remotion template as a video layer or downloaded directly. Generation limits are enforced per billing period at the plan level and tracked in the subscriptions table, resetting on each billing cycle.
+      </p>
+      <p class="product-card__features">text-to-video · cinematic clips · media library integration · plan-gated limits · billing period resets</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--render">⚡</div>
+      <h3 class="product-card__name">Remotion Lambda Rendering</h3>
+      <p class="product-card__desc">
+        Video rendering runs on Remotion Lambda on AWS. Each render job is tracked in the database with status, progress percentage, output URL, cost, and format details. Render specifications scale with the subscription tier — resolution, duration limits, and concurrent renders increase at each plan level. Render costs are tracked per job and rolled into the platform's cost monitoring system alongside Kling, OpenRouter, and other external service costs. An automatic alert fires to a configured email address when total costs exceed 20% of monthly subscription revenue.
+      </p>
+      <p class="product-card__features">remotion lambda · aws · status tracking · cost monitoring · plan-tiered specs · cost alerts</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--learn">📚</div>
+      <h3 class="product-card__name">Learning Platform</h3>
+      <p class="product-card__desc">
+        Three layers of learning content in one place. Free tutorials are written and published by the ColabMotion team — Markdown content, server-side rendered, SEO-optimized, accessible without a login. AI-taught interactive lessons are chat-based sessions powered by DeepSeek V3 via OpenRouter, organized into tracks covering Remotion fundamentals, motion design principles, advanced Remotion, marketplace success, and the business of motion design. Each lesson has a teaching persona and awards reputation points on completion. Paid creator courses follow a section and lesson structure with video, written, or mixed content, downloadable resources, progress tracking, and certificate generation. Course enrollment uses Stripe Checkout and a 70/30 revenue split.
+      </p>
+      <p class="product-card__features">free tutorials · ai lessons · deepseek · reputation points · paid courses · certificates · 70/30 split</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--ai">🤖</div>
+      <h3 class="product-card__name">AI-Taught Lessons (DeepSeek)</h3>
+      <p class="product-card__desc">
+        Interactive, chat-based learning sessions where the AI acts as a tutor with a defined teaching persona loaded from a system prompt per lesson track. Sessions are stored with full message history in the database. The AI monitors whether the learning objective has been met and signals lesson completion autonomously — the session is then marked complete, reputation points are awarded, and the reputation event is logged. Five tracks cover the full lifecycle from Remotion fundamentals to building a motion design business. All AI calls route through OpenRouter with DeepSeek V3 as the primary model.
+      </p>
+      <p class="product-card__features">deepseek v3 · openrouter · 5 learning tracks · session history · autonomous completion detection · reputation events</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--community">🏆</div>
+      <h3 class="product-card__name">Community System</h3>
+      <p class="product-card__desc">
+        Three distinct feeds keep content organized: a showcase feed for finished work, a dev corner for technical discussion and Remotion Q&amp;A, and a general community feed. Posts support text, media (video and image), linked templates, and contest or challenge entries. A reputation system rewards contribution — posting a showcase earns points, getting likes earns points, answering questions earns points, winning a weekly challenge earns 100 points, winning a contest earns 200. Weekly challenges give the community a shared creative prompt with a surface type focus and a start and end date. Creator profiles are extended with marketplace and community identity, follower counts, and aggregate sales stats.
+      </p>
+      <p class="product-card__features">3 feeds · weekly challenges · reputation system · creator profiles · follower system · q&a · contests</p>
+    </div>
+
+    <div class="product-card">
+      <div class="product-card__icon product-card__icon--social">📤</div>
+      <h3 class="product-card__name">Social Publishing</h3>
+      <p class="product-card__desc">
+        Connected social accounts enable one-click and scheduled publishing directly from inside ColabMotion. Supported platforms are Facebook Pages, Instagram via the Facebook Graph API, LinkedIn, and Twitter/X. OAuth tokens are stored AES-256-GCM encrypted with automatic refresh token handling. Starter tier allows publishing to three platforms. Pro adds cross-platform scheduling. Agency adds cross-platform analytics. Publishing is a feature of the platform, not its identity — the core is motion design creation, not social media management.
+      </p>
+      <p class="product-card__features">facebook · instagram · linkedin · twitter/x · aes-256-gcm tokens · scheduling · cross-platform analytics</p>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     ARCHITECTURE
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">Architecture</p>
+  <h2 class="section__heading">How it's built</h2>
+  <div class="section__body" style="max-width:720px;">
+    <p>
+      ColabMotion is a standalone Next.js application built to Allen Code Co production standards — TypeScript strict mode, zero any, zero eslint-disable, Zod validation on every API POST and PATCH body before any database write, and service role client restricted exclusively to webhooks, crons, and admin operations. It shares no code with any other Allen Code Co project.
+    </p>
+  </div>
+
+  <div class="arch-grid">
+    <div class="arch-cell">
+      <p class="arch-cell__label">Frontend</p>
+      <div class="arch-cell__content">
+        <strong>Next.js</strong> with App Router and <strong>TypeScript</strong> strict mode. UI on <strong>Radix UI</strong> primitives with <strong>Tailwind CSS</strong>. Video preview and playback via the <strong>Remotion Player</strong> component. Rich text in tutorials and courses via <strong>Tiptap</strong>. Real-time features (chat, notifications) via <strong>Supabase Realtime</strong>. Form handling with <strong>React Hook Form</strong> and <strong>Zod</strong> validation on every submission.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Database &amp; Storage</p>
+      <div class="arch-cell__content">
+        <strong>Supabase</strong> (PostgreSQL) with Row Level Security enforced on every table. Generated TypeScript types keep the schema and frontend in lockstep. <strong>Supabase Storage</strong> for Brand Kit logo assets, template preview media, and course resources. Signed URLs valid 365 days for logo assets. Max file size 10 MB. Accepted: PNG, JPEG, SVG, WebP. Three client patterns: browser client, server client, and service client for admin operations.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Billing &amp; Creator Payouts</p>
+      <div class="arch-cell__content">
+        <strong>Stripe</strong> subscriptions for platform plans with annual pricing (10 months billed, 12 months access). One-time Stripe Checkout payments for individual template and course purchases. <strong>Stripe Connect Express</strong> for creator onboarding and automated payouts — platform takes 30%, creator keeps 70%. Webhook handler processes <code>checkout.session.completed</code> and <code>invoice.payment_succeeded</code> with billing reason filtering for credit resets.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">AI &amp; Video</p>
+      <div class="arch-cell__content">
+        All AI features route through <strong>OpenRouter</strong> with <strong>DeepSeek V3</strong> as the primary model — advisor, AI lessons, content generation. One exception: <strong>OpenAI GPT-4o-mini</strong> is used exclusively for hashtag suggestions and quick caption rewrites in the social publishing module. Video generation uses the <strong>Kling AI</strong> API. Video rendering runs on <strong>Remotion Lambda</strong> on AWS with per-job cost tracking and a 20% cost-to-revenue alert threshold.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Auth &amp; Security</p>
+      <div class="arch-cell__content">
+        <strong>Supabase Auth</strong> with email/password and OAuth. Session refresh via middleware on every request. Every API route authenticates before any database or business logic — no exceptions. Social platform OAuth tokens stored <strong>AES-256-GCM encrypted</strong> with automatic refresh handling. Service role client restricted to webhooks and cron operations only — never used in client components or standard API routes.
+      </div>
+    </div>
+    <div class="arch-cell">
+      <p class="arch-cell__label">Cost Management</p>
+      <div class="arch-cell__content">
+        A <strong>cost monitoring</strong> table tracks spend from Kling AI, Remotion Lambda, OpenRouter, Fal.ai, and OpenAI against subscription revenue each billing period. Kling AI generation allowances are hard-capped per plan — once the limit is reached, generation is blocked for the remainder of the billing period. A mandatory alert fires to <code>COST_ALERT_EMAIL</code> when total costs exceed 20% of monthly subscription revenue. This alert must be wired before launch.
+      </div>
+    </div>
+  </div>
+
+  <div class="tech-ribbon">
+    <span class="tech-tag">Next.js</span>
+    <span class="tech-tag">TypeScript Strict</span>
+    <span class="tech-tag">Supabase</span>
+    <span class="tech-tag">PostgreSQL</span>
+    <span class="tech-tag">Remotion</span>
+    <span class="tech-tag">Remotion Lambda</span>
+    <span class="tech-tag">Stripe</span>
+    <span class="tech-tag">Stripe Connect</span>
+    <span class="tech-tag">OpenRouter</span>
+    <span class="tech-tag">DeepSeek V3</span>
+    <span class="tech-tag">Kling AI</span>
+    <span class="tech-tag">OpenAI GPT-4o-mini</span>
+    <span class="tech-tag">Radix UI</span>
+    <span class="tech-tag">Tailwind CSS</span>
+    <span class="tech-tag">Tiptap</span>
+    <span class="tech-tag">React Hook Form</span>
+    <span class="tech-tag">Zod</span>
+    <span class="tech-tag">Supabase Realtime</span>
+    <span class="tech-tag">AES-256-GCM</span>
+    <span class="tech-tag">Vercel</span>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     BUSINESS MODEL
+     ═══════════════════════════════════════════ -->
+<section class="section container reveal">
+  <p class="section__label">Business Model</p>
+  <h2 class="section__heading">Multiple revenue streams, one platform</h2>
+  <div class="section__body" style="max-width:720px;">
+    <p>
+      ColabMotion generates revenue from four sources: subscription plans, template marketplace transactions, course enrollments, and template bundle purchases. Subscription billing uses an annual pricing model where users pay for 10 months and receive 12 — approximately 17% savings versus monthly. The Free tier is intentionally generous: full community access, free tutorials, AI lessons, 1 Brand Kit with preview, and the ability to browse and purchase marketplace items without a subscription.
+    </p>
+  </div>
+
+  <div class="biz-grid">
+    <div class="biz-item">
+      <div class="biz-item__icon">🆓</div>
+      <p class="biz-item__title">Free Tier</p>
+      <p class="biz-item__desc">Full community access, free tutorials, AI lessons, 1 Brand Kit (create and preview — renders locked), marketplace browsing, and the ability to purchase templates and post free templates without a subscription.</p>
+      <p class="biz-item__highlight">→ Funnel to paid via render access</p>
+    </div>
+    <div class="biz-item">
+      <div class="biz-item__icon">🚀</div>
+      <p class="biz-item__title">Starter Plan</p>
+      <p class="biz-item__desc">3 Brand Kits with full render access, publishing to 3 social platforms, standard render specs, and marketplace purchasing. No Kling AI access at this tier.</p>
+      <p class="biz-item__highlight">→ Annual billing, ~17% savings</p>
+    </div>
+    <div class="biz-item">
+      <div class="biz-item__icon">⚡</div>
+      <p class="biz-item__title">Pro Plan</p>
+      <p class="biz-item__desc">10 Brand Kits, all social platforms with scheduling, 20 Kling AI video generations per billing period, higher render specs, and access to premium templates locked to Pro and Agency.</p>
+      <p class="biz-item__highlight">→ Kling credits reset each billing cycle</p>
+    </div>
+    <div class="biz-item">
+      <div class="biz-item__icon">🏢</div>
+      <p class="biz-item__title">Agency Plan</p>
+      <p class="biz-item__desc">Unlimited Brand Kits, 50 Kling AI generations per period, all platforms with scheduling, cross-platform analytics, and the highest render specs and concurrent render limits.</p>
+      <p class="biz-item__highlight">→ Built for studios and agencies</p>
+    </div>
+    <div class="biz-item">
+      <div class="biz-item__icon">🛒</div>
+      <p class="biz-item__title">Marketplace Transactions</p>
+      <p class="biz-item__desc">Template purchases, bundle purchases, and course enrollments all use Stripe Checkout in payment mode. Platform takes 30%, creator receives 70% via Stripe Connect Express. No subscription required to purchase.</p>
+      <p class="biz-item__highlight">→ 70/30 split, permanent policy</p>
+    </div>
+    <div class="biz-item">
+      <div class="biz-item__icon">📊</div>
+      <p class="biz-item__title">Cost Controls</p>
+      <p class="biz-item__desc">Kling AI generation is hard-capped at the plan level — no overages. Cost monitoring tracks all external service spend against subscription revenue. Mandatory alert at 20% cost-to-revenue ratio before launch.</p>
+      <p class="biz-item__highlight">→ Cost alert wired pre-launch</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     WHAT'S INCLUDED / THE VISION
+     ═══════════════════════════════════════════ -->
+<section class="section container--narrow reveal">
+  <p class="section__label">The Opportunity</p>
+  <h2 class="section__heading">An audience with no home</h2>
+  <div class="section__body">
+    <p>
+      Remotion is a React-based framework for building videos programmatically. It has a growing, technically sophisticated audience: software developers who also do motion design, motion designers who have learned to code, and creative agencies that have adopted code-driven video production for its repeatability and brand accuracy. This audience is active, passionate, and underserved. They exist across Discord servers, GitHub repositories, YouTube tutorials, and scattered Twitter threads — with no dedicated platform.
+    </p>
+    <p>
+      ColabMotion is built specifically for this gap. The Brand Kit system solves the core workflow problem (rebuild nothing, brand everything). The marketplace gives Remotion developers their first professional sales channel. Kling AI gives the community access to viral video generation without needing motion design expertise. The learning platform makes Remotion more accessible, expanding the total addressable audience. And the community gives everyone a place to exist as a group for the first time.
+    </p>
+    <p>
+      The application is in active development at Allen Code Co. The blueprint is locked. The architecture is specified. The tech stack is selected. A buyer or partner acquiring ColabMotion gets a complete, battle-tested product specification, a codebase built to the same production standards as every Allen Code Co application, and first-mover position in a market with no direct competitor.
+    </p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     ACQUISITION CTA
+     ═══════════════════════════════════════════ -->
+<section class="cta-section container reveal">
+  <h2 class="cta__heading">First mover.<br>No competition.</h2>
+  <p class="cta__body">
+    ColabMotion is available for acquisition, partnership, or investment. Reach out to discuss the development roadmap, the codebase, or terms.
+  </p>
+  <div class="cta__options">
+    <div class="cta__card">
+      <p class="cta__card-label">Market Position</p>
+      <p class="cta__card-price">First <span>in category</span></p>
+      <p class="cta__card-desc">
+        No dedicated platform exists for the Remotion motion design community. ColabMotion is purpose-built for a growing, technically sophisticated audience with real spending power and no home.
+      </p>
+    </div>
+    <div class="cta__card cta__card--featured">
+      <p class="cta__card-label">Acquire or Partner</p>
+      <p class="cta__card-price">Let's Talk <span></span></p>
+      <p class="cta__card-desc">
+        Complete product blueprint, production-grade codebase, locked architecture, and a clear go-to-market path. Built by Allen Code Co to the same standards as every other product in the portfolio.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <span class="footer__brand">© 2025 Allen Code Co — Winchester, Virginia</span>
+      <div class="footer__links">
+        <a href="allen-code-co-animated.html" class="footer__link">Portfolio</a>
+        <a href="mailto:chris@allencodeco.com" class="footer__link">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
