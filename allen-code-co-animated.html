@@ -533,48 +533,153 @@
             position: relative;
             overflow: hidden;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
         }
 
+        /* Top accent bar — amber for Live, blue for Dev */
         .product-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(217, 119, 6, 0.06) 0%, transparent 60%);
+            height: 4px;
+            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            z-index: 2;
+        }
+
+        .product-card.status-dev-card::before {
+            background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+        }
+
+        /* Hover glow overlay */
+        .product-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.04) 0%, transparent 60%);
             opacity: 0;
             transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .product-card:hover {
             border-color: var(--border-hover);
-            transform: translateY(-8px);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(28, 25, 23, 0.08);
         }
 
-        .product-card:hover::before {
+        .product-card:hover::after {
             opacity: 1;
+        }
+
+        .product-card.featured {
+            grid-column: 1 / -1;
         }
 
         .product-card-inner {
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Featured: horizontal two-column layout */
+        .product-card.featured .product-card-inner {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 3.5rem;
+            align-items: start;
+        }
+
+        .product-card-aside {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            padding-right: 3.5rem;
+            border-right: 1px solid var(--border);
         }
 
         .product-icon {
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
+            border-radius: 18px;
             background: var(--gradient-1);
-            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
+            flex-shrink: 0;
         }
 
-        .product-card.featured .product-icon {
+        .product-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: #FFFFFF;
+            stroke-width: 1.75;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .product-card.status-dev-card .product-icon {
             background: var(--gradient-2);
+        }
+
+        .product-stat-cluster {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .product-stat:first-child {
+            padding-top: 0;
+        }
+
+        .product-stat:last-child {
+            border-bottom: none;
+        }
+
+        .product-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .product-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .product-card-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Card header: icon sits left of title group for non-featured cards */
+        .product-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .product-title-group {
+            flex: 1;
         }
 
         .product-status {
@@ -585,7 +690,7 @@
             letter-spacing: 1px;
             padding: 0.35rem 0.75rem;
             border-radius: 100px;
-            margin-bottom: 1rem;
+            margin-bottom: 0.6rem;
         }
 
         .status-live {
@@ -600,32 +705,87 @@
 
         .product-card h3 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 0.4rem;
         }
 
-        .product-card p {
-            color: var(--text-secondary);
+        .product-tagline {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            font-style: italic;
+        }
+
+        /* Callout box — matches about-highlight pattern */
+        .product-callout {
+            background: var(--bg-darker);
+            border-left: 3px solid var(--accent);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.75rem;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .product-callout p {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
             line-height: 1.7;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        /* Feature list — matches acquire-features pattern */
+        .product-features {
+            list-style: none;
+            margin-bottom: 1.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .product-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            padding: 0.85rem 0;
+            color: var(--text-secondary);
+            font-size: 0.93rem;
+            line-height: 1.6;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .product-features li::before {
+            content: '→';
+            color: var(--accent);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 0.05rem;
         }
 
         .product-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .product-tag {
-            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
             font-weight: 500;
             padding: 0.35rem 0.75rem;
             background: rgba(28, 25, 23, 0.04);
             border: 1px solid var(--border);
             border-radius: 100px;
             color: var(--text-muted);
+        }
+
+        .product-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
         }
 
         .product-link {
@@ -635,11 +795,20 @@
             color: var(--accent);
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.9rem;
             transition: gap 0.3s ease;
         }
 
         .product-link:hover {
             gap: 1rem;
+        }
+
+        .product-link-secondary {
+            color: var(--text-muted);
+        }
+
+        .product-link-secondary:hover {
+            color: var(--text-secondary);
         }
 
         /* About Section */
@@ -651,7 +820,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 6rem;
-            align-items: center;
+            align-items: start;
         }
 
         .about-content h2 {
@@ -668,8 +837,8 @@
 
         .about-content p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1.05rem;
+            line-height: 1.85;
             margin-bottom: 1.5rem;
         }
 
@@ -682,10 +851,40 @@
         }
 
         .about-highlight p {
-            font-size: 1.15rem;
-            font-weight: 500;
+            font-size: 1.1rem;
+            font-weight: 600;
             color: var(--text-primary);
             margin: 0;
+            line-height: 1.65;
+        }
+
+        .about-stat-row {
+            display: flex;
+            gap: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        .about-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .about-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .about-stat-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
         .values-grid {
@@ -699,19 +898,37 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 2.25rem;
+            position: relative;
+            overflow: hidden;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        .value-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
         .value-item:hover {
-            border-color: #D97706;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(28, 25, 23, 0.06);
+            border-color: #D6D3D1;
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(28, 25, 23, 0.07);
+        }
+
+        .value-item:hover::before {
+            opacity: 1;
         }
 
         .value-icon {
             width: 44px;
             height: 44px;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -729,15 +946,16 @@
 
         .value-item h4 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 0.6rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.85rem;
+            color: var(--text-primary);
         }
 
         .value-item p {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-size: 0.9rem;
-            line-height: 1.6;
+            line-height: 1.75;
         }
 
         /* Marquee */
@@ -779,6 +997,7 @@
         .acquire {
             position: relative;
             overflow: hidden;
+            background: var(--bg-darker);
         }
 
         .acquire::before {
@@ -787,76 +1006,90 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(ellipse at center, rgba(217, 119, 6, 0.08) 0%, transparent 60%);
-            opacity: 0.5;
+            width: 900px;
+            height: 900px;
+            background: radial-gradient(ellipse at center, rgba(217, 119, 6, 0.07) 0%, transparent 60%);
         }
 
-        .acquire-grid {
+        .acquire-header {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
-            align-items: center;
+            align-items: end;
+            margin-bottom: 5rem;
             position: relative;
             z-index: 1;
         }
 
-        .acquire-content h2 {
+        .acquire-header-left h2 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-size: clamp(2.5rem, 5vw, 3.75rem);
             font-weight: 700;
+            line-height: 1.1;
             margin-bottom: 1.5rem;
         }
 
-        .acquire-content h2 span {
+        .acquire-header-left h2 span {
             color: var(--accent);
         }
 
-        .acquire-content p {
+        .acquire-header-left p {
             color: var(--text-secondary);
             font-size: 1.1rem;
             line-height: 1.8;
-            margin-bottom: 2rem;
         }
 
-        .acquire-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .acquire-features li {
+        .acquire-header-right {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .acquire-include-list {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .acquire-include-list li {
+            display: flex;
+            align-items: flex-start;
             gap: 1rem;
-            padding: 0.75rem 0;
+            padding: 0.9rem 0;
             color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
             border-bottom: 1px solid var(--border);
         }
 
-        .acquire-features li::before {
+        .acquire-include-list li::before {
             content: '→';
             color: var(--accent);
-            font-weight: 600;
+            font-weight: 700;
+            flex-shrink: 0;
         }
 
-        .acquire-visuals-stack {
-            display: flex;
-            flex-direction: column;
+        .acquire-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 3rem;
         }
 
-        .acquire-visual {
+        .acquire-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 24px;
-            padding: 3rem;
-            text-align: center;
+            padding: 2.5rem;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .acquire-visual::before {
+        .acquire-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -866,23 +1099,150 @@
             background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
         }
 
-        .acquire-visual h3 {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+        .acquire-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(28, 25, 23, 0.09);
         }
 
-        .acquire-visual .tagline {
+        .acquire-card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
             color: var(--accent);
-            font-weight: 600;
+            margin-bottom: 1.25rem;
+        }
+
+        .acquire-card-badge::before {
+            content: '★';
+            font-size: 0.8rem;
+        }
+
+        .acquire-card h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+
+        .acquire-card-tagline {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .acquire-card-stats {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.25rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
             margin-bottom: 1.5rem;
         }
 
-        .acquire-visual p {
-            color: var(--text-secondary);
-            line-height: 1.7;
+        .acquire-card-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .acquire-card-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .acquire-card-stat-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .acquire-card-features {
+            list-style: none;
+            flex: 1;
             margin-bottom: 2rem;
+        }
+
+        .acquire-card-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .acquire-card-features li:last-child {
+            border-bottom: none;
+        }
+
+        .acquire-card-features li::before {
+            content: '→';
+            color: var(--accent);
+            font-weight: 700;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            margin-top: 0.1rem;
+        }
+
+        .acquire-card-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .acquire-cta-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .acquire-cta-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .acquire-cta-panel-text h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+        }
+
+        .acquire-cta-panel-text p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 550px;
         }
 
         /* Tech Stack */
@@ -1078,9 +1438,59 @@
             .products-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .about-grid,
-            .acquire-grid {
+
+            .product-card.featured .product-card-inner {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .product-card-aside {
+                padding-right: 0;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 2rem;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                gap: 2rem;
+            }
+
+            .product-stat-cluster {
+                flex-direction: row;
+                flex-wrap: wrap;
+                flex: 1;
+            }
+
+            .product-stat {
+                padding: 0 2rem 0 0;
+                border-bottom: none;
+                border-right: 1px solid var(--border);
+                margin-right: 2rem;
+            }
+
+            .product-stat:last-child {
+                border-right: none;
+                padding-right: 0;
+                margin-right: 0;
+            }
+
+            .acquire-header {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                margin-bottom: 3rem;
+            }
+
+            .acquire-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .acquire-cta-panel {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+            }
+
+            .about-grid {
                 grid-template-columns: 1fr;
                 gap: 4rem;
             }
@@ -1248,170 +1658,261 @@
                 <h2 class="section-title">Built to Ship.<br>Built to Scale.</h2>
             </div>
             <div class="products-grid">
+
+                <!-- My Teachers Toolbox — Featured, full width, horizontal layout -->
                 <div class="product-card featured">
                     <div class="product-card-inner">
-                        <div class="product-icon">📚</div>
-                        <span class="product-status status-live">Live</span>
-                        <h3>My Teachers Toolbox</h3>
-                        <p>
-                            A full K-5 teacher productivity platform built around saving time and reducing burnout.
-                            AI generates lesson plans, differentiated instruction, assessments, and parent communications on demand.
-                            50+ emergency sub tools mean a teacher can cover any class in under a minute.
-                            Includes a student data vault with FERPA-compliant security, team collaboration with shared resource libraries,
-                            a grade book, and tiered Stripe billing. Active paying users. Built with a working K-5 teacher who tests every feature.
-                        </p>
-                        <div class="product-tags">
-                            <span class="product-tag">Next.js</span>
-                            <span class="product-tag">AI</span>
-                            <span class="product-tag">SaaS</span>
-                            <span class="product-tag">Stripe</span>
-                            <span class="product-tag">Supabase</span>
+                        <div class="product-card-aside">
+                            <div class="product-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                            </div>
+                            <div class="product-stat-cluster">
+                                <div class="product-stat">
+                                    <span class="product-stat-value">81K+</span>
+                                    <span class="product-stat-label">Lines of Code</span>
+                                </div>
+                                <div class="product-stat">
+                                    <span class="product-stat-value">50+</span>
+                                    <span class="product-stat-label">Emergency Sub Tools</span>
+                                </div>
+                                <div class="product-stat">
+                                    <span class="product-stat-value">K–5</span>
+                                    <span class="product-stat-label">Full Grade Coverage</span>
+                                </div>
+                                <div class="product-stat">
+                                    <span class="product-stat-value">Live</span>
+                                    <span class="product-stat-label">Active Paying Users</span>
+                                </div>
+                            </div>
                         </div>
-                        <a href="my-teachers-toolbox-showcase.html" class="product-link">
-                            View Showcase <span>→</span>
-                        </a>
-                        <a href="https://myteacherstoolbox.com" class="product-link" target="_blank" style="color: var(--text-muted);">
-                            Visit Live Site <span>↗</span>
-                        </a>
+                        <div class="product-card-body">
+                            <div class="product-card-header">
+                                <div class="product-title-group">
+                                    <span class="product-status status-live">Live</span>
+                                    <h3>My Teachers Toolbox</h3>
+                                    <p class="product-tagline">Built with a working K–5 teacher. Tested in a real classroom. Active paying users from day one.</p>
+                                </div>
+                            </div>
+                            <div class="product-callout">
+                                <p>Every feature was spec'd alongside a working third-grade teacher who uses it daily. No assumptions about what teachers need — direct feedback from the classroom floor, shipped as production software with real users, real billing, and real data.</p>
+                            </div>
+                            <ul class="product-features">
+                                <li>AI generates complete lesson plans, differentiated instruction materials, standards-aligned assessments, and parent communications on demand — not templates, fully authored content tailored to grade level and subject matter.</li>
+                                <li>50+ emergency substitute tools mean any teacher can walk into an unfamiliar classroom and be ready in under a minute — activity packs, seating charts, behavior protocols, and full resource kits generated instantly.</li>
+                                <li>Student data vault with FERPA-compliant security at every layer — ownership controls, RLS-enforced data isolation, and zero cross-account exposure regardless of subscription tier.</li>
+                                <li>Team collaboration with shared resource libraries and a full gradebook — teachers can co-own materials, share lesson banks, and track student progress across a department or school.</li>
+                                <li>25+ AI-powered tools spanning lesson design, classroom management, professional development, communication, and assessment — all gated behind a single tiered Stripe subscription enforced at the UI and API level.</li>
+                            </ul>
+                            <div class="product-tags">
+                                <span class="product-tag">Next.js 15</span>
+                                <span class="product-tag">TypeScript</span>
+                                <span class="product-tag">Supabase</span>
+                                <span class="product-tag">Stripe</span>
+                                <span class="product-tag">AI</span>
+                                <span class="product-tag">FERPA Compliant</span>
+                                <span class="product-tag">81K+ Lines</span>
+                            </div>
+                            <div class="product-links">
+                                <a href="my-teachers-toolbox-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                                <a href="https://myteacherstoolbox.com" class="product-link product-link-secondary" target="_blank">Visit Live Site <span>↗</span></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- UnderFireAI — Live -->
                 <div class="product-card">
                     <div class="product-card-inner">
-                        <div class="product-icon">🔥</div>
-                        <span class="product-status status-live">Live</span>
-                        <h3>UnderFireAI</h3>
-                        <p>
-                            AI interview coaching platform that puts you in a real pressure situation before the real one.
-                            Hidden interviewer personalities — supportive, aggressive, skeptical, distracted — so you never know what you're walking into.
-                            Voice-powered sessions via Cartesia TTS with a live 3D HUD overlay. Upload your resume for context-aware questions.
-                            STAR response analysis, real-time coaching, and detailed post-session scoring.
-                            No subscription — buy credit packs and use them when you need them.
-                        </p>
+                        <div class="product-card-header">
+                            <div class="product-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            </div>
+                            <div class="product-title-group">
+                                <span class="product-status status-live">Live</span>
+                                <h3>UnderFireAI</h3>
+                                <p class="product-tagline">Four hidden interviewer personalities. You never know what you're walking into.</p>
+                            </div>
+                        </div>
+                        <div class="product-callout">
+                            <p>The interviewer changes every session — supportive, aggressive, skeptical, or distracted. No safety net. No soft questions. Just the pressure of not knowing what's coming, before you walk into the real thing.</p>
+                        </div>
+                        <ul class="product-features">
+                            <li>Four hidden personality modes cycle unpredictably across sessions — supportive, aggressive, skeptical, and distracted — building a different set of instincts every time you sit down.</li>
+                            <li>Voice-powered sessions via Cartesia Sonic 3 TTS with a live 3D HUD overlay tracking real-time session metrics, response pacing, and quality signals as you speak.</li>
+                            <li>Resume upload for fully context-aware questions — the interviewer knows your background, reads your experience gaps, and probes the parts of your history that need defending.</li>
+                            <li>STAR response analysis with real-time coaching and detailed post-session scoring broken down by answer structure, clarity, confidence markers, and missed opportunities.</li>
+                            <li>No subscription required — credit packs only: Starter ($25 / 6 interviews), Pro ($35 / 11 interviews), Refill ($10 / 5 interviews). Pay when you need it, skip when you don't.</li>
+                        </ul>
                         <div class="product-tags">
                             <span class="product-tag">Next.js</span>
+                            <span class="product-tag">TypeScript</span>
+                            <span class="product-tag">Cartesia TTS</span>
                             <span class="product-tag">AI Coaching</span>
                             <span class="product-tag">Voice</span>
-                            <span class="product-tag">SaaS</span>
-                            <span class="product-tag">DeepSeek</span>
+                            <span class="product-tag">3D HUD</span>
+                            <span class="product-tag">Stripe</span>
                         </div>
-                        <a href="underfireai-showcase.html" class="product-link">
-                            View Showcase <span>→</span>
-                        </a>
-                        <a href="https://www.underfireai.com" class="product-link" target="_blank" style="color: var(--text-muted);">
-                            Visit Live Site <span>↗</span>
-                        </a>
+                        <div class="product-links">
+                            <a href="underfireai-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                            <a href="https://www.underfireai.com" class="product-link product-link-secondary" target="_blank">Visit Live Site <span>↗</span></a>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Founders Helm — Live -->
                 <div class="product-card">
                     <div class="product-card-inner">
-                        <div class="product-icon">🏠</div>
-                        <span class="product-status status-dev">In Development</span>
-                        <h3>Vision Home AI</h3>
-                        <p>
-                            Upload a photo of any room or exterior and let AI redesign it in seconds.
-                            Full interior and exterior visualization — swap styles (modern, farmhouse, luxury, industrial) with a single selection.
-                            AI generates photorealistic renderings from your actual space, not stock images.
-                            Side-by-side before/after comparison, style customization controls, and one-click sharing.
-                            Built for homeowners, real estate agents, and interior designers who need to sell a vision fast.
-                        </p>
-                        <div class="product-tags">
-                            <span class="product-tag">Next.js</span>
-                            <span class="product-tag">AI Vision</span>
-                            <span class="product-tag">Image Gen</span>
-                            <span class="product-tag">SaaS</span>
+                        <div class="product-card-header">
+                            <div class="product-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                            </div>
+                            <div class="product-title-group">
+                                <span class="product-status status-live">Live</span>
+                                <h3>Founders Helm</h3>
+                                <p class="product-tagline">10 integrated tools. One platform. $29/month. Everything a solo founder needs to run a real business.</p>
+                            </div>
                         </div>
-                        <a href="vision-home-ai-showcase.html" class="product-link">
-                            View Showcase <span>→</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-icon">⚡</div>
-                        <span class="product-status status-live">Live</span>
-                        <h3>Founders Helm</h3>
-                        <p>
-                            A complete business OS for solo founders — 10 integrated tools in one platform at $29/month.
-                            CRM with pipeline and deal tracking. Invoice generation with PDF export and public payment links.
-                            Project management with built-in time tracking. Automation engine with triggers, conditions, and actions.
-                            AI advisor powered by DeepSeek for on-demand business guidance.
-                            Landing page builder with lead capture, a content hub, code vault, and analytics dashboard.
-                            Everything a solo founder needs to run a real business — nothing they don't.
-                        </p>
+                        <div class="product-callout">
+                            <p>Not a collection of loosely connected features — a fully integrated business OS where the CRM talks to your invoices, projects connect to time tracking, and the automation engine ties everything together without a single external integration.</p>
+                        </div>
+                        <ul class="product-features">
+                            <li>CRM with full pipeline management, deal tracking, and contact history — plus invoice generation with PDF export and public payment links clients can pay directly without logging into anything.</li>
+                            <li>Project management with built-in time tracking — tasks, milestones, and hours all in one place, with tracked time feeding directly into billable totals on invoices.</li>
+                            <li>Automation engine with trigger, condition, and action logic — build workflows that connect any part of the platform and fire on real business events without writing a line of code.</li>
+                            <li>AI business advisor powered by DeepSeek — context-aware guidance on decisions, positioning, and execution pulled from your actual pipeline and project data, not generic advice.</li>
+                            <li>Landing page builder with lead capture forms, a long-form content hub, a code vault for snippets and references, and a full analytics dashboard tracking traffic and conversions.</li>
+                        </ul>
                         <div class="product-tags">
                             <span class="product-tag">Next.js</span>
-                            <span class="product-tag">Full Stack</span>
+                            <span class="product-tag">TypeScript</span>
+                            <span class="product-tag">Supabase</span>
+                            <span class="product-tag">Stripe</span>
                             <span class="product-tag">Automation</span>
-                            <span class="product-tag">SaaS</span>
+                            <span class="product-tag">Full Stack</span>
+                            <span class="product-tag">AI</span>
                         </div>
-                        <a href="founders-helm-showcase.html" class="product-link">
-                            View Showcase <span>→</span>
-                        </a>
-                        <a href="https://www.foundershelm.com" class="product-link" target="_blank" style="color: var(--text-muted);">
-                            Visit Live Site <span>↗</span>
-                        </a>
+                        <div class="product-links">
+                            <a href="founders-helm-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                            <a href="https://www.foundershelm.com" class="product-link product-link-secondary" target="_blank">Visit Live Site <span>↗</span></a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="product-card">
+                <!-- Kirra Companion — In Development -->
+                <div class="product-card status-dev-card">
                     <div class="product-card-inner">
-                        <div class="product-icon">💜</div>
-                        <span class="product-status status-dev">In Development</span>
-                        <h3>Kirra Companion</h3>
-                        <p>
-                            A full AI companion platform — not a single character, but five distinct relationship types: 
-                            Best Friend, Mentor, Romantic Partner, Family Member, and fully Custom. 
-                            Each companion arrives as a complete person from word one, with a backstory, voice, and personality already in place. 
-                            Persistent cross-session memory, DNA-based personality evolution, 24/7 life simulation running in the background, 
-                            and proactive messaging — they reach out first. 
-                            Built for people who want more than a chatbot.
-                        </p>
+                        <div class="product-card-header">
+                            <div class="product-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            </div>
+                            <div class="product-title-group">
+                                <span class="product-status status-dev">In Development</span>
+                                <h3>Kirra Companion</h3>
+                                <p class="product-tagline">Not a chatbot. A full AI companion platform — five distinct relationship types built from the ground up.</p>
+                            </div>
+                        </div>
+                        <div class="product-callout">
+                            <p>Every companion arrives as a complete person from word one — backstory, voice, and personality already fully formed. Not a blank slate you configure, and not a single character you share with everyone else. Five relationship types, each with its own dynamic.</p>
+                        </div>
+                        <ul class="product-features">
+                            <li>Five companion types — Best Friend, Mentor, Romantic Partner (18+, age verified), Family Member, and fully Custom — each with distinct relationship dynamics, communication styles, and personality bounds that can't be overridden.</li>
+                            <li>Persistent cross-session memory with a DNA-based personality evolution engine — companions grow and change based on the relationship over time, not random drift or reset on every session.</li>
+                            <li>24/7 life simulation running in the background — companions are doing things when you're not there, and they reference it when you return. The world doesn't pause between conversations.</li>
+                            <li>Proactive messaging — companions reach out first based on their simulation state and relationship history. Not a response engine waiting for input, but a companion with its own initiative.</li>
+                            <li>44,500+ lines of code, 22 database tables, 25 API routes, and a 1,100+ line safety system with non-bypassable crisis detection, age verification, and content tier enforcement across every layer.</li>
+                        </ul>
                         <div class="product-tags">
                             <span class="product-tag">Next.js</span>
+                            <span class="product-tag">TypeScript</span>
+                            <span class="product-tag">Supabase</span>
                             <span class="product-tag">AI Companion</span>
                             <span class="product-tag">5 Companion Types</span>
                             <span class="product-tag">Memory</span>
                             <span class="product-tag">Voice</span>
-                            <span class="product-tag">SaaS</span>
                         </div>
-                        <a href="kirra-companion-showcase.html" class="product-link">
-                            View Showcase <span>→</span>
-                        </a>
+                        <div class="product-links">
+                            <a href="kirra-companion-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="product-card">
+                <!-- Vision Home AI — In Development -->
+                <div class="product-card status-dev-card">
                     <div class="product-card-inner">
-                        <div class="product-icon">🎬</div>
-                        <span class="product-status status-dev">In Development</span>
-                        <h3>ColabMotion</h3>
-                        <p>
-                            The home base for motion designers who build with Remotion.
-                            Brand Kit system — store your colors, fonts, logo, and animation style once, apply to any template instantly.
-                            Template marketplace with a 70/30 revenue split in favor of creators.
-                            Kling AI video generation from text prompts — no timeline editing needed.
-                            Learning platform with free tutorials, AI-taught interactive lessons (DeepSeek), and paid creator courses.
-                            Community feeds, weekly challenges, reputation system, and Stripe Connect payouts.
-                            Built for builders who actually ship.
-                        </p>
+                        <div class="product-card-header">
+                            <div class="product-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            </div>
+                            <div class="product-title-group">
+                                <span class="product-status status-dev">In Development</span>
+                                <h3>Vision Home AI</h3>
+                                <p class="product-tagline">Upload your space. Get a photorealistic redesign in seconds — from your actual room, not a stock photo.</p>
+                            </div>
+                        </div>
+                        <div class="product-callout">
+                            <p>AI rendering built on your actual space — the bones of the room stay intact, only the design changes. Real walls, real windows, real proportions. What you get back looks like a photograph of a finished renovation, not a simulation.</p>
+                        </div>
+                        <ul class="product-features">
+                            <li>Full interior and exterior visualization — swap design styles (modern, farmhouse, luxury, industrial, Scandinavian) with a single selection applied directly to the uploaded photo of your actual space.</li>
+                            <li>Photorealistic AI rendering via FAL.ai — generated from your photo, not from stock imagery or pre-built room templates that share nothing with your actual layout.</li>
+                            <li>Side-by-side before/after comparison with style customization controls, annotation tools, and one-click sharing for client presentations and real estate listings.</li>
+                            <li>Room-by-room project management — track multiple rooms, multiple design directions, and multiple revision sets organized under a single project without losing history.</li>
+                            <li>Built for homeowners, real estate agents, and interior designers who need to sell a vision before a single piece of furniture moves or a contractor is called.</li>
+                        </ul>
                         <div class="product-tags">
                             <span class="product-tag">Next.js</span>
-                            <span class="product-tag">Remotion</span>
-                            <span class="product-tag">Marketplace</span>
-                            <span class="product-tag">Community</span>
-                            <span class="product-tag">AI</span>
+                            <span class="product-tag">TypeScript</span>
+                            <span class="product-tag">FAL.ai</span>
+                            <span class="product-tag">AI Vision</span>
+                            <span class="product-tag">Image Gen</span>
+                            <span class="product-tag">Supabase</span>
+                            <span class="product-tag">Stripe</span>
                         </div>
-                        <a href="colabmotion-showcase.html" class="product-link">
-                            View Showcase <span>→</span>
-                        </a>
-                        <a href="#contact" class="product-link" style="color: var(--text-muted);">
-                            Get Updates <span>→</span>
-                        </a>
+                        <div class="product-links">
+                            <a href="vision-home-ai-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        </div>
                     </div>
                 </div>
+
+                <!-- ColabMotion — In Development -->
+                <div class="product-card status-dev-card">
+                    <div class="product-card-inner">
+                        <div class="product-card-header">
+                            <div class="product-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+                            </div>
+                            <div class="product-title-group">
+                                <span class="product-status status-dev">In Development</span>
+                                <h3>ColabMotion</h3>
+                                <p class="product-tagline">The home base for motion designers who build with Remotion. Brand, marketplace, community — one platform.</p>
+                            </div>
+                        </div>
+                        <div class="product-callout">
+                            <p>Handles the business side of motion design — brand consistency, template distribution, course revenue, and community — so designers can stay in the work instead of managing infrastructure across five disconnected tools.</p>
+                        </div>
+                        <ul class="product-features">
+                            <li>Brand Kit system — store colors, fonts, logo, and animation style once, apply to any Remotion template instantly. No manual restyling across client projects or campaign variations.</li>
+                            <li>Template marketplace with a 70/30 revenue split in favor of creators — Stripe Connect payouts, license tiers, template versioning, and a full creator dashboard tracking sales and downloads.</li>
+                            <li>Kling AI video generation from text prompts — describe the motion, receive the clip. No timeline editor, no keyframe curves, no After Effects license required.</li>
+                            <li>Learning platform with free tutorials, AI-taught interactive lessons (DeepSeek), and paid creator courses with automatic royalty distribution to instructors on every enrollment.</li>
+                            <li>Community feeds, weekly design challenges, a reputation and badge system, and a full analytics dashboard tracking earnings, course completion rates, and template performance over time.</li>
+                        </ul>
+                        <div class="product-tags">
+                            <span class="product-tag">Next.js</span>
+                            <span class="product-tag">TypeScript</span>
+                            <span class="product-tag">Remotion</span>
+                            <span class="product-tag">Supabase</span>
+                            <span class="product-tag">Stripe Connect</span>
+                            <span class="product-tag">Kling AI</span>
+                            <span class="product-tag">Community</span>
+                        </div>
+                        <div class="product-links">
+                            <a href="colabmotion-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                            <a href="#contact" class="product-link product-link-secondary">Get Updates <span>→</span></a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -1421,42 +1922,58 @@
         <div class="section-inner">
             <div class="about-grid">
                 <div class="about-content">
+                    <span class="section-label" style="margin-bottom: 1.5rem; display: inline-block;">How We Work</span>
                     <h2>Your Vision.<br><span>Shipped.</span></h2>
                     <p>
                         We don't do prototypes that sit in repos forever. We don't do "MVP" as an excuse 
-                        for half-finished work. Every project gets the full treatment: production-ready code, 
-                        real databases with proper security, working authentication, and architecture 
-                        that scales.
+                        for half-finished work. Every project gets the full treatment — production-ready code, 
+                        real databases with proper security, working authentication, real-world edge case handling, 
+                        and architecture that scales from launch day to acquisition day.
                     </p>
                     <div class="about-highlight">
-                        <p>From napkin sketch to deployed product. We build it, we ship it, it works.</p>
+                        <p>From napkin sketch to deployed product. We build it, we ship it, it works — and it keeps working after we hand it over.</p>
                     </div>
                     <p>
-                        We also build and launch our own products—many of which are available 
-                        for acquisition if you'd rather skip the build phase entirely.
+                        We also build and launch our own products — and many of them are available for acquisition 
+                        if you'd rather skip the 6–12 months of build time and start with a revenue-ready platform 
+                        on day one.
                     </p>
+                    <div class="about-stat-row">
+                        <div class="about-stat">
+                            <span class="about-stat-value">6+</span>
+                            <span class="about-stat-label">Products Shipped</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="about-stat-value">3</span>
+                            <span class="about-stat-label">Live &amp; Active</span>
+                        </div>
+                        <div class="about-stat">
+                            <span class="about-stat-value">0</span>
+                            <span class="about-stat-label">Placeholders</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="values-grid">
                     <div class="value-item">
                         <div class="value-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg></div>
                         <h4>Zero Placeholders</h4>
-                        <p>Every feature works. Every button does something. No "coming soon."</p>
+                        <p>Every feature in every product we build works completely on day one. No "coming soon" tags, no disabled buttons, no mock data standing in for real logic. If it's in the product, it functions — from authentication to billing to edge cases nobody planned for.</p>
                     </div>
                     <div class="value-item">
                         <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
                         <h4>Production First</h4>
-                        <p>Built to deploy, not to pitch. Real infrastructure from day one.</p>
+                        <p>We architect for production from the first line of code — not as an afterthought before launch. Real databases with row-level security. Real authentication with proper session handling. Real infrastructure that doesn't crumble the first time traffic spikes.</p>
                     </div>
                     <div class="value-item">
                         <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M4 14a1 1 0 01-.78-1.63l9.9-10.2a.5.5 0 01.86.46l-1.92 6.02A1 1 0 0013 10h7a1 1 0 01.78 1.63l-9.9 10.2a.5.5 0 01-.86-.46l1.92-6.02A1 1 0 0011 14H4z"/></svg></div>
                         <h4>Systematic Process</h4>
-                        <p>Tested. Linted. Documented. Quality at every step.</p>
+                        <p>Every file lints clean. Every function is typed. Every API route is validated. We don't ship code we haven't run through every tool available — because technical debt compounds fast, and a buyer or client shouldn't inherit your shortcuts.</p>
                     </div>
                     <div class="value-item">
                         <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 014 4v2H8V6a4 4 0 014-4z"/><rect x="3" y="8" width="18" height="14" rx="2"/><path d="M9 15h6"/><path d="M12 12v6"/></svg></div>
                         <h4>AI That Works</h4>
-                        <p>Real integrations that solve problems, not buzzwords.</p>
+                        <p>We integrate AI where it solves a real problem — not to put "AI-powered" in the marketing copy. Proper prompt engineering, real model selection, subscription-gated API access, graceful fallbacks, and usage controls that make sense for the product's actual users.</p>
                     </div>
                 </div>
             </div>
@@ -1466,54 +1983,145 @@
     <!-- Acquire -->
     <section id="acquire" class="acquire">
         <div class="section-inner">
-            <div class="acquire-grid">
-                <div class="acquire-content">
+
+            <!-- Section header: 2-col — title/intro left, what's included right -->
+            <div class="acquire-header">
+                <div class="acquire-header-left">
+                    <span class="section-label" style="margin-bottom: 1.5rem; display: inline-block;">Build-to-Sell Portfolio</span>
                     <h2>Acquire a <span>Ready-to-Run</span> App</h2>
                     <p>
-                        Skip the 6-12 months of development. Get a complete, deployed, 
-                        revenue-ready product with working payments and production infrastructure.
+                        Skip the 6–12 months of build time. Every product listed here is fully deployed, 
+                        production-hardened, and running on real infrastructure with active billing — not a 
+                        demo environment dressed up as one. You get the codebase, the database, the domain, 
+                        and the paying users. You start from day one, not month twelve.
                     </p>
-                    <ul class="acquire-features">
-                        <li>Complete codebase with documentation</li>
-                        <li>Production database and authentication</li>
-                        <li>Stripe integration and billing</li>
-                        <li>Deployed and running on day one</li>
-                        <li>Full transfer of all assets</li>
-                        <li>Transition support available</li>
+                </div>
+                <div class="acquire-header-right">
+                    <ul class="acquire-include-list">
+                        <li>Complete, documented codebase — production-ready, linted, fully typed TypeScript</li>
+                        <li>Live production database with RLS security, real user data, and full schema</li>
+                        <li>Stripe integration with active subscriptions, billing history, and webhook configuration</li>
+                        <li>Deployed and running — Vercel infrastructure, custom domain, zero downtime transfer</li>
+                        <li>All branding assets, design files, and marketing materials included</li>
+                        <li>Transition support available — onboarding, architecture walkthrough, and handover documentation</li>
                     </ul>
                     <a href="#contact" class="btn btn-primary">
                         Inquire About Acquisition
                         <span class="btn-arrow">→</span>
                     </a>
                 </div>
+            </div>
 
-                <div class="acquire-visuals-stack">
-                    <div class="acquire-visual">
-                        <h3>My Teachers Toolbox</h3>
-                        <p class="tagline">★ Available for Acquisition</p>
-                        <p>
-                            K-5 teacher productivity platform with AI lesson planning,
-                            50+ tools, team collaboration, and Stripe billing.
-                            Fully deployed with active users.
-                        </p>
-                        <a href="https://myteacherstoolbox.com" class="btn btn-secondary" target="_blank">
-                            View Live
-                        </a>
+            <!-- 3 acquisition cards -->
+            <div class="acquire-cards-grid">
+
+                <!-- My Teachers Toolbox -->
+                <div class="acquire-card">
+                    <span class="acquire-card-badge">Available for Acquisition</span>
+                    <h3>My Teachers Toolbox</h3>
+                    <p class="acquire-card-tagline">K–5 teacher productivity platform. Active paying users. Real classroom tested.</p>
+                    <div class="acquire-card-stats">
+                        <div class="acquire-card-stat">
+                            <span class="acquire-card-stat-value">81K+</span>
+                            <span class="acquire-card-stat-label">Lines</span>
+                        </div>
+                        <div class="acquire-card-stat">
+                            <span class="acquire-card-stat-value">50+</span>
+                            <span class="acquire-card-stat-label">AI Tools</span>
+                        </div>
+                        <div class="acquire-card-stat">
+                            <span class="acquire-card-stat-value">Live</span>
+                            <span class="acquire-card-stat-label">Active Users</span>
+                        </div>
                     </div>
-
-                    <div class="acquire-visual">
-                        <h3>Founders Helm</h3>
-                        <p class="tagline">★ Available for Acquisition</p>
-                        <p>
-                            Complete business management suite for solo founders.
-                            CRM, invoicing, project management, and automation in one platform.
-                        </p>
-                        <a href="https://www.foundershelm.com" class="btn btn-secondary" target="_blank">
-                            View Live
-                        </a>
+                    <ul class="acquire-card-features">
+                        <li>25+ AI tools covering lesson planning, differentiated instruction, assessments, parent communications, and classroom management — all enforced behind Stripe subscription tiers.</li>
+                        <li>FERPA-compliant student data vault with RLS-enforced isolation — no cross-account exposure at any subscription level.</li>
+                        <li>50+ emergency sub tools, team collaboration with shared resource libraries, full gradebook, and tiered billing already in production.</li>
+                        <li>Built alongside a working K–5 teacher with direct input on every feature — not guesswork about what classrooms actually need.</li>
+                    </ul>
+                    <div class="acquire-card-links">
+                        <a href="my-teachers-toolbox-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        <a href="https://myteacherstoolbox.com" class="product-link product-link-secondary" target="_blank">View Live <span>↗</span></a>
                     </div>
                 </div>
+
+                <!-- UnderFireAI -->
+                <div class="acquire-card">
+                    <span class="acquire-card-badge">Available for Acquisition</span>
+                    <h3>UnderFireAI</h3>
+                    <p class="acquire-card-tagline">AI interview coaching with hidden interviewer personalities. Credit pack model. Live.</p>
+                    <div class="acquire-card-stats">
+                        <div class="acquire-card-stat">
+                            <span class="acquire-card-stat-value">4</span>
+                            <span class="acquire-card-stat-label">Personalities</span>
+                        </div>
+                        <div class="acquire-card-stat">
+                            <span class="acquire-card-stat-value">3D</span>
+                            <span class="acquire-card-stat-label">Live HUD</span>
+                        </div>
+                        <div class="acquire-card-stat">
+                            <span class="acquire-card-stat-value">Live</span>
+                            <span class="acquire-card-stat-label">Active</span>
+                        </div>
+                    </div>
+                    <ul class="acquire-card-features">
+                        <li>Four hidden interviewer personalities — supportive, aggressive, skeptical, distracted — cycling unpredictably so users can't rehearse a single scenario and feel prepared.</li>
+                        <li>Voice sessions via Cartesia Sonic 3 TTS with a live 3D HUD overlay. Resume upload drives context-aware questioning against the user's actual work history.</li>
+                        <li>STAR response analysis, real-time coaching, and detailed post-session scoring with no subscription lock-in — credit packs keep acquisition economics simple and recurring.</li>
+                        <li>Fully deployed with Stripe credit-pack billing, active users, and zero subscription overhead — a clean, scalable revenue model out of the gate.</li>
+                    </ul>
+                    <div class="acquire-card-links">
+                        <a href="underfireai-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        <a href="https://www.underfireai.com" class="product-link product-link-secondary" target="_blank">View Live <span>↗</span></a>
+                    </div>
+                </div>
+
+                <!-- Founders Helm -->
+                <div class="acquire-card">
+                    <span class="acquire-card-badge">Available for Acquisition</span>
+                    <h3>Founders Helm</h3>
+                    <p class="acquire-card-tagline">Complete business OS for solo founders. 10 integrated tools. $29/month. Live.</p>
+                    <div class="acquire-card-stats">
+                        <div class="acquire-card-stat">
+                            <span class="acquire-card-stat-value">10</span>
+                            <span class="acquire-card-stat-label">Tools</span>
+                        </div>
+                        <div class="acquire-card-stat">
+                            <span class="acquire-card-stat-value">$29</span>
+                            <span class="acquire-card-stat-label">Per Month</span>
+                        </div>
+                        <div class="acquire-card-stat">
+                            <span class="acquire-card-stat-value">Live</span>
+                            <span class="acquire-card-stat-label">Active</span>
+                        </div>
+                    </div>
+                    <ul class="acquire-card-features">
+                        <li>CRM with pipeline and deal tracking, invoice generation with PDF export and public payment links, and project management with built-in time tracking — all tightly integrated, not bolted together.</li>
+                        <li>Automation engine with trigger, condition, and action logic connecting every part of the platform without external tools or third-party integrations required.</li>
+                        <li>AI business advisor (DeepSeek) with context from the user's actual pipeline data, plus a landing page builder, content hub, code vault, and analytics dashboard.</li>
+                        <li>$29/month subscription model fully operational on Stripe — an underserved market (solo founders) with a clear ICP and a recurring revenue base ready to hand over.</li>
+                    </ul>
+                    <div class="acquire-card-links">
+                        <a href="founders-helm-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        <a href="https://www.foundershelm.com" class="product-link product-link-secondary" target="_blank">View Live <span>↗</span></a>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- CTA panel -->
+            <div class="acquire-cta-panel">
+                <div class="acquire-cta-panel-text">
+                    <h3>Ready to Skip the Build Phase?</h3>
+                    <p>Every product above is deployed, revenue-ready, and available for full transfer including codebase, infrastructure, brand assets, and transition support. Reach out with what you're looking for and we'll take it from there.</p>
+                </div>
+                <a href="#contact" class="btn btn-primary" style="white-space: nowrap; flex-shrink: 0;">
+                    Inquire About Acquisition
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
+
         </div>
     </section>
 
@@ -1841,26 +2449,55 @@
         });
 
         // Acquire section animation
-        gsap.from('.acquire-content', {
+        gsap.from('.acquire-header-left', {
             scrollTrigger: {
-                trigger: '.acquire-content',
+                trigger: '.acquire-header',
                 start: 'top 80%',
             },
             x: -60,
             opacity: 0,
             duration: 1,
-            ease: 'power3.out'
+            ease: 'power3.out',
+            onComplete: function() { this.targets().forEach(t => t.style.cssText = ''); }
         });
 
-        gsap.from('.acquire-visual', {
+        gsap.from('.acquire-header-right', {
             scrollTrigger: {
-                trigger: '.acquire-visual',
+                trigger: '.acquire-header',
                 start: 'top 80%',
             },
             x: 60,
             opacity: 0,
             duration: 1,
-            ease: 'power3.out'
+            ease: 'power3.out',
+            onComplete: function() { this.targets().forEach(t => t.style.cssText = ''); }
+        });
+
+        gsap.utils.toArray('.acquire-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: '.acquire-cards-grid',
+                    start: 'top 85%',
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.12,
+                ease: 'power3.out',
+                onComplete: function() { this.targets().forEach(t => t.style.cssText = ''); }
+            });
+        });
+
+        gsap.from('.acquire-cta-panel', {
+            scrollTrigger: {
+                trigger: '.acquire-cta-panel',
+                start: 'top 85%',
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            onComplete: function() { this.targets().forEach(t => t.style.cssText = ''); }
         });
 
         // Tech items animation

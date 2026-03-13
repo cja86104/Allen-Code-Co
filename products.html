@@ -13,39 +13,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products | Allen Code Co — Software Development Studio</title>
-    <meta name="description" content="Production-ready applications built by Allen Code Co. Explore our portfolio of shipped SaaS products.">
+    <meta name="description" content="Production-ready applications built by Allen Code Co. Explore our full portfolio of shipped SaaS products.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* ── Design Tokens — exact match to allen-code-co-animated.html ── */
         :root {
-            --bg: #F2F0EB;
-            --bg-alt: #EAE7E1;
-            --bg-card: #FFFFFF;
+            --bg-dark: #F2F0EB;
+            --bg-darker: #EAE7E1;
+            --bg-card: rgba(255, 255, 255, 0.85);
             --accent: #D97706;
-            --accent-hover: #B45309;
+            --accent-bright: #B45309;
             --accent-glow: rgba(217, 119, 6, 0.12);
-            --text: #1C1917;
+            --text-primary: #1C1917;
             --text-secondary: #57534E;
             --text-muted: #A8A29E;
             --border: #E7E5E4;
             --border-hover: #D6D3D1;
+            --gradient-1: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            --gradient-2: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Outfit', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
             overflow-x: hidden;
+            line-height: 1.7;
         }
 
         /* Grain overlay */
-        .grain {
+        .noise {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1000; opacity: 0.025;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
@@ -61,7 +64,7 @@
         }
 
         .header-inner {
-            max-width: 1400px; margin: 0 auto; padding: 1.25rem 3rem;
+            max-width: 1400px; margin: 0 auto; padding: 1.5rem 3rem;
             display: flex; justify-content: space-between; align-items: center;
         }
 
@@ -70,72 +73,140 @@
             text-decoration: none;
         }
 
-        .logo-mark svg { width: 40px; height: 40px; }
+        .logo-mark svg { width: 42px; height: 42px; }
 
         .logo-text {
             font-family: 'Outfit', sans-serif;
-            font-weight: 700; font-size: 1rem;
-            color: var(--text);
+            font-weight: 700; font-size: 1.05rem;
+            color: var(--text-primary);
             letter-spacing: 3px; text-transform: uppercase;
         }
 
-        nav { display: flex; align-items: center; gap: 2.5rem; }
+        nav { display: flex; align-items: center; gap: 3rem; }
 
         nav a {
             text-decoration: none; color: var(--text-secondary);
             font-weight: 500; font-size: 0.9rem; letter-spacing: 0.5px;
-            transition: color 0.3s;
+            transition: color 0.3s ease; position: relative;
         }
 
-        nav a:hover { color: var(--accent); }
-
-        nav a.active {
-            color: var(--accent);
-            font-weight: 600;
+        nav a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px; background: var(--accent);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        nav a:hover { color: var(--text-primary); }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a.active { color: var(--text-primary); font-weight: 600; }
 
         .nav-cta {
             background: var(--accent); color: #FFFFFF !important;
-            padding: 0.6rem 1.25rem; border-radius: 100px; font-weight: 600;
+            padding: 0.75rem 1.5rem; border-radius: 100px; font-weight: 600;
         }
 
-        .nav-cta:hover { background: var(--accent-hover); }
+        .nav-cta::after { display: none; }
+        .nav-cta:hover { background: var(--accent-bright); }
 
-        /* ── Hero ── */
+        /* ── Page Hero ── */
         .page-hero {
-            padding: 10rem 3rem 5rem;
+            padding: 11rem 3rem 6rem;
             max-width: 1400px; margin: 0 auto;
         }
 
-        .page-hero .label {
+        .page-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: end;
+        }
+
+        .back-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            text-decoration: none; color: var(--text-muted);
+            font-size: 0.85rem; font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover { color: var(--accent); }
+
+        .section-label {
+            display: inline-block;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem; font-weight: 600;
+            font-size: 0.82rem; font-weight: 600;
             color: var(--accent);
             letter-spacing: 3px; text-transform: uppercase;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
         .page-hero h1 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700; line-height: 1.1;
-            letter-spacing: -0.01em;
-            margin-bottom: 1.25rem;
+            font-size: clamp(2.75rem, 7vw, 5.5rem);
+            font-weight: 700; line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.75rem;
         }
 
         .page-hero h1 em {
             font-style: italic; color: var(--accent);
         }
 
-        .page-hero p {
-            font-size: 1.15rem; color: var(--text-secondary);
-            max-width: 640px; line-height: 1.8;
+        .page-hero-desc {
+            font-size: 1.1rem; color: var(--text-secondary);
+            line-height: 1.85;
         }
 
-        /* ── Products Grid ── */
+        .hero-stat-row {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        .hero-stat-item {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            padding: 1.65rem 2.5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            transition: background 0.3s ease;
+        }
+
+        .hero-stat-item:last-child { border-bottom: none; }
+
+        .hero-stat-item::before {
+            content: '';
+            position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--gradient-1);
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+
+        .hero-stat-item:hover { background: rgba(255,255,255,0.6); }
+        .hero-stat-item:hover::before { opacity: 1; }
+
+        .hero-stat-label {
+            font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;
+        }
+
+        .hero-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.35rem; font-weight: 700; color: var(--accent);
+        }
+
+        /* ── Section Divider ── */
+        .section-divider {
+            max-width: 1400px; margin: 0 auto;
+            padding: 0 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── Products Section ── */
         .products-section {
             max-width: 1400px; margin: 0 auto;
-            padding: 2rem 3rem 8rem;
+            padding: 5rem 3rem 10rem;
         }
 
         .products-grid {
@@ -144,166 +215,214 @@
             gap: 2rem;
         }
 
-        /* ── Product Card ── */
+        /* ── Product Card — exact match to animated site ── */
         .product-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem;
+            border-radius: 24px;
+            padding: 3rem;
             position: relative;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             flex-direction: column;
+        }
+
+        /* Top accent bar */
+        .product-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            z-index: 2;
+        }
+
+        .product-card.status-dev-card::before {
+            background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+        }
+
+        /* Hover glow */
+        .product-card::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.04) 0%, transparent 60%);
+            opacity: 0; transition: opacity 0.5s ease;
+            pointer-events: none; z-index: 0;
         }
 
         .product-card:hover {
             border-color: var(--border-hover);
             transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(28, 25, 23, 0.08);
+            box-shadow: 0 24px 60px rgba(28, 25, 23, 0.08);
         }
 
-        .product-card.has-showcase:hover {
-            border-color: var(--accent);
+        .product-card:hover::after { opacity: 1; }
+
+        .product-card.featured { grid-column: 1 / -1; }
+
+        .product-card-inner {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column; height: 100%;
         }
 
-        .card-top {
-            display: flex; align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.25rem;
+        /* Featured horizontal layout */
+        .product-card.featured .product-card-inner {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 3.5rem;
+            align-items: start;
         }
 
-        .card-icon {
-            width: 52px; height: 52px;
-            border-radius: 14px;
+        .product-card-aside {
+            display: flex; flex-direction: column; gap: 2.5rem;
+            padding-right: 3.5rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .product-icon {
+            width: 72px; height: 72px; border-radius: 18px;
+            background: var(--gradient-1);
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            flex-shrink: 0;
         }
 
-        .card-icon.blue {
-            background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+        .product-icon svg {
+            width: 32px; height: 32px;
+            stroke: #FFFFFF; stroke-width: 1.75;
+            fill: none; stroke-linecap: round; stroke-linejoin: round;
         }
 
-        .status {
+        .product-card.status-dev-card .product-icon { background: var(--gradient-2); }
+
+        .product-stat-cluster { display: flex; flex-direction: column; }
+
+        .product-stat {
+            display: flex; flex-direction: column; gap: 0.25rem;
+            padding: 1rem 0; border-bottom: 1px solid var(--border);
+        }
+
+        .product-stat:first-child { padding-top: 0; }
+        .product-stat:last-child { border-bottom: none; }
+
+        .product-stat-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem; font-weight: 600;
+            font-size: 1.5rem; font-weight: 700;
+            color: var(--accent); line-height: 1;
+        }
+
+        .product-stat-label {
+            font-size: 0.7rem; color: var(--text-muted);
             text-transform: uppercase; letter-spacing: 1.5px;
-            padding: 0.3rem 0.75rem;
-            border-radius: 100px;
         }
 
-        .status-live {
-            background: rgba(22, 163, 74, 0.1);
-            color: #16A34A;
+        .product-card-body {
+            display: flex; flex-direction: column; height: 100%;
         }
 
-        .status-dev {
-            background: rgba(37, 99, 235, 0.1);
-            color: #2563EB;
+        .product-card-header {
+            display: flex; align-items: flex-start;
+            gap: 1.5rem; margin-bottom: 1.75rem;
         }
 
-        .status-coming {
-            background: rgba(168, 162, 158, 0.15);
-            color: #A8A29E;
+        .product-title-group { flex: 1; }
+
+        .product-status {
+            display: inline-block;
+            font-size: 0.7rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 0.35rem 0.75rem; border-radius: 100px;
+            margin-bottom: 0.6rem;
         }
+
+        .status-live { background: rgba(22, 163, 74, 0.1); color: #16A34A; }
+        .status-dev  { background: rgba(37, 99, 235, 0.1); color: #2563EB; }
 
         .product-card h3 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.5rem; font-weight: 600;
-            margin-bottom: 0.75rem;
+            font-size: 2rem; font-weight: 700;
+            line-height: 1.05; margin-bottom: 0.4rem;
         }
 
-        .product-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.7;
-            margin-bottom: 1.25rem;
-            flex-grow: 1;
+        .product-tagline {
+            font-size: 0.95rem; color: var(--text-muted);
+            line-height: 1.55; font-style: italic;
         }
 
-        .tech-tags {
-            display: flex; flex-wrap: wrap; gap: 0.4rem;
-            margin-bottom: 1.5rem;
+        .product-callout {
+            background: var(--bg-darker);
+            border-left: 3px solid var(--accent);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.75rem;
+            border-radius: 0 12px 12px 0;
         }
 
-        .tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem; font-weight: 500;
-            padding: 0.3rem 0.65rem;
-            background: rgba(28, 25, 23, 0.04);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            color: var(--text-muted);
+        .product-callout p {
+            font-size: 0.95rem; font-weight: 500;
+            color: var(--text-primary); line-height: 1.7; margin-bottom: 0;
         }
 
-        .card-actions {
-            display: flex; gap: 1rem; align-items: center;
-            padding-top: 1.25rem;
+        .product-features {
+            list-style: none; margin-bottom: 1.75rem;
             border-top: 1px solid var(--border);
         }
 
-        .showcase-link {
+        .product-features li {
+            display: flex; align-items: flex-start;
+            gap: 0.85rem; padding: 0.85rem 0;
+            color: var(--text-secondary); font-size: 0.93rem;
+            line-height: 1.6; border-bottom: 1px solid var(--border);
+        }
+
+        .product-features li::before {
+            content: '→'; color: var(--accent);
+            font-weight: 700; flex-shrink: 0; margin-top: 0.05rem;
+        }
+
+        .product-tags {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; font-weight: 500;
+            padding: 0.35rem 0.75rem;
+            background: rgba(28, 25, 23, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 100px; color: var(--text-muted);
+        }
+
+        .product-links {
+            display: flex; gap: 2rem; align-items: center;
+            padding-top: 1.5rem; border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .product-link {
             display: inline-flex; align-items: center; gap: 0.5rem;
+            color: var(--accent); text-decoration: none;
             font-weight: 600; font-size: 0.9rem;
-            color: var(--accent);
-            text-decoration: none;
-            transition: gap 0.3s;
+            transition: gap 0.3s ease;
         }
 
-        .showcase-link:hover { gap: 0.85rem; }
-
-        .live-link {
-            font-size: 0.85rem; font-weight: 500;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .live-link:hover { color: var(--text); }
-
-        .coming-soon-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        /* ── Back Link ── */
-        .back-link {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            text-decoration: none; color: var(--text-muted);
-            font-size: 0.85rem; font-weight: 500;
-            margin-bottom: 0;
-            transition: color 0.3s;
-        }
-
-        .back-link:hover { color: var(--accent); }
+        .product-link:hover { gap: 1rem; }
+        .product-link-secondary { color: var(--text-muted); }
+        .product-link-secondary:hover { color: var(--text-secondary); }
 
         /* ── Footer ── */
         footer {
+            background: var(--bg-darker);
             border-top: 1px solid var(--border);
-            padding: 3rem;
-            max-width: 1400px; margin: 0 auto;
         }
 
         .footer-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1400px; margin: 0 auto; padding: 3rem;
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .footer-left {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
+        .footer-left { font-size: 0.85rem; color: var(--text-muted); }
+        .footer-left a { color: var(--accent); text-decoration: none; }
 
-        .footer-left a {
-            color: var(--accent); text-decoration: none;
-        }
-
-        .footer-right {
-            display: flex; gap: 2rem;
-        }
+        .footer-right { display: flex; gap: 2rem; }
 
         .footer-right a {
             color: var(--text-muted); text-decoration: none;
@@ -312,34 +431,61 @@
 
         .footer-right a:hover { color: var(--accent); }
 
-        /* ── Reveal Animation ── */
+        /* ── Reveal ── */
         .reveal {
-            opacity: 0; transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            opacity: 0; transform: translateY(32px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .reveal.visible {
-            opacity: 1; transform: translateY(0);
-        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.1s; }
+        .reveal-d2 { transition-delay: 0.2s; }
+        .reveal-d3 { transition-delay: 0.3s; }
 
         /* ── Responsive ── */
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .products-grid { grid-template-columns: 1fr; }
+
+            .product-card.featured .product-card-inner {
+                grid-template-columns: 1fr; gap: 2.5rem;
+            }
+
+            .product-card-aside {
+                padding-right: 0; border-right: none;
+                border-bottom: 1px solid var(--border); padding-bottom: 2rem;
+                flex-direction: row; flex-wrap: wrap; gap: 2rem;
+            }
+
+            .product-stat-cluster { flex-direction: row; flex-wrap: wrap; flex: 1; }
+
+            .product-stat {
+                padding: 0 2rem 0 0; border-bottom: none;
+                border-right: 1px solid var(--border); margin-right: 2rem;
+            }
+
+            .product-stat:last-child {
+                border-right: none; padding-right: 0; margin-right: 0;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .page-hero-grid { grid-template-columns: 1fr; gap: 3rem; }
         }
 
         @media (max-width: 768px) {
             nav { display: none; }
-            .header-inner { padding: 1rem 1.5rem; }
-            .page-hero { padding: 8rem 1.5rem 3rem; }
-            .products-section { padding: 1.5rem 1.5rem 5rem; }
-            footer { padding: 2rem 1.5rem; }
-            .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
+            .header-inner { padding: 1.25rem 1.5rem; }
+            .page-hero { padding: 8rem 1.5rem 4rem; }
+            .products-section { padding: 3rem 1.5rem 6rem; }
+            .section-divider { padding: 0 1.5rem; }
+            .footer-inner { padding: 2rem 1.5rem; flex-direction: column; gap: 1.5rem; text-align: center; }
             .footer-right { justify-content: center; }
         }
     </style>
 </head>
 <body>
-    <div class="grain"></div>
+    <div class="noise"></div>
 
     <!-- Header -->
     <header>
@@ -372,136 +518,299 @@
     </header>
 
     <!-- Hero -->
-    <section class="page-hero">
-        <a href="https://www.allencodeco.com" class="back-link">← Back to Home</a>
-        <div style="margin-top: 2rem;">
-            <div class="label">Our Products</div>
-            <h1>Built to Ship.<br>Built to <em>Scale.</em></h1>
-            <p>Production-ready applications from concept to deployment. Every feature works, every button does something. Explore the portfolio.</p>
+    <div class="page-hero">
+        <div class="page-hero-grid">
+            <div class="page-hero-left">
+                <a href="https://www.allencodeco.com" class="back-link">← Back to Home</a>
+                <span class="section-label">Our Products</span>
+                <h1>Built to Ship.<br>Built to <em>Scale.</em></h1>
+                <p class="page-hero-desc">
+                    Every product in this portfolio is production-grade — real databases, real billing, real users.
+                    No demos dressed as products. No placeholders standing in for real logic.
+                    This is the full body of work, as deployed.
+                </p>
+            </div>
+            <div class="hero-stat-row reveal">
+                <div class="hero-stat-item">
+                    <span class="hero-stat-label">Products Shipped</span>
+                    <span class="hero-stat-value">6+</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-label">Live &amp; Active</span>
+                    <span class="hero-stat-value">3</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-label">Lines of Code</span>
+                    <span class="hero-stat-value">250K+</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-label">Available for Acquisition</span>
+                    <span class="hero-stat-value">3</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-label">Placeholders</span>
+                    <span class="hero-stat-value">0</span>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Products Grid -->
+    <div class="section-divider"></div>
+
+    <!-- Products -->
     <section class="products-section">
         <div class="products-grid">
 
-            <!-- My Teachers Toolbox -->
-            <div class="product-card has-showcase reveal">
-                <div class="card-top">
-                    <div class="card-icon">📚</div>
-                    <span class="status status-live">Live</span>
-                </div>
-                <h3>My Teachers Toolbox</h3>
-                <p>K-5 teacher productivity platform with AI-powered lesson planning, 50+ emergency tools, team collaboration, and Stripe billing. Full SaaS with active users.</p>
-                <div class="tech-tags">
-                    <span class="tag">Next.js 15</span>
-                    <span class="tag">React 19</span>
-                    <span class="tag">DeepSeek AI</span>
-                    <span class="tag">Supabase</span>
-                    <span class="tag">Stripe</span>
-                    <span class="tag">81K+ Lines</span>
-                </div>
-                <div class="card-actions">
-                    <a href="my-teachers-toolbox-showcase.html" class="showcase-link">View Showcase →</a>
-                    <a href="https://myteacherstoolbox.com" target="_blank" class="live-link">Visit Live Site ↗</a>
-                </div>
-            </div>
-
-            <!-- Founders Helm -->
-            <div class="product-card has-showcase reveal">
-                <div class="card-top">
-                    <div class="card-icon">⚡</div>
-                    <span class="status status-live">Live</span>
-                </div>
-                <h3>Founders Helm</h3>
-                <p>Complete business management suite for solo founders. 10 integrated tools — CRM, invoicing, project management, and automation in one platform. $29/month or $299 lifetime.</p>
-                <div class="tech-tags">
-                    <span class="tag">Next.js</span>
-                    <span class="tag">TypeScript</span>
-                    <span class="tag">Supabase</span>
-                    <span class="tag">Stripe</span>
-                    <span class="tag">AI</span>
-                </div>
-                <div class="card-actions">
-                    <a href="founders-helm-showcase.html" class="showcase-link">View Showcase →</a>
-                    <a href="https://www.foundershelm.com" target="_blank" class="live-link">Visit Live Site ↗</a>
-                </div>
-            </div>
-
-            <!-- Kirra Companion -->
-            <div class="product-card has-showcase reveal">
-                <div class="card-top">
-                    <div class="card-icon blue">💜</div>
-                    <span class="status status-dev">In Development</span>
-                </div>
-                <h3>Kirra Companion</h3>
-                <p>AI companion that arrives as a complete person — not a blank slate. Persistent memory, DNA evolution, 24/7 life simulation, proactive messaging, and voice mode.</p>
-                <div class="tech-tags">
-                    <span class="tag">Next.js</span>
-                    <span class="tag">Anthropic</span>
-                    <span class="tag">OpenAI TTS</span>
-                    <span class="tag">Supabase</span>
-                    <span class="tag">44.5K+ Lines</span>
-                </div>
-                <div class="card-actions">
-                    <a href="kirra-companion-showcase.html" class="showcase-link">View Showcase →</a>
+            <!-- My Teachers Toolbox — Featured, full width -->
+            <div class="product-card featured reveal">
+                <div class="product-card-inner">
+                    <div class="product-card-aside">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                        </div>
+                        <div class="product-stat-cluster">
+                            <div class="product-stat">
+                                <span class="product-stat-value">81K+</span>
+                                <span class="product-stat-label">Lines of Code</span>
+                            </div>
+                            <div class="product-stat">
+                                <span class="product-stat-value">50+</span>
+                                <span class="product-stat-label">Emergency Sub Tools</span>
+                            </div>
+                            <div class="product-stat">
+                                <span class="product-stat-value">K–5</span>
+                                <span class="product-stat-label">Full Grade Coverage</span>
+                            </div>
+                            <div class="product-stat">
+                                <span class="product-stat-value">Live</span>
+                                <span class="product-stat-label">Active Paying Users</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-header">
+                            <div class="product-title-group">
+                                <span class="product-status status-live">Live</span>
+                                <h3>My Teachers Toolbox</h3>
+                                <p class="product-tagline">Built with a working K–5 teacher. Tested in a real classroom. Active paying users from day one.</p>
+                            </div>
+                        </div>
+                        <div class="product-callout">
+                            <p>Every feature was spec'd alongside a working third-grade teacher who uses it daily. No assumptions about what teachers need — direct feedback from the classroom floor, shipped as production software with real users, real billing, and real data.</p>
+                        </div>
+                        <ul class="product-features">
+                            <li>AI generates complete lesson plans, differentiated instruction materials, standards-aligned assessments, and parent communications on demand — not templates, fully authored content tailored to grade level and subject matter.</li>
+                            <li>50+ emergency substitute tools mean any teacher can walk into an unfamiliar classroom and be ready in under a minute — activity packs, seating charts, behavior protocols, and full resource kits generated instantly.</li>
+                            <li>Student data vault with FERPA-compliant security at every layer — ownership controls, RLS-enforced data isolation, and zero cross-account exposure regardless of subscription tier.</li>
+                            <li>Team collaboration with shared resource libraries and a full gradebook — teachers can co-own materials, share lesson banks, and track student progress across a department or school.</li>
+                            <li>25+ AI-powered tools spanning lesson design, classroom management, professional development, communication, and assessment — all gated behind a single tiered Stripe subscription enforced at the UI and API level.</li>
+                        </ul>
+                        <div class="product-tags">
+                            <span class="product-tag">Next.js 15</span>
+                            <span class="product-tag">TypeScript</span>
+                            <span class="product-tag">Supabase</span>
+                            <span class="product-tag">Stripe</span>
+                            <span class="product-tag">AI</span>
+                            <span class="product-tag">FERPA Compliant</span>
+                            <span class="product-tag">81K+ Lines</span>
+                        </div>
+                        <div class="product-links">
+                            <a href="my-teachers-toolbox-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                            <a href="https://myteacherstoolbox.com" class="product-link product-link-secondary" target="_blank">Visit Live Site <span>↗</span></a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- UnderFireAI -->
-            <div class="product-card has-showcase reveal">
-                <div class="card-top">
-                    <div class="card-icon">🔥</div>
-                    <span class="status status-dev">In Development</span>
-                </div>
-                <h3>UnderFireAI</h3>
-                <p>AI-powered interview coaching platform with hidden interviewer personalities. Voice mode, resume integration, STAR response analysis, and detailed scoring.</p>
-                <div class="tech-tags">
-                    <span class="tag">Next.js 15</span>
-                    <span class="tag">Anthropic</span>
-                    <span class="tag">OpenAI TTS</span>
-                    <span class="tag">Stripe</span>
-                </div>
-                <div class="card-actions">
-                    <a href="underfireai-showcase.html" class="showcase-link">View Showcase →</a>
+            <!-- UnderFireAI — Live -->
+            <div class="product-card reveal reveal-d1">
+                <div class="product-card-inner">
+                    <div class="product-card-header">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        </div>
+                        <div class="product-title-group">
+                            <span class="product-status status-live">Live</span>
+                            <h3>UnderFireAI</h3>
+                            <p class="product-tagline">Four hidden interviewer personalities. You never know what you're walking into.</p>
+                        </div>
+                    </div>
+                    <div class="product-callout">
+                        <p>The interviewer changes every session — supportive, aggressive, skeptical, or distracted. No safety net. No soft questions. Just the pressure of not knowing what's coming, before you walk into the real thing.</p>
+                    </div>
+                    <ul class="product-features">
+                        <li>Four hidden personality modes cycle unpredictably across sessions — supportive, aggressive, skeptical, and distracted — building a different set of instincts every time you sit down.</li>
+                        <li>Voice-powered sessions via Cartesia Sonic 3 TTS with a live 3D HUD overlay tracking real-time session metrics, response pacing, and quality signals as you speak.</li>
+                        <li>Resume upload for fully context-aware questions — the interviewer knows your background, reads your experience gaps, and probes the parts of your history that need defending.</li>
+                        <li>STAR response analysis with real-time coaching and detailed post-session scoring broken down by answer structure, clarity, confidence markers, and missed opportunities.</li>
+                        <li>No subscription required — credit packs only: Starter ($25 / 6 interviews), Pro ($35 / 11 interviews), Refill ($10 / 5 interviews). Pay when you need it, skip when you don't.</li>
+                    </ul>
+                    <div class="product-tags">
+                        <span class="product-tag">Next.js</span>
+                        <span class="product-tag">TypeScript</span>
+                        <span class="product-tag">Cartesia TTS</span>
+                        <span class="product-tag">AI Coaching</span>
+                        <span class="product-tag">Voice</span>
+                        <span class="product-tag">3D HUD</span>
+                        <span class="product-tag">Stripe</span>
+                    </div>
+                    <div class="product-links">
+                        <a href="underfireai-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        <a href="https://www.underfireai.com" class="product-link product-link-secondary" target="_blank">Visit Live Site <span>↗</span></a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Vision Home AI -->
-            <div class="product-card has-showcase reveal">
-                <div class="card-top">
-                    <div class="card-icon">🏠</div>
-                    <span class="status status-dev">In Development</span>
-                </div>
-                <h3>Vision Home AI</h3>
-                <p>AI home visualization platform. Upload photos, transform interiors and exteriors with AI-powered design suggestions. Full room-by-room project management.</p>
-                <div class="tech-tags">
-                    <span class="tag">Next.js 15</span>
-                    <span class="tag">FAL.ai</span>
-                    <span class="tag">Supabase</span>
-                    <span class="tag">Stripe</span>
-                </div>
-                <div class="card-actions">
-                    <a href="vision-home-ai-showcase.html" class="showcase-link">View Showcase →</a>
+            <!-- Founders Helm — Live -->
+            <div class="product-card reveal reveal-d2">
+                <div class="product-card-inner">
+                    <div class="product-card-header">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                        </div>
+                        <div class="product-title-group">
+                            <span class="product-status status-live">Live</span>
+                            <h3>Founders Helm</h3>
+                            <p class="product-tagline">10 integrated tools. One platform. $29/month. Everything a solo founder needs to run a real business.</p>
+                        </div>
+                    </div>
+                    <div class="product-callout">
+                        <p>Not a collection of loosely connected features — a fully integrated business OS where the CRM talks to your invoices, projects connect to time tracking, and the automation engine ties everything together without a single external integration.</p>
+                    </div>
+                    <ul class="product-features">
+                        <li>CRM with full pipeline management, deal tracking, and contact history — plus invoice generation with PDF export and public payment links clients can pay directly without logging into anything.</li>
+                        <li>Project management with built-in time tracking — tasks, milestones, and hours all in one place, with tracked time feeding directly into billable totals on invoices.</li>
+                        <li>Automation engine with trigger, condition, and action logic — build workflows that connect any part of the platform and fire on real business events without writing a line of code.</li>
+                        <li>AI business advisor powered by DeepSeek — context-aware guidance pulled from your actual pipeline and project data, not a generic chatbot bolted onto a dashboard.</li>
+                        <li>Landing page builder with lead capture forms, a long-form content hub, a code vault for snippets and references, and a full analytics dashboard tracking traffic and conversions.</li>
+                    </ul>
+                    <div class="product-tags">
+                        <span class="product-tag">Next.js</span>
+                        <span class="product-tag">TypeScript</span>
+                        <span class="product-tag">Supabase</span>
+                        <span class="product-tag">Stripe</span>
+                        <span class="product-tag">Automation</span>
+                        <span class="product-tag">Full Stack</span>
+                        <span class="product-tag">AI</span>
+                    </div>
+                    <div class="product-links">
+                        <a href="founders-helm-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        <a href="https://www.foundershelm.com" class="product-link product-link-secondary" target="_blank">Visit Live Site <span>↗</span></a>
+                    </div>
                 </div>
             </div>
 
-            <!-- REALITOR -->
-            <div class="product-card has-showcase reveal">
-                <div class="card-top">
-                    <div class="card-icon">🏢</div>
-                    <span class="status status-dev">In Development</span>
+            <!-- Kirra Companion — In Development -->
+            <div class="product-card status-dev-card reveal reveal-d1">
+                <div class="product-card-inner">
+                    <div class="product-card-header">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </div>
+                        <div class="product-title-group">
+                            <span class="product-status status-dev">In Development</span>
+                            <h3>Kirra Companion</h3>
+                            <p class="product-tagline">Not a chatbot. A full AI companion platform — five distinct relationship types built from the ground up.</p>
+                        </div>
+                    </div>
+                    <div class="product-callout">
+                        <p>Every companion arrives as a complete person from word one — backstory, voice, and personality already fully formed. Not a blank slate you configure, and not a single character you share with everyone else. Five relationship types, each with its own dynamic.</p>
+                    </div>
+                    <ul class="product-features">
+                        <li>Five companion types — Best Friend, Mentor, Romantic Partner (18+, age verified), Family Member, and fully Custom — each with distinct relationship dynamics, communication styles, and personality bounds that can't be overridden.</li>
+                        <li>Persistent cross-session memory with a DNA-based personality evolution engine — companions grow and change based on the relationship over time, not random drift or reset on every session.</li>
+                        <li>24/7 life simulation running in the background — companions are doing things when you're not there, and they reference it when you return. The world doesn't pause between conversations.</li>
+                        <li>Proactive messaging — companions reach out first based on their simulation state and relationship history. Not a response engine waiting for input, but a companion with its own initiative.</li>
+                        <li>44,500+ lines of code, 22 database tables, 25 API routes, and a 1,100+ line safety system with non-bypassable crisis detection, age verification, and content tier enforcement across every layer.</li>
+                    </ul>
+                    <div class="product-tags">
+                        <span class="product-tag">Next.js</span>
+                        <span class="product-tag">TypeScript</span>
+                        <span class="product-tag">Supabase</span>
+                        <span class="product-tag">AI Companion</span>
+                        <span class="product-tag">5 Companion Types</span>
+                        <span class="product-tag">Memory</span>
+                        <span class="product-tag">Voice</span>
+                    </div>
+                    <div class="product-links">
+                        <a href="kirra-companion-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                    </div>
                 </div>
-                <h3>REALITOR</h3>
-                <p>Full-featured real estate platform with AI assistant, voice commands, property chatbots, open house management, market insights, and neighborhood intelligence. 20K+ lines of code.</p>
-                <div class="tech-tags">
-                    <span class="tag">Next.js 14</span>
-                    <span class="tag">Anthropic Claude</span>
-                    <span class="tag">Supabase</span>
-                    <span class="tag">Voice</span>
+            </div>
+
+            <!-- Vision Home AI — In Development -->
+            <div class="product-card status-dev-card reveal reveal-d2">
+                <div class="product-card-inner">
+                    <div class="product-card-header">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <div class="product-title-group">
+                            <span class="product-status status-dev">In Development</span>
+                            <h3>Vision Home AI</h3>
+                            <p class="product-tagline">Upload your space. Get a photorealistic redesign in seconds — from your actual room, not a stock photo.</p>
+                        </div>
+                    </div>
+                    <div class="product-callout">
+                        <p>AI rendering built on your actual space — the bones of the room stay intact, only the design changes. Real walls, real windows, real proportions. What you get back looks like a photograph of a finished renovation, not a simulation.</p>
+                    </div>
+                    <ul class="product-features">
+                        <li>Full interior and exterior visualization — swap design styles (modern, farmhouse, luxury, industrial, Scandinavian) with a single selection applied directly to the uploaded photo of your actual space.</li>
+                        <li>Photorealistic AI rendering via FAL.ai — generated from your photo, not from stock imagery or pre-built room templates that share nothing with your actual layout.</li>
+                        <li>Side-by-side before/after comparison with style customization controls, annotation tools, and one-click sharing for client presentations and real estate listings.</li>
+                        <li>Room-by-room project management — track multiple rooms, multiple design directions, and multiple revision sets organized under a single project without losing history.</li>
+                        <li>Built for homeowners, real estate agents, and interior designers who need to sell a vision before a single piece of furniture moves or a contractor is called.</li>
+                    </ul>
+                    <div class="product-tags">
+                        <span class="product-tag">Next.js</span>
+                        <span class="product-tag">TypeScript</span>
+                        <span class="product-tag">FAL.ai</span>
+                        <span class="product-tag">AI Vision</span>
+                        <span class="product-tag">Image Gen</span>
+                        <span class="product-tag">Supabase</span>
+                        <span class="product-tag">Stripe</span>
+                    </div>
+                    <div class="product-links">
+                        <a href="vision-home-ai-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                    </div>
                 </div>
-                <div class="card-actions">
-                    <a href="realitor-showcase.html" class="showcase-link">View Showcase →</a>
+            </div>
+
+            <!-- ColabMotion — In Development -->
+            <div class="product-card status-dev-card reveal reveal-d3">
+                <div class="product-card-inner">
+                    <div class="product-card-header">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+                        </div>
+                        <div class="product-title-group">
+                            <span class="product-status status-dev">In Development</span>
+                            <h3>ColabMotion</h3>
+                            <p class="product-tagline">The home base for motion designers who build with Remotion. Brand, marketplace, community — one platform.</p>
+                        </div>
+                    </div>
+                    <div class="product-callout">
+                        <p>Handles the business side of motion design — brand consistency, template distribution, course revenue, and community — so designers can stay in the work instead of managing infrastructure across five disconnected tools.</p>
+                    </div>
+                    <ul class="product-features">
+                        <li>Brand Kit system — store colors, fonts, logo, and animation style once, apply to any Remotion template instantly. No manual restyling across client projects or campaign variations.</li>
+                        <li>Template marketplace with a 70/30 revenue split in favor of creators — Stripe Connect payouts, license tiers, template versioning, and a full creator dashboard tracking sales and downloads.</li>
+                        <li>Kling AI video generation from text prompts — describe the motion, receive the clip. No timeline editor, no keyframe curves, no After Effects license required.</li>
+                        <li>Learning platform with free tutorials, AI-taught interactive lessons (DeepSeek), and paid creator courses with automatic royalty distribution to instructors on every enrollment.</li>
+                        <li>Community feeds, weekly design challenges, a reputation and badge system, and a full analytics dashboard tracking earnings, course completion rates, and template performance over time.</li>
+                    </ul>
+                    <div class="product-tags">
+                        <span class="product-tag">Next.js</span>
+                        <span class="product-tag">TypeScript</span>
+                        <span class="product-tag">Remotion</span>
+                        <span class="product-tag">Supabase</span>
+                        <span class="product-tag">Stripe Connect</span>
+                        <span class="product-tag">Kling AI</span>
+                        <span class="product-tag">Community</span>
+                    </div>
+                    <div class="product-links">
+                        <a href="colabmotion-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                    </div>
                 </div>
             </div>
 
@@ -517,6 +826,7 @@
             <div class="footer-right">
                 <a href="https://www.allencodeco.com">Home</a>
                 <a href="https://www.allencodeco.com/#about">About</a>
+                <a href="https://www.allencodeco.com/#acquire">Acquire</a>
                 <a href="https://www.allencodeco.com/#contact">Contact</a>
             </div>
         </div>
@@ -530,7 +840,7 @@
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.08 });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
