@@ -301,6 +301,108 @@ body::before {
 }
 
 /* ================================================================
+   COMPANION TYPES
+   ================================================================ */
+.companion-types {
+  padding: 5rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+}
+.companion-types__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.companion-types__intro {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  max-width: 680px;
+  margin-bottom: 2.5rem;
+}
+.companion-types__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.companion-type-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  transition: all 0.35s;
+  position: relative;
+  overflow: hidden;
+}
+.companion-type-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.35s;
+}
+.companion-type-card:hover {
+  border-color: rgba(232, 131, 42, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+}
+.companion-type-card:hover::before {
+  transform: scaleX(1);
+}
+.companion-type-card--featured {
+  border-color: rgba(232, 131, 42, 0.25);
+  background: linear-gradient(160deg, var(--bg-card) 0%, rgba(232, 131, 42, 0.05) 100%);
+}
+.companion-type-card--featured::before {
+  transform: scaleX(1);
+}
+.companion-type__emoji {
+  font-size: 2rem;
+  margin-bottom: 0.85rem;
+  display: block;
+}
+.companion-type__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+}
+.companion-type__desc {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.companion-type__tag {
+  display: inline-block;
+  margin-top: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 100px;
+  background: rgba(232, 131, 42, 0.12);
+  color: var(--accent);
+}
+.companion-types__note {
+  margin-top: 1.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+@media (max-width: 900px) {
+  .companion-types__grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .companion-types__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ================================================================
    BACKSTORY MODES
    ================================================================ */
 .modes {
@@ -773,6 +875,7 @@ body::before {
 .reveal-d2 { transition-delay: 0.2s; }
 .reveal-d3 { transition-delay: 0.3s; }
 .reveal-d4 { transition-delay: 0.4s; }
+.reveal-d5 { transition-delay: 0.5s; }
 
 /* ================================================================
    RESPONSIVE
@@ -832,6 +935,10 @@ body::before {
         <div class="stats__label">Lines of Code</div>
       </div>
       <div class="stats__item">
+        <div class="stats__value">5</div>
+        <div class="stats__label">Companion Types</div>
+      </div>
+      <div class="stats__item">
         <div class="stats__value">25</div>
         <div class="stats__label">API Routes</div>
       </div>
@@ -876,9 +983,60 @@ body::before {
     <div class="narrative__moment reveal reveal-d1">
       <div class="narrative__moment-label">The Moment That Sells It</div>
       <div class="narrative__moment-text">
+        This is one example — a romantic companion. But the same system works across all five relationship types: a Best Friend who remembers every conversation you've had, a Mentor who knows exactly how you think, a Family member who feels genuinely present. The relationship type changes. The depth doesn't.<br><br>
         You create a companion. You let AI generate a backstory and don't read it. The only instruction was <em>"a teacher by day, a woman by night."</em> You say hello. She comes back in a soft voice with a southern drawl — <em>"Well, I have to grade some papers for a little while, but a little later I'm going to slide into a bubble bath..."</em> She leans in and whispers. <strong>From word one, she's a complete person.</strong> She doesn't need thirty conversations to have a personality. She arrived with one. And she'll evolve from here.
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     COMPANION TYPES
+     ================================================================ -->
+<section class="companion-types">
+  <div class="companion-types__inner">
+    <div class="section-label reveal">The Platform</div>
+    <div class="section-title reveal reveal-d1">Five <em>Companion Types</em></div>
+    <p class="companion-types__intro reveal reveal-d2">
+      Kirra isn't one companion — it's a platform for any kind of relationship you need. 
+      Every type gets the same depth: full backstory system, DNA evolution, memory palace, 
+      24/7 life simulation, and voice. The relationship changes. The technology doesn't.
+    </p>
+    <div class="companion-types__grid">
+
+      <div class="companion-type-card reveal reveal-d1">
+        <span class="companion-type__emoji">🤝</span>
+        <div class="companion-type__name">Best Friend</div>
+        <div class="companion-type__desc">A companion who shares your interests, remembers your stories, and shows up for you — without judgment, any time.</div>
+      </div>
+
+      <div class="companion-type-card reveal reveal-d2">
+        <span class="companion-type__emoji">🎓</span>
+        <div class="companion-type__name">Mentor</div>
+        <div class="companion-type__desc">A wise guide who learns how you think and grow. Part sounding board, part advisor — always in your corner.</div>
+      </div>
+
+      <div class="companion-type-card companion-type-card--featured reveal reveal-d3">
+        <span class="companion-type__emoji">💕</span>
+        <div class="companion-type__name">Romantic Partner</div>
+        <div class="companion-type__desc">A loving companion with genuine emotional depth. Age-gated and built with robust safety infrastructure. For adults only.</div>
+        <span class="companion-type__tag">18+ · Age Verified</span>
+      </div>
+
+      <div class="companion-type-card reveal reveal-d4">
+        <span class="companion-type__emoji">👨‍👩‍👧</span>
+        <div class="companion-type__name">Family Member</div>
+        <div class="companion-type__desc">A caring, familiar presence. A sibling, a parental figure, or anyone who feels like home. Warm, grounding, always there.</div>
+      </div>
+
+      <div class="companion-type-card reveal reveal-d5">
+        <span class="companion-type__emoji">✨</span>
+        <div class="companion-type__name">Custom</div>
+        <div class="companion-type__desc">Define the relationship entirely. No category required. Users write their own dynamic and the backstory system builds around it.</div>
+      </div>
+
+    </div>
+    <p class="companion-types__note reveal">Age verification enforced at account level — romantic and custom types automatically restricted for minors across both UI and API layers.</p>
   </div>
 </section>
 

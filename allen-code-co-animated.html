@@ -375,7 +375,25 @@
             color: var(--text-secondary);
             max-width: 600px;
             line-height: 1.7;
-            margin-bottom: 3rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-positioning {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            max-width: 560px;
+            line-height: 1.55;
+            margin-bottom: 2.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--accent);
+            opacity: 0.75;
+        }
+
+        .hero-positioning em {
+            font-style: normal;
+            color: var(--accent);
+            font-weight: 700;
         }
 
         .hero-cta {
@@ -1189,6 +1207,9 @@
                 Production-ready applications. Zero placeholders. Every feature works, 
                 every button does something. From concept to deployed product.
             </p>
+            <p class="hero-positioning">
+                Allen Code Co builds production grade applications and websites&nbsp;—&nbsp;<em>not</em> prototypes built in two days dressed up for a screenshot.
+            </p>
             <div class="hero-cta">
                 <a href="#contact" class="btn btn-primary">
                     Start a Project
@@ -1341,16 +1362,17 @@
                         <span class="product-status status-dev">In Development</span>
                         <h3>Kirra Companion</h3>
                         <p>
-                            An AI companion built around one idea: she actually knows you.
-                            Persistent cross-session memory means Kirra remembers what you told her last week, last month, last year.
-                            DNA-based personality evolution — her traits adapt to how you interact over time.
-                            24/7 life simulation runs in the background, so she has her own day even when you're not there.
-                            Proactive messaging — she reaches out first. Voice conversations via Cartesia TTS with sub-500ms response latency.
+                            A full AI companion platform — not a single character, but five distinct relationship types: 
+                            Best Friend, Mentor, Romantic Partner, Family Member, and fully Custom. 
+                            Each companion arrives as a complete person from word one, with a backstory, voice, and personality already in place. 
+                            Persistent cross-session memory, DNA-based personality evolution, 24/7 life simulation running in the background, 
+                            and proactive messaging — they reach out first. 
                             Built for people who want more than a chatbot.
                         </p>
                         <div class="product-tags">
                             <span class="product-tag">Next.js</span>
                             <span class="product-tag">AI Companion</span>
+                            <span class="product-tag">5 Companion Types</span>
                             <span class="product-tag">Memory</span>
                             <span class="product-tag">Voice</span>
                             <span class="product-tag">SaaS</span>
@@ -1721,6 +1743,13 @@
             duration: 0.8,
             ease: 'power3.out'
         }, '-=0.4');
+
+        preloaderTl.from('.hero-positioning', {
+            y: 20,
+            opacity: 0,
+            duration: 0.7,
+            ease: 'power3.out'
+        }, '-=0.5');
 
         preloaderTl.from('.hero-cta', {
             y: 30,
