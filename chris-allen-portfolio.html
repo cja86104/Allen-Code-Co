@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chris Allen — Founder & Lead Developer | Allen Code Co</title>
+  <title>Christopher Allen — Founder & Lead Developer | Allen Code Co</title>
   <meta name="description" content="Founder of Allen Code Co. Building production-grade SaaS applications from Winchester, Virginia. Next.js, TypeScript, Supabase, AI integrations.">
 
   <!-- Fonts -->
@@ -289,11 +289,11 @@
     }
     .hero h1 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
       font-weight: 700;
       line-height: 0.95;
       letter-spacing: -0.02em;
-      margin-bottom: 2.5rem;
+      margin-bottom: 1rem;
     }
     .hero h1 .line { display: block; overflow: hidden; }
     .hero h1 .line-inner { display: block; }
@@ -302,6 +302,14 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+    }
+    .hero-tagline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-style: italic;
+      color: var(--accent);
+      letter-spacing: 0.01em;
+      margin-bottom: 2rem;
     }
     .hero-description {
       font-size: 1.2rem;
@@ -993,9 +1001,9 @@
       </div>
 
       <h1>
-        <span class="line"><span class="line-inner">Chris Allen</span></span>
-        <span class="line"><span class="line-inner highlight">Build to Ship.</span></span>
+        <span class="line"><span class="line-inner">Christopher Allen</span></span>
       </h1>
+      <p class="hero-tagline">Done Correct. Or Not At All.</p>
 
       <p class="hero-description">
         I'm the founder and sole developer behind Allen Code Co — a software studio that builds production-grade SaaS applications from the ground up, then ships them.
@@ -1080,25 +1088,28 @@
             <div class="product-title-group">
               <span class="product-status status-live">Live</span>
               <h3>My Teachers Toolbox</h3>
-              <p class="product-tagline">K–5 classroom management used daily in the classroom.</p>
+              <p class="product-tagline">K–5 classroom productivity platform. Active paying users. Built from the classroom out.</p>
             </div>
           </div>
           <div class="product-callout">
-            <p>Built with direct input from a working 20-year K–5 veteran — my wife Criste, who uses it every day.</p>
+            <p>Built with direct input from a working 20-year K–5 veteran — my wife Criste, who uses it every day. Every feature exists because a real teacher asked for it.</p>
           </div>
           <ul class="product-features">
-            <li>25+ AI tools covering lesson planning, differentiated instruction, assessments, and parent communications — all gated behind Stripe subscription tiers</li>
-            <li>FERPA-compliant student data vault with RLS-enforced cross-account isolation at every subscription level</li>
-            <li>Week planner, substitute plans, emergency toolkits, gradebook, and team collaboration — designed around real classroom workflows</li>
+            <li>25+ AI-powered tools covering lesson planning, differentiated instruction, assessment generation, IEP accommodation support, and parent communication — organized by workflow, not category</li>
+            <li>Week planner, substitute plan builder, emergency toolkit, gradebook, team collaboration workspace, and a full student data vault — all designed around how classrooms actually operate, not how software engineers imagine they do</li>
+            <li>FERPA-compliant architecture with RLS-enforced cross-account data isolation — no teacher can ever access another classroom's student records at any subscription tier</li>
+            <li>Stripe subscription billing with tiered feature gating, API-level access enforcement on every protected route, and a shared access control helper deployed across 28 files to ensure zero enforcement gaps</li>
           </ul>
           <div class="product-tags">
             <span class="product-tag">Next.js</span>
             <span class="product-tag">Supabase</span>
             <span class="product-tag">Stripe</span>
-            <span class="product-tag">AI Assistant</span>
+            <span class="product-tag">AI / LLM</span>
             <span class="product-tag">Education SaaS</span>
+            <span class="product-tag">FERPA</span>
           </div>
           <div class="product-links">
+            <a href="my-teachers-toolbox-showcase.html" class="product-link">View Showcase <span>→</span></a>
             <a href="https://www.myteacherstoolbox.com" target="_blank" rel="noopener noreferrer" class="product-link">View Live <span>↗</span></a>
           </div>
         </div>
@@ -1112,25 +1123,28 @@
             <div class="product-title-group">
               <span class="product-status status-live">Live</span>
               <h3>Founders Helm</h3>
-              <p class="product-tagline">Complete business OS for solo founders. $29/month.</p>
+              <p class="product-tagline">10 integrated tools. One platform. $29/month. The business OS for solo founders who ship.</p>
             </div>
           </div>
           <div class="product-callout">
-            <p>10 tightly integrated tools built for indie founders running without a team — not a bundle of disconnected features.</p>
+            <p>Not a bundle of disconnected features — 10 tools built around a single shared data model so everything talks to everything else without duct tape.</p>
           </div>
           <ul class="product-features">
-            <li>CRM with pipeline and deal tracking, invoice generation with PDF export, and project management with built-in time tracking</li>
-            <li>AI strategy assistant, decision logs, revenue dashboard, and goal tracking — all sharing a single data model</li>
-            <li>Stripe billing, tiered subscription enforcement, and full acquisition documentation ready from launch</li>
+            <li>CRM with full pipeline and deal tracking, invoice generator with PDF export and payment tracking, project management with built-in time tracking, and a code vault for snippet and reference management</li>
+            <li>AI strategy assistant, decision log with outcome tracking, revenue dashboard, goal tracker, and a long-form content hub — all reading from the same underlying data so insights are always in context</li>
+            <li>Automation engine with trigger, condition, and action logic — build workflows that connect any part of the platform and fire on real business events without writing a line of code</li>
+            <li>Landing page builder with lead capture, a full analytics dashboard tracking traffic and conversions, Stripe billing with tiered subscription enforcement, and complete acquisition documentation ready from launch</li>
           </ul>
           <div class="product-tags">
             <span class="product-tag">Next.js</span>
             <span class="product-tag">Supabase</span>
             <span class="product-tag">Stripe</span>
-            <span class="product-tag">AI Strategy</span>
+            <span class="product-tag">AI / LLM</span>
+            <span class="product-tag">Automation</span>
             <span class="product-tag">Founder OS</span>
           </div>
           <div class="product-links">
+            <a href="founders-helm-showcase.html" class="product-link">View Showcase <span>→</span></a>
             <a href="https://www.foundershelm.com" target="_blank" rel="noopener noreferrer" class="product-link">View Live <span>↗</span></a>
           </div>
         </div>
@@ -1180,25 +1194,29 @@
             <div class="product-title-group">
               <span class="product-status status-dev">In Development</span>
               <h3>ColabMotion</h3>
-              <p class="product-tagline">Collaborative video creation platform for the creator economy.</p>
+              <p class="product-tagline">Community-first motion design platform — brand, marketplace, and learning in one place.</p>
             </div>
           </div>
           <div class="product-callout">
             <p>Phase 3 complete — template marketplace, brand kit system, and Remotion Lambda rendering pipeline are all live in the codebase.</p>
           </div>
           <ul class="product-features">
-            <li>Community-first positioning for video creators — collaborative projects, brand kit systems, and a full template marketplace</li>
-            <li>Remotion Lambda rendering infrastructure for server-side video generation at scale</li>
-            <li>Supabase + Stripe + Next.js on the same proven stack — designed for acquisition from the first commit</li>
+            <li>Template marketplace where motion designers publish and sell Remotion components — Stripe Connect with a 70/30 revenue split, automatic royalty distribution on every sale, and creator analytics tracking earnings and performance</li>
+            <li>Remotion Lambda rendering infrastructure for server-side video generation at scale — submit a template with data, receive a rendered MP4 without touching a local machine</li>
+            <li>AI-assisted learning platform with free tutorials, interactive AI-taught lessons via DeepSeek, and paid creator courses with automatic instructor payouts on every enrollment</li>
+            <li>Community feeds, weekly design challenges, a reputation and badge system, collaborative project workspaces, and a brand kit system for consistent asset management across projects</li>
+            <li>Next.js 15, Supabase, Stripe Connect, and OpenRouter on the same proven stack — blueprinted and built for acquisition from the first commit</li>
           </ul>
           <div class="product-tags">
             <span class="product-tag">Next.js</span>
             <span class="product-tag">Remotion</span>
             <span class="product-tag">AWS Lambda</span>
-            <span class="product-tag">Supabase</span>
+            <span class="product-tag">Stripe Connect</span>
+            <span class="product-tag">AI / LLM</span>
             <span class="product-tag">Video SaaS</span>
           </div>
           <div class="product-links">
+            <a href="colabmotion-showcase.html" class="product-link">View Showcase <span>→</span></a>
             <span class="product-link" style="color:var(--text-muted); cursor:default;">Coming Soon</span>
           </div>
         </div>
@@ -1212,25 +1230,28 @@
             <div class="product-title-group">
               <span class="product-status status-dev">In Development</span>
               <h3>Vision Home AI</h3>
-              <p class="product-tagline">AI-powered interior and exterior home visualization.</p>
+              <p class="product-tagline">AI-powered interior and exterior home visualization with real cost estimation.</p>
             </div>
           </div>
           <div class="product-callout">
-            <p>Upload a photo of any room or exterior, describe the changes you want, and see realistic AI-rendered results — with cost estimates for materials and labor.</p>
+            <p>Upload a photo of any room or exterior, describe the changes you want, and see realistic AI-rendered results — with cost estimates for materials and labor included.</p>
           </div>
           <ul class="product-features">
-            <li>AI image generation pipeline for both interior and exterior home spaces — photo in, render out</li>
-            <li>Cost estimation engine for materials and labor based on the described changes</li>
-            <li>87 source files, full restore-point documentation, and production-ready architecture throughout</li>
+            <li>Dual-mode AI image generation pipeline covering both interior redesigns and exterior transformations — upload a photo, describe the vision, receive a realistic render without design software or a contractor</li>
+            <li>Cost estimation engine that translates visual changes into itemized material and labor estimates based on the described modifications — giving homeowners a real-world budget figure alongside the render</li>
+            <li>Project history and render library so users can compare concepts side by side, save favorites, and share results — built for the decision-making process, not just one-off generation</li>
+            <li>87 source files, full restore-point documentation, production-ready Supabase and Stripe architecture, and Stripe billing fully integrated — built to hand off or deploy immediately</li>
           </ul>
           <div class="product-tags">
             <span class="product-tag">Next.js</span>
             <span class="product-tag">AI Image Gen</span>
             <span class="product-tag">Supabase</span>
+            <span class="product-tag">Stripe</span>
             <span class="product-tag">Real Estate</span>
             <span class="product-tag">Cost Estimation</span>
           </div>
           <div class="product-links">
+            <a href="vision-home-ai-showcase.html" class="product-link">View Showcase <span>→</span></a>
             <span class="product-link" style="color:var(--text-muted); cursor:default;">Acquisition Available</span>
           </div>
         </div>
@@ -1244,25 +1265,29 @@
             <div class="product-title-group">
               <span class="product-status status-dev">In Development</span>
               <h3>Kirra Companion</h3>
-              <p class="product-tagline">AI companion with a living DNA evolution engine.</p>
+              <p class="product-tagline">An AI companion with a living DNA evolution engine. Not a chatbot — she becomes someone.</p>
             </div>
           </div>
           <div class="product-callout">
-            <p>Kirra isn't a chatbot — she evolves. Every conversation shapes her personality, memory, and emotional state through a custom DNA-driven evolution system.</p>
+            <p>Kirra isn't a chatbot — she evolves. Every conversation shapes her personality, memory, and emotional state through a custom DNA-driven evolution system built from scratch.</p>
           </div>
           <ul class="product-features">
-            <li>Proprietary DNA evolution engine — companion personality, traits, and behaviors shift dynamically based on conversation history</li>
-            <li>Long-term memory architecture that persists across sessions, building genuine relationship continuity</li>
-            <li>Full production codebase with Supabase, Stripe, and AI integration — ready for deployment or acquisition</li>
+            <li>Proprietary DNA Evolution Engine — companion personality, core traits, behavioral tendencies, and emotional responses shift dynamically over time based on conversation history, not a static prompt</li>
+            <li>Five distinct relationship types each with their own dynamic and voice — companions arrive fully formed from word one with backstory, personality, and perspective already in place, not a blank slate you configure</li>
+            <li>Long-term memory architecture that persists across sessions and accumulates genuine relationship continuity — references past conversations, remembers preferences, and builds on shared history naturally</li>
+            <li>Mood drift system that tracks emotional state across the conversation and influences how Kirra responds — warmth, openness, playfulness, and depth all shift based on what you say and how you say it</li>
+            <li>Full production codebase with Supabase, Stripe subscription billing, and AI integration via OpenRouter — built for deployment or acquisition</li>
           </ul>
           <div class="product-tags">
             <span class="product-tag">Next.js</span>
             <span class="product-tag">AI / LLM</span>
             <span class="product-tag">Supabase</span>
+            <span class="product-tag">OpenRouter</span>
             <span class="product-tag">Evolution Engine</span>
             <span class="product-tag">Companion AI</span>
           </div>
           <div class="product-links">
+            <a href="kirra-companion-showcase.html" class="product-link">View Showcase <span>→</span></a>
             <span class="product-link" style="color:var(--text-muted); cursor:default;">Acquisition Available</span>
           </div>
         </div>
@@ -1281,7 +1306,7 @@
           <span class="section-label">The Developer</span>
           <h2>Built Right.<br><span>Or Not At All.</span></h2>
           <p>
-            I'm Chris Allen — founder of Allen Code Co, based in Winchester, Virginia. I spent 15+ years in the restaurant and hospitality industry before making the full transition to software development. That background shapes everything: I know how to build systems that work under pressure, for real users, in production.
+            I'm Christopher Allen — founder of Allen Code Co, based in Winchester, Virginia. I spent 15+ years in the restaurant and hospitality industry before making the full transition to software development. That background shapes everything: I know how to build systems that work under pressure, for real users, in production.
           </p>
           <p>
             Everything I build is solo. Architecture, database design, auth systems, payment flows, AI integrations, and UI — I own all of it. That means every decision I make has to be the right one, because there's no one else to catch the shortcut later.
