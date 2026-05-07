@@ -36,25 +36,25 @@
 
     <style>
         :root {
-            --bg-dark: #F2F0EB;
-            --bg-darker: #EAE7E1;
-            --bg-card: rgba(255, 255, 255, 0.85);
-            --bg-card-hover: rgba(255, 253, 249, 0.95);
+            --bg-dark: #0A0A0A;
+            --bg-darker: #111111;
+            --bg-card: rgba(18, 18, 18, 0.92);
+            --bg-card-hover: rgba(24, 24, 24, 0.98);
             
-            --accent: #D97706;
-            --accent-bright: #B45309;
-            --accent-glow: rgba(217, 119, 6, 0.12);
+            --accent: #f97316;
+            --accent-bright: #ea580c;
+            --accent-glow: rgba(249, 115, 22, 0.18);
             
-            --text-primary: #1C1917;
-            --text-secondary: #3D2E28;
-            --text-muted: #6B5446;
+            --text-primary: #F5F4F2;
+            --text-secondary: #E2DBD5;
+            --text-muted: #B8B0A8;
             
-            --border: #E7E5E4;
-            --border-hover: #D6D3D1;
+            --border: #1F1F1F;
+            --border-hover: #2E2E2E;
             
-            --gradient-1: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            --gradient-1: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
             --gradient-2: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
-            --gradient-text: linear-gradient(135deg, #1C1917 0%, #57534E 100%);
+            --gradient-text: linear-gradient(135deg, #F5F4F2 0%, #A8A29E 100%);
         }
 
         * {
@@ -92,20 +92,19 @@
             position: fixed;
             width: 20px;
             height: 20px;
-            border: 2px solid #1C1917;
+            border: 2px solid var(--text-primary);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
             transition: transform 0.1s ease, background 0.2s ease;
             transform: translate(-50%, -50%);
-            /* mix-blend-mode removed for light theme */
         }
 
         .cursor-dot {
             position: fixed;
             width: 6px;
             height: 6px;
-            background: #1C1917;
+            background: var(--text-primary);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
@@ -114,8 +113,8 @@
 
         .cursor.hover {
             transform: translate(-50%, -50%) scale(2);
-            background: #D97706;
-            border-color: #D97706;
+            background: var(--accent);
+            border-color: var(--accent);
         }
 
         /* Preloader */
@@ -125,32 +124,63 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #1C1917;
+            background: var(--bg-dark);
             z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            gap: 1.5rem;
         }
 
-        .preloader-text {
+        .preloader-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .preloader-mark {
+            width: 72px;
+            height: 72px;
+        }
+
+        .preloader-mark svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .preloader-mark .draw-path {
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+        }
+
+        .preloader-wordmark {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(2rem, 8vw, 6rem);
-            font-weight: 800;
-            color: #FAF9F6;
-            letter-spacing: -0.02em;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: 700;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--text-primary);
             overflow: hidden;
+            height: 2rem;
+            display: flex;
+            align-items: center;
         }
 
-        .preloader-text span {
-            display: inline-block;
+        .preloader-wordmark-inner {
+            display: block;
+            transform: translateY(100%);
         }
 
-        .preloader-counter {
+        .preloader-sub {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
             color: var(--accent);
-            margin-top: 2rem;
+            opacity: 0;
         }
 
         /* Noise Overlay */
@@ -162,7 +192,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 1000;
-            opacity: 0.025;
+            opacity: 0.045;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
@@ -178,7 +208,7 @@
         }
 
         header.scrolled {
-            background: rgba(242, 240, 235, 0.88);
+            background: rgba(10, 10, 10, 0.90);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
@@ -306,8 +336,8 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(rgba(28,25,23,0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(28,25,23,0.04) 1px, transparent 1px);
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 80px 80px;
             mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
             -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
@@ -432,12 +462,12 @@
         .btn-secondary {
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid #D6D3D1;
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         .btn-secondary:hover {
             border-color: var(--text-primary);
-            background: rgba(28, 25, 23, 0.04);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .btn-arrow {
@@ -446,35 +476,6 @@
 
         .btn:hover .btn-arrow {
             transform: translateX(4px);
-        }
-
-        .hero-scroll {
-            position: absolute;
-            bottom: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .hero-scroll-line {
-            width: 1px;
-            height: 60px;
-            background: linear-gradient(to bottom, var(--accent), transparent);
-            animation: scrollLine 2s infinite;
-        }
-
-        @keyframes scrollLine {
-            0% { transform: scaleY(0); transform-origin: top; }
-            50% { transform: scaleY(1); transform-origin: top; }
-            50.1% { transform: scaleY(1); transform-origin: bottom; }
-            100% { transform: scaleY(0); transform-origin: bottom; }
         }
 
         /* Section Styles */
@@ -547,12 +548,12 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
             z-index: 2;
         }
 
         .product-card.status-dev-card::before {
-            background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
         }
 
         /* Hover glow overlay */
@@ -560,7 +561,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(217, 119, 6, 0.04) 0%, transparent 60%);
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, transparent 60%);
             opacity: 0;
             transition: opacity 0.5s ease;
             pointer-events: none;
@@ -570,7 +571,7 @@
         .product-card:hover {
             border-color: var(--border-hover);
             transform: translateY(-6px);
-            box-shadow: 0 24px 60px rgba(28, 25, 23, 0.08);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
         }
 
         .product-card:hover::after {
@@ -627,7 +628,7 @@
         }
 
         .product-card.status-dev-card .product-icon {
-            background: var(--gradient-2);
+            background: var(--gradient-1);
         }
 
         .product-stat-cluster {
@@ -701,8 +702,8 @@
         }
 
         .status-dev {
-            background: rgba(37, 99, 235, 0.1);
-            color: #2563EB;
+            background: rgba(249, 115, 22, 0.12);
+            color: #f97316;
         }
 
         .product-card h3 {
@@ -711,13 +712,15 @@
             font-weight: 700;
             line-height: 1.05;
             margin-bottom: 0.4rem;
+            color: var(--accent);
         }
 
         .product-tagline {
             font-size: 0.95rem;
-            color: var(--text-muted);
+            color: var(--accent);
             line-height: 1.55;
             font-style: italic;
+            opacity: 0.75;
         }
 
         /* Callout box — matches about-highlight pattern */
@@ -775,7 +778,7 @@
             font-size: 0.72rem;
             font-weight: 500;
             padding: 0.35rem 0.75rem;
-            background: rgba(28, 25, 23, 0.04);
+            background: rgba(255, 255, 255, 0.06);
             border: 1px solid var(--border);
             border-radius: 100px;
             color: var(--text-muted);
@@ -846,7 +849,7 @@
 
         .about-highlight {
             background: var(--bg-card);
-            border-left: 3px solid #D97706;
+            border-left: 3px solid var(--accent);
             padding: 1.5rem 2rem;
             margin: 2rem 0;
             border-radius: 0 12px 12px 0;
@@ -912,15 +915,15 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
             opacity: 0;
             transition: opacity 0.4s ease;
         }
 
         .value-item:hover {
-            border-color: #D6D3D1;
+            border-color: #2E2E2E;
             transform: translateY(-5px);
-            box-shadow: 0 16px 40px rgba(28, 25, 23, 0.07);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
         }
 
         .value-item:hover::before {
@@ -939,7 +942,7 @@
         .value-icon svg {
             width: 28px;
             height: 28px;
-            stroke: #D97706;
+            stroke: var(--accent);
             stroke-width: 1.75;
             fill: none;
             stroke-linecap: round;
@@ -960,41 +963,6 @@
             line-height: 1.75;
         }
 
-        /* Marquee */
-        .marquee-section {
-            padding: 4rem 0;
-            background: rgba(28, 25, 23, 0.02);
-            border-top: 1px solid #E7E5E4;
-            border-bottom: 1px solid #E7E5E4;
-            overflow: hidden;
-        }
-
-        .marquee {
-            display: flex;
-            gap: 4rem;
-            animation: marquee 30s linear infinite;
-        }
-
-        .marquee-item {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-        }
-
-        .marquee-item span {
-            color: var(--accent);
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
         /* Acquire Section */
         .acquire {
             position: relative;
@@ -1010,7 +978,7 @@
             transform: translate(-50%, -50%);
             width: 900px;
             height: 900px;
-            background: radial-gradient(ellipse at center, rgba(217, 119, 6, 0.07) 0%, transparent 60%);
+            background: radial-gradient(ellipse at center, rgba(249, 115, 22, 0.1) 0%, transparent 60%);
         }
 
         .acquire-header {
@@ -1098,13 +1066,13 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
         }
 
         .acquire-card:hover {
             border-color: var(--border-hover);
             transform: translateY(-6px);
-            box-shadow: 0 24px 60px rgba(28, 25, 23, 0.09);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
         }
 
         .acquire-card-badge {
@@ -1130,14 +1098,16 @@
             font-weight: 700;
             margin-bottom: 0.5rem;
             line-height: 1.1;
+            color: var(--accent);
         }
 
         .acquire-card-tagline {
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: var(--accent);
             font-style: italic;
             margin-bottom: 1.5rem;
             line-height: 1.5;
+            opacity: 0.75;
         }
 
         .acquire-card-stats {
@@ -1229,7 +1199,7 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
             border-radius: 24px 24px 0 0;
         }
 
@@ -1247,7 +1217,11 @@
             max-width: 550px;
         }
 
-        /* Tech Stack */
+        /* Tech section — title orange, stack items stay lighter */
+        .tech-section .section-title {
+            color: var(--accent);
+        }
+
         .tech-section {
             background: var(--bg-darker);
         }
@@ -1272,8 +1246,8 @@
         }
 
         .tech-item:hover {
-            border-color: #D97706;
-            color: #1C1917;
+            border-color: var(--accent);
+            color: var(--text-primary);
             transform: translateY(-4px);
         }
 
@@ -1295,6 +1269,7 @@
             font-weight: 700;
             line-height: 1;
             margin-bottom: 1.5rem;
+            color: var(--accent);
         }
 
         .cta-content p {
@@ -1346,8 +1321,8 @@
         }
 
         .social-link:hover {
-            border-color: #D97706;
-            color: #D97706;
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .footer-col h4 {
@@ -1431,8 +1406,8 @@
         .form-group input:focus,
         textarea:focus {
             outline: none;
-            border-color: #D97706;
-            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
         }
 
         /* Responsive */
@@ -1506,7 +1481,136 @@
             }
         }
 
+        /* Mobile Nav — Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 200;
+            position: relative;
+        }
+
+        .hamburger-line {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.3s ease,
+                        width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center;
+        }
+
+        .hamburger.open .hamburger-line:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .hamburger.open .hamburger-line:nth-child(2) {
+            opacity: 0;
+            width: 0;
+        }
+
+        .hamburger.open .hamburger-line:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Mobile Nav Overlay */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0A0A0A;
+            z-index: 150;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: visibility 0s linear 0.5s;
+        }
+
+        .mobile-nav.open {
+            pointer-events: all;
+            opacity: 1;
+            visibility: visible;
+            transition: visibility 0s linear 0s;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            width: 100%;
+            padding: 0 2rem;
+        }
+
+        .mobile-nav-links li {
+            overflow: hidden;
+            width: 100%;
+            text-align: center;
+        }
+
+        .mobile-nav-links a {
+            display: block;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.5rem, 10vw, 4.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            line-height: 1.15;
+            padding: 0.4rem 0;
+            transform: translateY(110%);
+            transition: color 0.3s ease;
+            border-bottom: 1px solid var(--border);
+            letter-spacing: -0.02em;
+        }
+
+        .mobile-nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .mobile-nav-links li:last-child a {
+            border-bottom: none;
+            color: var(--accent);
+            margin-top: 1rem;
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+        }
+
+        .mobile-nav-links li:last-child a:hover {
+            color: var(--text-primary);
+        }
+
+        .mobile-nav-footer {
+            position: absolute;
+            bottom: 2.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            opacity: 0;
+        }
+
         @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
             .cursor, .cursor-dot {
                 display: none;
             }
@@ -1553,12 +1657,26 @@
 <body>
     <!-- Preloader -->
     <div class="preloader">
-        <div class="preloader-text">
-            <span>A</span><span>L</span><span>L</span><span>E</span><span>N</span>
-            <span> </span>
-            <span>C</span><span>O</span><span>D</span><span>E</span>
+        <div class="preloader-logo">
+            <div class="preloader-mark">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="plGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#f97316"/>
+                            <stop offset="100%" style="stop-color:#ea580c"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- A-frame mark -->
+                    <path class="draw-path" d="M8 52 L32 12 L56 52" stroke="url(#plGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path class="draw-path" d="M18 36 L46 36" stroke="url(#plGrad)" stroke-width="3" stroke-linecap="round"/>
+                    <path class="draw-path" d="M28 52 L36 52" stroke="url(#plGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="preloader-wordmark">
+                <span class="preloader-wordmark-inner">Allen Code Co.</span>
+            </div>
+            <div class="preloader-sub">Build · Ship · Acquire</div>
         </div>
-        <div class="preloader-counter">0%</div>
     </div>
 
     <!-- Custom Cursor -->
@@ -1580,8 +1698,8 @@
                         <path d="M42 45 L48 38" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
                         <defs>
                             <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#D97706"/>
-                                <stop offset="100%" style="stop-color:#B45309"/>
+                                <stop offset="0%" style="stop-color:#f97316"/>
+                                <stop offset="100%" style="stop-color:#ea580c"/>
                             </linearGradient>
                         </defs>
                     </svg>
@@ -1596,8 +1714,26 @@
                 <a href="#tech">Tech</a>
                 <a href="#contact" class="nav-cta">Contact</a>
             </nav>
+            <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+        <ul class="mobile-nav-links">
+            <li><a href="products.html" class="mobile-nav-link">Products</a></li>
+            <li><a href="chris-allen-portfolio.html" class="mobile-nav-link">Portfolio</a></li>
+            <li><a href="#about" class="mobile-nav-link">About</a></li>
+            <li><a href="#acquire" class="mobile-nav-link">Acquire</a></li>
+            <li><a href="#tech" class="mobile-nav-link">Tech</a></li>
+            <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+        </ul>
+        <div class="mobile-nav-footer">Allen Code Co. &nbsp;·&nbsp; Build · Ship · Acquire</div>
+    </div>
 
     <!-- Hero -->
     <section class="hero">
@@ -1632,25 +1768,7 @@
                 </a>
             </div>
         </div>
-        <div class="hero-scroll">
-            <span>Scroll</span>
-            <div class="hero-scroll-line"></div>
-        </div>
     </section>
-
-    <!-- Marquee -->
-    <div class="marquee-section">
-        <div class="marquee">
-            <div class="marquee-item">
-                Next.js <span>•</span> TypeScript <span>•</span> React <span>•</span> Supabase <span>•</span> 
-                AI Integration <span>•</span> Stripe <span>•</span> Production Ready <span>•</span>
-            </div>
-            <div class="marquee-item">
-                Next.js <span>•</span> TypeScript <span>•</span> React <span>•</span> Supabase <span>•</span> 
-                AI Integration <span>•</span> Stripe <span>•</span> Production Ready <span>•</span>
-            </div>
-        </div>
-    </div>
 
     <!-- Products -->
     <section id="products" class="products">
@@ -2190,8 +2308,8 @@
                                 <path d="M42 45 L48 38" stroke="url(#logoGrad2)" stroke-width="3" stroke-linecap="round"/>
                                 <defs>
                                     <linearGradient id="logoGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#D97706"/>
-                                        <stop offset="100%" style="stop-color:#B45309"/>
+                                        <stop offset="0%" style="stop-color:#f97316"/>
+                                        <stop offset="100%" style="stop-color:#ea580c"/>
                                     </linearGradient>
                                 </defs>
                             </svg>
@@ -2292,86 +2410,125 @@
             el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
         });
 
-        // Preloader Animation
+        // Mobile Nav
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+        const mobileNavFooter = document.querySelector('.mobile-nav-footer');
+        let mobileNavOpen = false;
+
+        function openMobileNav() {
+            mobileNavOpen = true;
+            mobileNav.classList.add('open');
+            hamburger.classList.add('open');
+            hamburger.setAttribute('aria-expanded', 'true');
+            mobileNav.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            // Animate links in with stagger
+            gsap.fromTo(
+                mobileLinks,
+                { y: '110%' },
+                { y: '0%', duration: 0.6, ease: 'power4.out', stagger: 0.07, delay: 0.05 }
+            );
+            gsap.to(mobileNavFooter, {
+                opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.5
+            });
+        }
+
+        function closeMobileNav() {
+            mobileNavOpen = false;
+            hamburger.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+
+            gsap.to(mobileLinks, {
+                y: '110%', duration: 0.4, ease: 'power3.in', stagger: 0.04
+            });
+            gsap.to(mobileNavFooter, { opacity: 0, duration: 0.2 });
+
+            gsap.to(mobileNav, {
+                opacity: 0, duration: 0.45, ease: 'power2.inOut', delay: 0.25,
+                onComplete: () => {
+                    mobileNav.classList.remove('open');
+                    mobileNav.setAttribute('aria-hidden', 'true');
+                    gsap.set(mobileNav, { opacity: 1 });
+                }
+            });
+        }
+
+        hamburger.addEventListener('click', () => {
+            mobileNavOpen ? closeMobileNav() : openMobileNav();
+        });
+
+        // Close on link click
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMobileNav);
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileNavOpen) closeMobileNav();
+        });
+
+        // Preloader — skip on return visits within the same session
         const preloader = document.querySelector('.preloader');
-        const preloaderText = document.querySelectorAll('.preloader-text span');
-        const preloaderCounter = document.querySelector('.preloader-counter');
 
-        const preloaderTl = gsap.timeline();
+        function runHeroAnimations() {
+            const heroTl = gsap.timeline();
+            heroTl.from('.hero-badge', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' });
+            heroTl.from('.hero h1 .line-inner', { y: 120, opacity: 0, rotateX: -40, stagger: 0.15, duration: 1, ease: 'power3.out' }, '-=0.6');
+            heroTl.from('.hero-description', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4');
+            heroTl.from('.hero-positioning', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5');
+            heroTl.from('.hero-cta', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4');
+        }
 
-        // Animate counter
-        let counter = { value: 0 };
-        preloaderTl.to(counter, {
-            value: 100,
-            duration: 2,
-            ease: 'power2.inOut',
-            onUpdate: () => {
-                preloaderCounter.textContent = Math.round(counter.value) + '%';
-            }
-        });
+        if (sessionStorage.getItem('acc_visited')) {
+            // Return visit — instant hide, straight to hero
+            gsap.set(preloader, { display: 'none' });
+            runHeroAnimations();
+        } else {
+            // First visit — full preloader sequence
+            sessionStorage.setItem('acc_visited', '1');
 
-        // Animate letters
-        preloaderTl.from(preloaderText, {
-            y: 100,
-            opacity: 0,
-            rotateX: -90,
-            stagger: 0.05,
-            duration: 0.8,
-            ease: 'power3.out'
-        }, 0);
+            const paths = document.querySelectorAll('.preloader-mark .draw-path');
+            const wordmarkInner = document.querySelector('.preloader-wordmark-inner');
+            const preloaderSub = document.querySelector('.preloader-sub');
 
-        // Hide preloader
-        preloaderTl.to(preloader, {
-            yPercent: -100,
-            duration: 1,
-            ease: 'power4.inOut',
-            delay: 0.5
-        });
+            const preloaderTl = gsap.timeline({
+                onComplete: runHeroAnimations
+            });
 
-        // Hero animations after preloader
-        preloaderTl.from('.hero-badge', {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power3.out'
-        }, '-=0.3');
+            // 1. Draw the SVG paths one by one
+            preloaderTl.to(paths, {
+                strokeDashoffset: 0,
+                duration: 0.5,
+                ease: 'power2.inOut',
+                stagger: 0.18
+            });
 
-        preloaderTl.from('.hero h1 .line-inner', {
-            y: 120,
-            opacity: 0,
-            rotateX: -40,
-            stagger: 0.15,
-            duration: 1,
-            ease: 'power3.out'
-        }, '-=0.6');
+            // 2. Slam the wordmark up into view
+            preloaderTl.to(wordmarkInner, {
+                y: '0%',
+                duration: 0.6,
+                ease: 'power4.out'
+            }, '-=0.1');
 
-        preloaderTl.from('.hero-description', {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power3.out'
-        }, '-=0.4');
+            // 3. Fade in the sub-tagline
+            preloaderTl.to(preloaderSub, {
+                opacity: 1,
+                duration: 0.4,
+                ease: 'power2.out'
+            }, '-=0.2');
 
-        preloaderTl.from('.hero-positioning', {
-            y: 20,
-            opacity: 0,
-            duration: 0.7,
-            ease: 'power3.out'
-        }, '-=0.5');
-
-        preloaderTl.from('.hero-cta', {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power3.out'
-        }, '-=0.4');
-
-        preloaderTl.from('.hero-scroll', {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power3.out'
-        }, '-=0.2');
+            // 4. Hold briefly then wipe the whole preloader off upward
+            preloaderTl.to(preloader, {
+                yPercent: -100,
+                duration: 0.9,
+                ease: 'power4.inOut',
+                delay: 0.6
+            });
+        }
 
         // Header scroll effect
         ScrollTrigger.create({

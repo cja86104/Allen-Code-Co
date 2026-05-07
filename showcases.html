@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WZ9RJ1MHQ4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WZ9RJ1MHQ4');
+    </script>
+    <!-- Vercel Web Analytics -->
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showcases — Allen Code Co</title>
+    <meta name="description" content="Deep-dive showcases for every product built by Allen Code Co. Full feature breakdowns, architecture decisions, and live demos.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis -->
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark:        #0A0A0A;
+            --bg-darker:      #111111;
+            --bg-card:        rgba(18, 18, 18, 0.92);
+            --accent:         #f97316;
+            --accent-bright:  #ea580c;
+            --accent-glow:    rgba(249, 115, 22, 0.18);
+            --text-primary:   #F5F4F2;
+            --text-secondary: #E2DBD5;
+            --text-muted:     #B8B0A8;
+            --border:         #1F1F1F;
+            --border-hover:   #2E2E2E;
+            --gradient-1:     linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            --gradient-2:     linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+            --gradient-3:     linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease, background 0.2s ease;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        .cursor.hover {
+            transform: translate(-50%, -50%) scale(2);
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .preloader-logo { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+        .preloader-mark { width: 72px; height: 72px; }
+        .preloader-mark svg { width: 100%; height: 100%; overflow: visible; }
+        .preloader-mark .draw-path { stroke-dasharray: 300; stroke-dashoffset: 300; }
+        .preloader-wordmark {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: 700;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            overflow: hidden;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+        }
+        .preloader-wordmark-inner { display: block; transform: translateY(100%); }
+        .preloader-sub {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            opacity: 0;
+        }
+
+        /* Noise */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1.5rem 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.90);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { display: flex; align-items: center; gap: 1rem; }
+        .logo-mark { width: 48px; height: 48px; }
+        .logo-mark svg { width: 100%; height: 100%; }
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        nav { display: flex; align-items: center; gap: 3rem; }
+        nav a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        nav a:hover { color: var(--text-primary); }
+        nav a:hover::after { width: 100%; }
+        nav a.active { color: var(--accent); }
+        nav a.active::after { width: 100%; }
+        .nav-cta {
+            background: var(--accent);
+            color: #FFFFFF !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 600;
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover { background: var(--accent-bright) !important; }
+
+        /* Mobile Nav */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 40px; height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 200;
+        }
+        .hamburger-line {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.3s ease,
+                        width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center;
+        }
+        .hamburger.open .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open .hamburger-line:nth-child(2) { opacity: 0; width: 0; }
+        .hamburger.open .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .mobile-nav {
+            position: fixed;
+            inset: 0;
+            background: #0A0A0A;
+            z-index: 150;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: visibility 0s linear 0.5s;
+        }
+        .mobile-nav.open { pointer-events: all; opacity: 1; visibility: visible; transition: visibility 0s linear 0s; }
+        .mobile-nav-links { list-style: none; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; width: 100%; padding: 0 2rem; }
+        .mobile-nav-links li { overflow: hidden; width: 100%; text-align: center; }
+        .mobile-nav-links a {
+            display: block;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.5rem, 10vw, 4.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.15;
+            padding: 0.4rem 0;
+            transform: translateY(110%);
+            transition: color 0.3s ease;
+            border-bottom: 1px solid var(--border);
+            letter-spacing: -0.02em;
+        }
+        .mobile-nav-links a:hover { color: var(--accent); }
+        .mobile-nav-links li:last-child a { border-bottom: none; color: var(--accent); margin-top: 1rem; font-size: clamp(1.5rem, 6vw, 2.5rem); }
+        .mobile-nav-links li:last-child a:hover { color: var(--text-primary); }
+        .mobile-nav-footer {
+            position: absolute;
+            bottom: 2.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            opacity: 0;
+        }
+
+        /* Hero */
+        .page-hero {
+            padding: 10rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero-bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+        }
+        .page-hero-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            position: relative;
+            z-index: 1;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        .back-link:hover { color: var(--accent); }
+        .section-label {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .page-hero-inner h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+        .page-hero-inner h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+        .page-hero-inner p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.75;
+        }
+
+        /* Showcase Grid */
+        .showcases-section {
+            padding: 4rem 0 10rem;
+        }
+        .showcases-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+        .showcases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        /* Showcase Card */
+        .showcase-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .showcase-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--gradient-1);
+            z-index: 2;
+        }
+        .showcase-card.card-dev::before { background: var(--gradient-1); }
+        .showcase-card.card-acquire::before {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+        .showcase-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .showcase-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+        }
+        .showcase-card:hover::after { opacity: 1; }
+
+        .showcase-card-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .showcase-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .showcase-icon {
+            width: 60px; height: 60px;
+            border-radius: 16px;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .showcase-icon svg {
+            width: 26px; height: 26px;
+            stroke: #FFFFFF;
+            stroke-width: 1.75;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .showcase-title-group { flex: 1; }
+        .showcase-status {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.3rem 0.7rem;
+            border-radius: 100px;
+            margin-bottom: 0.5rem;
+        }
+        .status-live { background: rgba(22, 163, 74, 0.1); color: #16A34A; }
+        .status-dev  { background: rgba(249, 115, 22, 0.12); color: #f97316; }
+        .status-acquire { background: rgba(249, 115, 22, 0.12); color: #f97316; }
+
+        .showcase-card h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.05;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+        .showcase-tagline {
+            font-size: 0.875rem;
+            color: var(--accent);
+            font-style: italic;
+            line-height: 1.5;
+            opacity: 0.75;
+            margin-bottom: 1.25rem;
+        }
+        .showcase-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+        .showcase-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1.75rem;
+        }
+        .showcase-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 500;
+            padding: 0.3rem 0.65rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-muted);
+        }
+        .showcase-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+        .showcase-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: gap 0.3s ease;
+        }
+        .showcase-link:hover { gap: 1rem; }
+        .showcase-link-secondary { color: var(--text-muted); }
+        .showcase-link-secondary:hover { color: var(--text-secondary); gap: 1rem; }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+        }
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .footer-brand { display: flex; align-items: center; gap: 0.75rem; }
+        .footer-brand-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .footer-mark { width: 36px; height: 36px; }
+        .footer-mark svg { width: 100%; height: 100%; }
+        .footer-meta { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .showcases-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .cursor, .cursor-dot { display: none; }
+            body { cursor: auto; }
+            .hamburger { display: flex; }
+            .header-inner { padding: 0 1.5rem; }
+            nav { display: none; }
+            .page-hero { padding: 8rem 0 4rem; }
+            .page-hero-inner { padding: 0 1.5rem; }
+            .showcases-inner { padding: 0 1.5rem; }
+            .showcases-grid { grid-template-columns: 1fr; }
+            .footer-inner { padding: 0 1.5rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo">
+            <div class="preloader-mark">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="plGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#f97316"/>
+                            <stop offset="100%" style="stop-color:#ea580c"/>
+                        </linearGradient>
+                    </defs>
+                    <path class="draw-path" d="M8 52 L32 12 L56 52" stroke="url(#plGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path class="draw-path" d="M18 36 L46 36" stroke="url(#plGrad)" stroke-width="3" stroke-linecap="round"/>
+                    <path class="draw-path" d="M28 52 L36 52" stroke="url(#plGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="preloader-wordmark">
+                <span class="preloader-wordmark-inner">Allen Code Co.</span>
+            </div>
+            <div class="preloader-sub">Build · Ship · Acquire</div>
+        </div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Noise -->
+    <div class="noise" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-inner">
+            <a href="allen-code-co-animated.html" class="logo" aria-label="Allen Code Co — Home">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 5 L8 45" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M25 5 L42 45" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M14 32 L25 32" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M42 45 L48 38" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#f97316"/>
+                                <stop offset="100%" style="stop-color:#ea580c"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-text">Allen Code Co.</span>
+            </a>
+            <nav>
+                <a href="products.html">Products</a>
+                <a href="showcases.html" class="active">Showcases</a>
+                <a href="chris-allen-portfolio.html">Portfolio</a>
+                <a href="allen-code-co-animated.html#about">About</a>
+                <a href="allen-code-co-animated.html#contact" class="nav-cta">Contact</a>
+            </nav>
+            <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+        <ul class="mobile-nav-links">
+            <li><a href="products.html" class="mobile-nav-link">Products</a></li>
+            <li><a href="showcases.html" class="mobile-nav-link">Showcases</a></li>
+            <li><a href="chris-allen-portfolio.html" class="mobile-nav-link">Portfolio</a></li>
+            <li><a href="allen-code-co-animated.html#about" class="mobile-nav-link">About</a></li>
+            <li><a href="allen-code-co-animated.html#contact" class="mobile-nav-link">Contact</a></li>
+        </ul>
+        <div class="mobile-nav-footer">Allen Code Co. &nbsp;·&nbsp; Build · Ship · Acquire</div>
+    </div>
+
+    <!-- Hero -->
+    <div class="page-hero">
+        <div class="page-hero-bg-grid" aria-hidden="true"></div>
+        <div class="page-hero-inner">
+            <a href="allen-code-co-animated.html" class="back-link">← Back to Home</a>
+            <span class="section-label">Deep Dives</span>
+            <h1>Built in Public.<br><em>Documented in Full.</em></h1>
+            <p>Every product has a showcase — full feature breakdowns, architecture decisions, and the story behind the build. This is what production-grade actually looks like.</p>
+        </div>
+    </div>
+
+    <!-- Showcases Grid -->
+    <section class="showcases-section">
+        <div class="showcases-inner">
+            <div class="showcases-grid">
+
+                <!-- My Teachers Toolbox -->
+                <div class="showcase-card">
+                    <div class="showcase-card-inner">
+                        <div class="showcase-card-header">
+                            <div class="showcase-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                            </div>
+                            <div class="showcase-title-group">
+                                <span class="showcase-status status-live">Live in Production</span>
+                                <h3>My Teachers Toolbox</h3>
+                                <p class="showcase-tagline">K–5 Education Platform</p>
+                            </div>
+                        </div>
+                        <p class="showcase-desc">Built with a working K–5 teacher and tested in a real classroom from day one. 50+ emergency sub tools, AI lesson planning, a full gradebook, and team collaboration — all under one subscription.</p>
+                        <div class="showcase-tags">
+                            <span class="showcase-tag">Next.js 15</span>
+                            <span class="showcase-tag">TypeScript</span>
+                            <span class="showcase-tag">Supabase</span>
+                            <span class="showcase-tag">Stripe</span>
+                            <span class="showcase-tag">OpenRouter</span>
+                        </div>
+                        <div class="showcase-links">
+                            <a href="my-teachers-toolbox-showcase.html" class="showcase-link">View Showcase →</a>
+                            <a href="https://www.myteacherstoolbox.com" class="showcase-link showcase-link-secondary" target="_blank" rel="noopener noreferrer">Visit Live Site ↗</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UnderFire AI -->
+                <div class="showcase-card">
+                    <div class="showcase-card-inner">
+                        <div class="showcase-card-header">
+                            <div class="showcase-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            </div>
+                            <div class="showcase-title-group">
+                                <span class="showcase-status status-live">Live in Production</span>
+                                <h3>UnderFire AI</h3>
+                                <p class="showcase-tagline">AI Interview Coaching Platform</p>
+                            </div>
+                        </div>
+                        <p class="showcase-desc">Eight hidden interviewer archetypes, six interview formats, and a live 3D HUD tracking your STAR scores in real time. Salary negotiation simulator, resume vulnerability scanner, live coding challenges in 7 languages.</p>
+                        <div class="showcase-tags">
+                            <span class="showcase-tag">Next.js 15</span>
+                            <span class="showcase-tag">React Three Fiber</span>
+                            <span class="showcase-tag">Cartesia TTS</span>
+                            <span class="showcase-tag">Judge0</span>
+                            <span class="showcase-tag">Stripe</span>
+                        </div>
+                        <div class="showcase-links">
+                            <a href="underfireai-showcase.html" class="showcase-link">View Showcase →</a>
+                            <a href="https://www.underfireai.com" class="showcase-link showcase-link-secondary" target="_blank" rel="noopener noreferrer">Visit Live Site ↗</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Founders Helm -->
+                <div class="showcase-card">
+                    <div class="showcase-card-inner">
+                        <div class="showcase-card-header">
+                            <div class="showcase-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            </div>
+                            <div class="showcase-title-group">
+                                <span class="showcase-status status-live">Live in Production</span>
+                                <h3>Founders Helm</h3>
+                                <p class="showcase-tagline">Solo Founder Business OS</p>
+                            </div>
+                        </div>
+                        <p class="showcase-desc">10 integrated tools in one platform — CRM, pipeline, project management, invoicing, time tracking, and more. Built for solo founders who need to run a real business without 10 different SaaS subscriptions.</p>
+                        <div class="showcase-tags">
+                            <span class="showcase-tag">Next.js 16</span>
+                            <span class="showcase-tag">TypeScript</span>
+                            <span class="showcase-tag">Supabase</span>
+                            <span class="showcase-tag">Stripe</span>
+                        </div>
+                        <div class="showcase-links">
+                            <a href="founders-helm-showcase.html" class="showcase-link">View Showcase →</a>
+                            <a href="https://www.foundershelm.com" class="showcase-link showcase-link-secondary" target="_blank" rel="noopener noreferrer">Visit Live Site ↗</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kirra Companion -->
+                <div class="showcase-card card-dev">
+                    <div class="showcase-card-inner">
+                        <div class="showcase-card-header">
+                            <div class="showcase-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            </div>
+                            <div class="showcase-title-group">
+                                <span class="showcase-status status-dev">In Development</span>
+                                <h3>Kirra Companion</h3>
+                                <p class="showcase-tagline">AI Companion Platform</p>
+                            </div>
+                        </div>
+                        <p class="showcase-desc">Not a chatbot. Five distinct relationship types — Romantic, Platonic, Mentor, Adversarial, and Familial — built from the ground up with a full life simulation engine, memory system, and proactive messaging.</p>
+                        <div class="showcase-tags">
+                            <span class="showcase-tag">Next.js 15</span>
+                            <span class="showcase-tag">TypeScript</span>
+                            <span class="showcase-tag">Supabase</span>
+                            <span class="showcase-tag">OpenRouter</span>
+                            <span class="showcase-tag">Cartesia TTS</span>
+                        </div>
+                        <div class="showcase-links">
+                            <a href="kirra-companion-showcase.html" class="showcase-link">View Showcase →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vision Home AI -->
+                <div class="showcase-card card-dev">
+                    <div class="showcase-card-inner">
+                        <div class="showcase-card-header">
+                            <div class="showcase-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            </div>
+                            <div class="showcase-title-group">
+                                <span class="showcase-status status-dev">In Development</span>
+                                <h3>Vision Home AI</h3>
+                                <p class="showcase-tagline">AI Home Visualization Platform</p>
+                            </div>
+                        </div>
+                        <p class="showcase-desc">Upload a photo of your space and get a photorealistic redesign in seconds — generated from your actual room, not stock imagery. Interior and exterior visualization covering siding, roofing, kitchens, and more.</p>
+                        <div class="showcase-tags">
+                            <span class="showcase-tag">Next.js 15</span>
+                            <span class="showcase-tag">TypeScript</span>
+                            <span class="showcase-tag">FAL.ai</span>
+                            <span class="showcase-tag">Supabase</span>
+                            <span class="showcase-tag">Stripe</span>
+                        </div>
+                        <div class="showcase-links">
+                            <a href="vision-home-ai-showcase.html" class="showcase-link">View Showcase →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ColabMotion -->
+                <div class="showcase-card card-dev">
+                    <div class="showcase-card-inner">
+                        <div class="showcase-card-header">
+                            <div class="showcase-icon">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </div>
+                            <div class="showcase-title-group">
+                                <span class="showcase-status status-dev">In Development</span>
+                                <h3>ColabMotion</h3>
+                                <p class="showcase-tagline">Motion Design Platform</p>
+                            </div>
+                        </div>
+                        <p class="showcase-desc">The home base for motion designers who build with Remotion. Brand hub, component marketplace, and community — one platform for the growing ecosystem of code-driven animation creators.</p>
+                        <div class="showcase-tags">
+                            <span class="showcase-tag">Next.js</span>
+                            <span class="showcase-tag">TypeScript</span>
+                            <span class="showcase-tag">Supabase</span>
+                            <span class="showcase-tag">Stripe</span>
+                        </div>
+                        <div class="showcase-links">
+                            <a href="colabmotion-showcase.html" class="showcase-link">View Showcase →</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-mark">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 5 L8 45" stroke="url(#logoGradF)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M25 5 L42 45" stroke="url(#logoGradF)" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M14 32 L25 32" stroke="url(#logoGradF)" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M42 45 L48 38" stroke="url(#logoGradF)" stroke-width="3" stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="logoGradF" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#f97316"/>
+                                <stop offset="100%" style="stop-color:#ea580c"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="footer-brand-text">Allen Code Co.</span>
+            </div>
+            <div class="footer-meta">Winchester, Virginia &nbsp;·&nbsp; Build · Ship · Acquire</div>
+        </div>
+    </footer>
+
+    <script>
+        // Lenis smooth scroll
+        const lenis = new Lenis();
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+
+        // Cursor
+        const cursor = document.getElementById('cursor');
+        const cursorDot = document.getElementById('cursorDot');
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: 'power2.out' });
+            gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.05 });
+        });
+        document.querySelectorAll('a, button, .showcase-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Preloader — sessionStorage skip
+        const preloader = document.getElementById('preloader');
+
+        function runPageAnimations() {
+            gsap.from('.page-hero-inner > *', {
+                y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12
+            });
+            gsap.utils.toArray('.showcase-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: { trigger: card, start: 'top 88%' },
+                    y: 40, opacity: 0, duration: 0.7, ease: 'power3.out',
+                    delay: (i % 3) * 0.08
+                });
+            });
+        }
+
+        if (sessionStorage.getItem('acc_visited')) {
+            gsap.set(preloader, { display: 'none' });
+            runPageAnimations();
+        } else {
+            sessionStorage.setItem('acc_visited', '1');
+            const paths = document.querySelectorAll('.preloader-mark .draw-path');
+            const wordmarkInner = document.querySelector('.preloader-wordmark-inner');
+            const preloaderSub = document.querySelector('.preloader-sub');
+            const plTl = gsap.timeline({ onComplete: runPageAnimations });
+            plTl.to(paths, { strokeDashoffset: 0, duration: 0.5, ease: 'power2.inOut', stagger: 0.18 });
+            plTl.to(wordmarkInner, { y: '0%', duration: 0.6, ease: 'power4.out' }, '-=0.1');
+            plTl.to(preloaderSub, { opacity: 1, duration: 0.4, ease: 'power2.out' }, '-=0.2');
+            plTl.to(preloader, {
+                yPercent: -100, duration: 0.9, ease: 'power4.inOut', delay: 0.6,
+                onComplete: () => { preloader.style.display = 'none'; }
+            });
+        }
+
+        // Header scroll
+        ScrollTrigger.create({
+            start: 'top -100',
+            end: 99999,
+            toggleClass: { className: 'scrolled', targets: '#header' }
+        });
+
+        // Mobile nav
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+        const mobileNavFooter = document.querySelector('.mobile-nav-footer');
+        let mobileNavOpen = false;
+
+        function openMobileNav() {
+            mobileNavOpen = true;
+            mobileNav.classList.add('open');
+            hamburger.classList.add('open');
+            hamburger.setAttribute('aria-expanded', 'true');
+            mobileNav.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            gsap.fromTo(mobileLinks, { y: '110%' }, { y: '0%', duration: 0.6, ease: 'power4.out', stagger: 0.07, delay: 0.05 });
+            gsap.to(mobileNavFooter, { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.5 });
+        }
+        function closeMobileNav() {
+            mobileNavOpen = false;
+            hamburger.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+            gsap.to(mobileLinks, { y: '110%', duration: 0.4, ease: 'power3.in', stagger: 0.04 });
+            gsap.to(mobileNavFooter, { opacity: 0, duration: 0.2 });
+            gsap.to(mobileNav, {
+                opacity: 0, duration: 0.45, ease: 'power2.inOut', delay: 0.25,
+                onComplete: () => {
+                    mobileNav.classList.remove('open');
+                    mobileNav.setAttribute('aria-hidden', 'true');
+                    gsap.set(mobileNav, { opacity: 1 });
+                }
+            });
+        }
+        hamburger.addEventListener('click', () => { mobileNavOpen ? closeMobileNav() : openMobileNav(); });
+        mobileLinks.forEach(link => { link.addEventListener('click', closeMobileNav); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileNavOpen) closeMobileNav(); });
+    </script>
+</body>
+</html>

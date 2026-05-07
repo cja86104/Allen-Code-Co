@@ -37,23 +37,23 @@
        ROOT VARIABLES — exact match to main site
     ============================================================ */
     :root {
-      --bg-dark:        #F2F0EB;
-      --bg-darker:      #EAE7E1;
-      --bg-card:        rgba(255, 255, 255, 0.85);
-      --bg-card-hover:  rgba(255, 253, 249, 0.95);
+      --bg-dark:        #0A0A0A;
+      --bg-darker:      #111111;
+      --bg-card:        rgba(18, 18, 18, 0.92);
+      --bg-card-hover:  rgba(24, 24, 24, 0.98);
 
-      --accent:         #D97706;
-      --accent-bright:  #B45309;
-      --accent-glow:    rgba(217, 119, 6, 0.12);
+      --accent:         #f97316;
+      --accent-bright:  #ea580c;
+      --accent-glow:    rgba(249, 115, 22, 0.18);
 
-      --text-primary:   #1C1917;
-      --text-secondary: #3D2E28;
-      --text-muted:     #6B5446;
+      --text-primary:   #F5F4F2;
+      --text-secondary: #E2DBD5;
+      --text-muted:     #B8B0A8;
 
-      --border:         #E7E5E4;
-      --border-hover:   #D6D3D1;
+      --border:         #1F1F1F;
+      --border-hover:   #2E2E2E;
 
-      --gradient-1:     linear-gradient(135deg, #D97706 0%, #B45309 100%);
+      --gradient-1:     linear-gradient(135deg, #f97316 0%, #ea580c 100%);
       --gradient-2:     linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
       --gradient-3:     linear-gradient(135deg, #059669 0%, #047857 100%);
     }
@@ -87,7 +87,7 @@
       position: fixed;
       width: 20px;
       height: 20px;
-      border: 2px solid #1C1917;
+      border: 2px solid var(--text-primary);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
@@ -98,7 +98,7 @@
       position: fixed;
       width: 6px;
       height: 6px;
-      background: #1C1917;
+      background: var(--text-primary);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
@@ -116,28 +116,49 @@
     .preloader {
       position: fixed;
       inset: 0;
-      background: #1C1917;
+      background: var(--bg-dark);
       z-index: 10000;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1.5rem;
     }
-    .preloader-text {
+    .preloader-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .preloader-mark { width: 72px; height: 72px; }
+    .preloader-mark svg { width: 100%; height: 100%; overflow: visible; }
+    .preloader-mark .draw-path {
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+    }
+    .preloader-wordmark {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(2rem, 8vw, 6rem);
-      font-weight: 800;
-      color: #FAF9F6;
-      letter-spacing: -0.02em;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 700;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--text-primary);
       overflow: hidden;
+      height: 2rem;
+      display: flex;
+      align-items: center;
     }
-    .preloader-text span { display: inline-block; }
-    .preloader-text .accent-letter { color: var(--accent); }
-    .preloader-counter {
+    .preloader-wordmark-inner {
+      display: block;
+      transform: translateY(100%);
+    }
+    .preloader-sub {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
       color: var(--accent);
+      opacity: 0;
     }
 
     /* ============================================================
@@ -148,7 +169,7 @@
       inset: 0;
       pointer-events: none;
       z-index: 1000;
-      opacity: 0.025;
+      opacity: 0.045;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
 
@@ -165,7 +186,7 @@
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     header.scrolled {
-      background: rgba(242, 240, 235, 0.88);
+      background: rgba(10, 10, 10, 0.90);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
@@ -260,8 +281,8 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(28, 25, 23, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(28, 25, 23, 0.04) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 80px 80px;
       mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
       -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
@@ -383,33 +404,6 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
     }
-    .hero-scroll {
-      position: absolute;
-      bottom: 3rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .hero-scroll-line {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--accent), transparent);
-      animation: scrollLine 2s infinite;
-    }
-    @keyframes scrollLine {
-      0% { transform: scaleY(0); transform-origin: top; }
-      50% { transform: scaleY(1); transform-origin: top; }
-      50.1% { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
-    }
-
     /* ============================================================
        SHARED BUTTONS
     ============================================================ */
@@ -435,45 +429,14 @@
     .btn-secondary {
       background: transparent;
       color: var(--text-primary);
-      border: 1px solid #D6D3D1;
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
     .btn-secondary:hover {
       border-color: var(--text-primary);
-      background: rgba(28, 25, 23, 0.04);
+      background: rgba(255, 255, 255, 0.05);
     }
     .btn-arrow { transition: transform 0.3s ease; }
     .btn:hover .btn-arrow { transform: translateX(4px); }
-
-    /* ============================================================
-       MARQUEE — matches main site
-    ============================================================ */
-    .marquee-section {
-      padding: 3rem 0;
-      background: rgba(28, 25, 23, 0.02);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      overflow: hidden;
-    }
-    .marquee {
-      display: flex;
-      gap: 4rem;
-      animation: marquee 30s linear infinite;
-    }
-    .marquee-item {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 4rem;
-    }
-    .marquee-item span { color: var(--accent); }
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
 
     /* ============================================================
        SECTION COMMONS
@@ -529,8 +492,8 @@
       background: var(--gradient-1);
       z-index: 2;
     }
-    /* Dev card = blue bar */
-    .product-card.status-dev-card::before { background: var(--gradient-2); }
+    /* Dev card = orange bar */
+    .product-card.status-dev-card::before { background: var(--gradient-1); }
     /* Complete card = green bar */
     .product-card.status-complete-card::before { background: var(--gradient-3); }
     /* Hover glow overlay */
@@ -538,7 +501,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(217, 119, 6, 0.04) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.5s ease;
       pointer-events: none;
@@ -547,7 +510,7 @@
     .product-card:hover {
       border-color: var(--border-hover);
       transform: translateY(-6px);
-      box-shadow: 0 24px 60px rgba(28, 25, 23, 0.08);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
     }
     .product-card:hover::after { opacity: 1; }
 
@@ -579,7 +542,7 @@
       stroke-linecap: round;
       stroke-linejoin: round;
     }
-    .product-card.status-dev-card .product-icon { background: var(--gradient-2); }
+    .product-card.status-dev-card .product-icon { background: var(--gradient-1); }
     .product-card.status-complete-card .product-icon { background: var(--gradient-3); }
 
     .product-title-group { flex: 1; }
@@ -594,8 +557,8 @@
       margin-bottom: 0.5rem;
     }
     .status-live { background: rgba(22, 163, 74, 0.1); color: #16A34A; }
-    .status-dev  { background: rgba(37, 99, 235, 0.1); color: #2563EB; }
-    .status-complete { background: rgba(217, 119, 6, 0.1); color: var(--accent); }
+    .status-dev  { background: rgba(249, 115, 22, 0.12); color: #f97316; }
+    .status-complete { background: rgba(249, 115, 22, 0.1); color: var(--accent); }
 
     .product-card h3 {
       font-family: 'Playfair Display', Georgia, serif;
@@ -603,17 +566,18 @@
       font-weight: 700;
       line-height: 1.05;
       margin-bottom: 0.3rem;
-      color: var(--text-primary);
+      color: var(--accent);
       position: relative;
       z-index: 1;
     }
     .product-tagline {
       font-size: 0.9rem;
-      color: var(--text-muted);
+      color: var(--accent);
       line-height: 1.55;
       font-style: italic;
       position: relative;
       z-index: 1;
+      opacity: 0.75;
     }
 
     /* Callout box */
@@ -673,7 +637,7 @@
       font-size: 0.7rem;
       font-weight: 500;
       padding: 0.35rem 0.75rem;
-      background: rgba(28, 25, 23, 0.04);
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--border);
       border-radius: 100px;
       color: var(--text-muted);
@@ -786,7 +750,7 @@
       opacity: 0;
       transition: opacity 0.4s ease;
     }
-    .value-item:hover { border-color: var(--border-hover); transform: translateY(-5px); box-shadow: 0 16px 40px rgba(28, 25, 23, 0.07); }
+    .value-item:hover { border-color: var(--border-hover); transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45); }
     .value-item:hover::before { opacity: 1; }
     .value-icon {
       width: 44px;
@@ -919,6 +883,99 @@
     }
 
     /* ============================================================
+       MOBILE NAV
+    ============================================================ */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 200;
+    }
+    .hamburger-line {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.3s ease,
+                  width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: center;
+    }
+    .hamburger.open .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open .hamburger-line:nth-child(2) { opacity: 0; width: 0; }
+    .hamburger.open .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      background: #0A0A0A;
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: visibility 0s linear 0.5s;
+    }
+    .mobile-nav.open {
+      pointer-events: all;
+      opacity: 1;
+      visibility: visible;
+      transition: visibility 0s linear 0s;
+    }
+    .mobile-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      width: 100%;
+      padding: 0 2rem;
+    }
+    .mobile-nav-links li { overflow: hidden; width: 100%; text-align: center; }
+    .mobile-nav-links a {
+      display: block;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.5rem, 10vw, 4.5rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.15;
+      padding: 0.4rem 0;
+      transform: translateY(110%);
+      transition: color 0.3s ease;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: -0.02em;
+    }
+    .mobile-nav-links a:hover { color: var(--accent); }
+    .mobile-nav-links li:last-child a {
+      border-bottom: none;
+      color: var(--accent);
+      margin-top: 1rem;
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+    .mobile-nav-links li:last-child a:hover { color: var(--text-primary); }
+    .mobile-nav-footer {
+      position: absolute;
+      bottom: 2.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      opacity: 0;
+    }
+
+    /* ============================================================
        RESPONSIVE
     ============================================================ */
     @media (max-width: 1024px) {
@@ -927,9 +984,11 @@
       .tech-grid { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .cursor, .cursor-dot { display: none; }
+      body { cursor: auto; }
       .header-inner { padding: 0 1.5rem; }
-      nav { gap: 1.5rem; }
-      nav a:not(.nav-cta) { display: none; }
+      nav { display: none; }
       .hero-content { padding: 0 1.5rem; }
       .hero h1 { font-size: clamp(2.8rem, 12vw, 5rem); }
       .hero-cta { flex-direction: column; align-items: flex-start; gap: 1rem; }
@@ -956,12 +1015,25 @@
        PRELOADER
   ============================================================ -->
   <div class="preloader" id="preloader" aria-hidden="true">
-    <div class="preloader-text" id="preloaderText">
-      <span>C</span><span>H</span><span>R</span><span>I</span><span>S</span>
-      <span>&nbsp;</span>
-      <span class="accent-letter">A</span><span class="accent-letter">L</span><span class="accent-letter">L</span><span class="accent-letter">E</span><span class="accent-letter">N</span>
+    <div class="preloader-logo">
+      <div class="preloader-mark">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="plGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#f97316"/>
+              <stop offset="100%" style="stop-color:#ea580c"/>
+            </linearGradient>
+          </defs>
+          <path class="draw-path" d="M8 52 L32 12 L56 52" stroke="url(#plGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path class="draw-path" d="M18 36 L46 36" stroke="url(#plGrad)" stroke-width="3" stroke-linecap="round"/>
+          <path class="draw-path" d="M28 52 L36 52" stroke="url(#plGrad)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="preloader-wordmark">
+        <span class="preloader-wordmark-inner">Allen Code Co.</span>
+      </div>
+      <div class="preloader-sub">Build · Ship · Acquire</div>
     </div>
-    <div class="preloader-counter" id="preloaderCounter">0%</div>
   </div>
 
   <!-- ============================================================
@@ -978,8 +1050,8 @@
             <path d="M42 45 L48 38" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
             <defs>
               <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#D97706"/>
-                <stop offset="100%" style="stop-color:#B45309"/>
+                <stop offset="0%" style="stop-color:#f97316"/>
+                <stop offset="100%" style="stop-color:#ea580c"/>
               </linearGradient>
             </defs>
           </svg>
@@ -993,8 +1065,25 @@
         <a href="#tech">Stack</a>
         <a href="https://www.allencodeco.com/#contact" class="nav-cta">Get in Touch</a>
       </nav>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </div>
   </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <ul class="mobile-nav-links">
+      <li><a href="https://www.allencodeco.com" class="mobile-nav-link">Home</a></li>
+      <li><a href="#work" class="mobile-nav-link">Work</a></li>
+      <li><a href="#about" class="mobile-nav-link">About</a></li>
+      <li><a href="#tech" class="mobile-nav-link">Stack</a></li>
+      <li><a href="https://www.allencodeco.com/#contact" class="mobile-nav-link">Get in Touch</a></li>
+    </ul>
+    <div class="mobile-nav-footer">Allen Code Co. &nbsp;·&nbsp; Build · Ship · Acquire</div>
+  </div>
 
   <!-- ============================================================
        HERO
@@ -1052,30 +1141,7 @@
         </div>
       </div>
     </div>
-
-    <div class="hero-scroll" aria-hidden="true">
-      <span>Scroll</span>
-      <div class="hero-scroll-line"></div>
-    </div>
   </section>
-
-  <!-- ============================================================
-       MARQUEE
-  ============================================================ -->
-  <div class="marquee-section" aria-hidden="true">
-    <div class="marquee">
-      <div class="marquee-item">
-        Next.js <span>•</span> TypeScript <span>•</span> Supabase <span>•</span> Stripe <span>•</span>
-        AI Integration <span>•</span> OpenRouter <span>•</span> Production Ready <span>•</span>
-        Build to Sell <span>•</span>
-      </div>
-      <div class="marquee-item" aria-hidden="true">
-        Next.js <span>•</span> TypeScript <span>•</span> Supabase <span>•</span> Stripe <span>•</span>
-        AI Integration <span>•</span> OpenRouter <span>•</span> Production Ready <span>•</span>
-        Build to Sell <span>•</span>
-      </div>
-    </div>
-  </div>
 
   <!-- ============================================================
        WORK / PRODUCTS
@@ -1437,8 +1503,8 @@
             <path d="M42 45 L48 38" stroke="url(#logoGradF)" stroke-width="3" stroke-linecap="round"/>
             <defs>
               <linearGradient id="logoGradF" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#D97706"/>
-                <stop offset="100%" style="stop-color:#B45309"/>
+                <stop offset="0%" style="stop-color:#f97316"/>
+                <stop offset="100%" style="stop-color:#ea580c"/>
               </linearGradient>
             </defs>
           </svg>
@@ -1496,92 +1562,84 @@
     });
 
     /* ----------------------------------------------------------
-       PRELOADER
+       PRELOADER — skip on return visits within same session
     ---------------------------------------------------------- */
-    const preloader        = document.getElementById('preloader');
-    const preloaderText    = document.getElementById('preloaderText');
-    const preloaderCounter = document.getElementById('preloaderCounter');
-    const letters          = preloaderText.querySelectorAll('span');
+    const preloader = document.getElementById('preloader');
 
-    // Set initial state
-    gsap.set(letters, { y: 100, opacity: 0 });
-
-    let count = 0;
-    const preloaderTl = gsap.timeline();
-
-    // Animate letters in
-    preloaderTl.to(letters, {
-      y: 0,
-      opacity: 1,
-      stagger: 0.05,
-      duration: 0.8,
-      ease: 'power3.out',
-    }, 0);
-
-    // Counter tick
-    const counterInterval = setInterval(() => {
-      count += Math.floor(Math.random() * 6) + 3;
-      if (count >= 100) {
-        count = 100;
-        clearInterval(counterInterval);
-      }
-      preloaderCounter.textContent = count + '%';
-    }, 45);
-
-    // Slide preloader out after 1.6s
-    preloaderTl.to(preloader, {
-      yPercent: -100,
-      duration: 1,
-      ease: 'power4.inOut',
-      delay: 0.6,
-      onComplete: () => {
-        preloader.style.display = 'none';
-        triggerHeroAnims();
-      }
-    });
-
-    /* ----------------------------------------------------------
-       HERO ANIMATIONS
-    ---------------------------------------------------------- */
     function triggerHeroAnims() {
       const tl = gsap.timeline();
-
-      tl.from('.hero-badge', {
-        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
+      tl.from('.hero-badge', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
         onComplete: function() { this.targets().forEach(t => { t.style.transform = ''; t.style.opacity = ''; }); }
       }, 0);
-
-      tl.from('.hero h1 .line-inner', {
-        y: 120, opacity: 0, rotateX: -40,
-        stagger: 0.15, duration: 1, ease: 'power3.out',
+      tl.from('.hero h1 .line-inner', { y: 120, opacity: 0, rotateX: -40, stagger: 0.15, duration: 1, ease: 'power3.out',
         onComplete: function() { this.targets().forEach(t => { t.style.transform = ''; t.style.opacity = ''; }); }
       }, 0.15);
-
-      tl.from('.hero-description', {
-        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
+      tl.from('.hero-description', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
         onComplete: function() { this.targets().forEach(t => { t.style.transform = ''; t.style.opacity = ''; }); }
       }, 0.5);
-
-      tl.from('.hero-positioning', {
-        y: 20, opacity: 0, duration: 0.7, ease: 'power3.out',
+      tl.from('.hero-positioning', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out',
         onComplete: function() { this.targets().forEach(t => { t.style.transform = ''; t.style.opacity = ''; }); }
       }, 0.65);
-
-      tl.from('.hero-cta', {
-        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
+      tl.from('.hero-cta', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
         onComplete: function() { this.targets().forEach(t => { t.style.transform = ''; t.style.opacity = ''; }); }
       }, 0.8);
-
-      tl.from('.hero-stats', {
-        y: 20, opacity: 0, duration: 0.7, ease: 'power3.out',
+      tl.from('.hero-stats', { y: 20, opacity: 0, duration: 0.7, ease: 'power3.out',
         onComplete: function() { this.targets().forEach(t => { t.style.transform = ''; t.style.opacity = ''; }); }
       }, 0.95);
-
-      tl.from('.hero-scroll', {
-        y: 20, opacity: 0, duration: 0.8, ease: 'power3.out',
-        onComplete: function() { this.targets().forEach(t => { t.style.transform = ''; t.style.opacity = ''; }); }
-      }, 1.1);
     }
+
+    if (sessionStorage.getItem('acc_visited')) {
+      gsap.set(preloader, { display: 'none' });
+      triggerHeroAnims();
+    } else {
+      sessionStorage.setItem('acc_visited', '1');
+      const paths = document.querySelectorAll('.preloader-mark .draw-path');
+      const wordmarkInner = document.querySelector('.preloader-wordmark-inner');
+      const preloaderSub = document.querySelector('.preloader-sub');
+      const plTl = gsap.timeline({ onComplete: triggerHeroAnims });
+      plTl.to(paths, { strokeDashoffset: 0, duration: 0.5, ease: 'power2.inOut', stagger: 0.18 });
+      plTl.to(wordmarkInner, { y: '0%', duration: 0.6, ease: 'power4.out' }, '-=0.1');
+      plTl.to(preloaderSub, { opacity: 1, duration: 0.4, ease: 'power2.out' }, '-=0.2');
+      plTl.to(preloader, { yPercent: -100, duration: 0.9, ease: 'power4.inOut', delay: 0.6,
+        onComplete: () => { preloader.style.display = 'none'; }
+      });
+    }
+
+    /* ----------------------------------------------------------
+       MOBILE NAV
+    ---------------------------------------------------------- */
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+    const mobileNavFooter = document.querySelector('.mobile-nav-footer');
+    let mobileNavOpen = false;
+
+    function openMobileNav() {
+      mobileNavOpen = true;
+      mobileNav.classList.add('open');
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      gsap.fromTo(mobileLinks, { y: '110%' }, { y: '0%', duration: 0.6, ease: 'power4.out', stagger: 0.07, delay: 0.05 });
+      gsap.to(mobileNavFooter, { opacity: 1, duration: 0.5, ease: 'power2.out', delay: 0.5 });
+    }
+
+    function closeMobileNav() {
+      mobileNavOpen = false;
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      gsap.to(mobileLinks, { y: '110%', duration: 0.4, ease: 'power3.in', stagger: 0.04 });
+      gsap.to(mobileNavFooter, { opacity: 0, duration: 0.2 });
+      gsap.to(mobileNav, { opacity: 0, duration: 0.45, ease: 'power2.inOut', delay: 0.25,
+        onComplete: () => { mobileNav.classList.remove('open'); mobileNav.setAttribute('aria-hidden', 'true'); gsap.set(mobileNav, { opacity: 1 }); }
+      });
+    }
+
+    hamburger.addEventListener('click', () => { mobileNavOpen ? closeMobileNav() : openMobileNav(); });
+    mobileLinks.forEach(link => { link.addEventListener('click', closeMobileNav); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileNavOpen) closeMobileNav(); });
 
     /* ----------------------------------------------------------
        HEADER SCROLL
