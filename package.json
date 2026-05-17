@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "htmlhint allen-code-co-animated.html && eslint allen-code-co-animated.html",
-    "lint:html": "htmlhint allen-code-co-animated.html",
-    "lint:js": "eslint allen-code-co-animated.html",
+    "lint": "npm run lint:html && npm run lint:js",
+    "lint:html": "htmlhint \"*.html\"",
+    "lint:js": "eslint \"*.html\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

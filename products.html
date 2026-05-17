@@ -18,35 +18,50 @@
     <title>Products | Allen Code Co — Software Development Studio</title>
     <meta name="description" content="Production-ready applications built by Allen Code Co. Explore our full portfolio of shipped SaaS products.">
 
+    <!-- Canonical / Social / Structured Metadata -->
+    <link rel="canonical" href="https://www.allencodeco.com/products.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.allencodeco.com/products.html">
+    <meta property="og:title" content="Products | Allen Code Co — Software Development Studio">
+    <meta property="og:description" content="Production-ready applications built by Allen Code Co. Explore our full portfolio of shipped SaaS products.">
+    <meta property="og:image" content="https://www.allencodeco.com/og/products.png">
+    <meta property="og:site_name" content="Allen Code Co">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Products | Allen Code Co — Software Development Studio">
+    <meta name="twitter:description" content="Production-ready applications built by Allen Code Co. Explore our full portfolio of shipped SaaS products.">
+    <meta name="twitter:image" content="https://www.allencodeco.com/og/products.png">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Products | Allen Code Co",
+      "url": "https://www.allencodeco.com/products.html",
+      "description": "Full portfolio of production SaaS products built by Allen Code Co.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Allen Code Co",
+        "url": "https://www.allencodeco.com/"
+      }
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/shared.css">
 
     <style>
         /* ── Design Tokens — exact match to allen-code-co-animated.html ── */
-        :root {
-            --bg-dark: #0A0A0A;
-            --bg-darker: #111111;
-            --bg-card: rgba(18, 18, 18, 0.92);
-            --accent: #f97316;
-            --accent-bright: #ea580c;
-            --accent-glow: rgba(249, 115, 22, 0.18);
-            --text-primary: #F5F4F2;
-            --text-secondary: #E2DBD5;
-            --text-muted: #B8B0A8;
-            --border: #1F1F1F;
-            --border-hover: #2E2E2E;
-            --gradient-1: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-            --gradient-2: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+/* :root tokens + universal reset loaded by /shared.css */
 
         body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            overflow-x: hidden;
+            /* font-family, background, color, overflow-x in /shared.css */
             line-height: 1.7;
         }
 
