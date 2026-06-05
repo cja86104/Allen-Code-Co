@@ -80,7 +80,8 @@
     --font-mono: 'JetBrains Mono', monospace;
   }
 
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  /* JetBrains Mono dotted-zero fix — ss19 swaps in a plain zero so "0" does not read as "8". */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; font-feature-settings: "ss19" 1; }
   html { scroll-behavior: smooth; }
 
   body {

@@ -51,13 +51,22 @@
   --gradient-text:  linear-gradient(135deg, #F5F4F2 0%, #A8A29E 100%);
 }
 
-/* Universal reset — includes pseudo-elements (some pages didn't). */
+/*
+ * Universal reset — includes pseudo-elements (some pages didn't).
+ *
+ * font-feature-settings:
+ *   JetBrains Mono's default 0 has a center dot that can read as an 8 at
+ *   smaller sizes (e.g. stat values, eyebrows). Stylistic Set 19 (ss19)
+ *   swaps the dotted zero for a plain zero. Other fonts harmlessly ignore
+ *   unrecognized OpenType features, so the rule is safe to apply universally.
+ */
 *,
 *::before,
 *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-feature-settings: "ss19" 1;
 }
 
 /* Page defaults. Per-page <style> blocks can override. */
