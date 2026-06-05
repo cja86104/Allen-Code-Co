@@ -15,8 +15,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products | Allen Code Co — Software Development Studio</title>
-    <meta name="description" content="Production-ready applications built by Allen Code Co. Explore our full portfolio of shipped SaaS products.">
+    <title>Our Work | Allen Code Co — Live Products &amp; In Development</title>
+    <meta name="description" content="The full body of work from Allen Code Co — three live products with paying users today, three more in active development. Built end-to-end for small business owners and founders.">
 
     <!-- Canonical / Social / Structured Metadata -->
     <link rel="canonical" href="https://www.allencodeco.com/products.html">
@@ -24,16 +24,16 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.allencodeco.com/products.html">
-    <meta property="og:title" content="Products | Allen Code Co — Software Development Studio">
-    <meta property="og:description" content="Production-ready applications built by Allen Code Co. Explore our full portfolio of shipped SaaS products.">
+    <meta property="og:title" content="Our Work | Allen Code Co — Live Products &amp; In Development">
+    <meta property="og:description" content="The full body of work from Allen Code Co — three live products with paying users today, three more in active development. Built end-to-end for small business owners and founders.">
     <meta property="og:image" content="https://www.allencodeco.com/og/products.png">
     <meta property="og:site_name" content="Allen Code Co">
     <meta property="og:locale" content="en_US">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Products | Allen Code Co — Software Development Studio">
-    <meta name="twitter:description" content="Production-ready applications built by Allen Code Co. Explore our full portfolio of shipped SaaS products.">
+    <meta name="twitter:title" content="Our Work | Allen Code Co — Live Products &amp; In Development">
+    <meta name="twitter:description" content="The full body of work from Allen Code Co — three live products with paying users today, three more in active development.">
     <meta name="twitter:image" content="https://www.allencodeco.com/og/products.png">
 
     <!-- Schema.org JSON-LD -->
@@ -41,13 +41,89 @@
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      "name": "Products | Allen Code Co",
+      "name": "Our Work | Allen Code Co",
       "url": "https://www.allencodeco.com/products.html",
-      "description": "Full portfolio of production SaaS products built by Allen Code Co.",
+      "description": "The full body of work from Allen Code Co. Three live products with paying users, three more in active development.",
       "isPartOf": {
         "@type": "WebSite",
         "name": "Allen Code Co",
         "url": "https://www.allencodeco.com/"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Allen Code Co Products",
+        "numberOfItems": 6,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "My Teachers Toolbox",
+              "url": "https://myteacherstoolbox.com",
+              "applicationCategory": "EducationApplication",
+              "description": "A K–5 teacher productivity platform built alongside a working teacher and used in real classrooms today.",
+              "operatingSystem": "Web"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "UnderFire AI",
+              "url": "https://www.underfireai.com",
+              "applicationCategory": "BusinessApplication",
+              "description": "AI interview coaching with realistic interviewer personalities and live voice sessions, used by candidates preparing for real interviews.",
+              "operatingSystem": "Web"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "Founders Helm",
+              "url": "https://www.foundershelm.com",
+              "applicationCategory": "BusinessApplication",
+              "description": "A complete business platform for solo founders — CRM, invoicing, projects, and automation in one place for $29/month.",
+              "operatingSystem": "Web"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "Kirra Companion",
+              "applicationCategory": "LifestyleApplication",
+              "description": "An AI companion platform with five distinct relationship types, persistent memory, and a 24/7 simulated world. In active development.",
+              "operatingSystem": "Web"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "Vision Home AI",
+              "applicationCategory": "DesignApplication",
+              "description": "AI interior and exterior design rendering generated from your actual room photo, not a stock template. In active development.",
+              "operatingSystem": "Web"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "item": {
+              "@type": "SoftwareApplication",
+              "name": "ColabMotion",
+              "applicationCategory": "DesignApplication",
+              "description": "A platform for motion designers — brand kits, a template marketplace, AI video generation, and a learning hub. In active development.",
+              "operatingSystem": "Web"
+            }
+          }
+        ]
       }
     }
     </script>
@@ -571,12 +647,39 @@
             .page-hero-grid { grid-template-columns: 1fr; gap: 3rem; }
         }
 
+        /* ── Sub-section header (Live and active / In development) ── */
+        .products-subsection-header {
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+            padding: 0 3rem;
+        }
+
+        .products-subsection-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2rem, 4.5vw, 3.25rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .products-subsection-title em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        /* Push the In-Development section away from the Live section visually */
+        #in-development {
+            padding-top: 2rem;
+        }
+
         @media (max-width: 768px) {
             .hamburger { display: flex; }
             nav { display: none; }
             .header-inner { padding: 1.25rem 1.5rem; }
             .page-hero { padding: 8rem 1.5rem 4rem; }
             .products-section { padding: 3rem 1.5rem 6rem; }
+            .products-subsection-header { padding: 0 1.5rem; margin-bottom: 2rem; }
             .section-divider { padding: 0 1.5rem; }
             .footer-inner { padding: 2rem 1.5rem; flex-direction: column; gap: 1.5rem; text-align: center; }
             .footer-right { justify-content: center; }
@@ -589,7 +692,7 @@
     <!-- Header -->
     <header>
         <div class="header-inner">
-            <a href="https://www.allencodeco.com" class="logo">
+            <a href="allen-code-co-animated.html" class="logo">
                 <div class="logo-mark">
                     <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M25 5 L8 45" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round"/>
@@ -607,12 +710,13 @@
                 <span class="logo-text">Allen Code Co.</span>
             </a>
             <nav>
-                <a href="products.html" class="active">Products</a>
-                <a href="showcases.html">Showcases</a>
-                <a href="https://www.allencodeco.com/#about">About</a>
-                <a href="https://www.allencodeco.com/#acquire">Acquire</a>
-                <a href="https://www.allencodeco.com/#tech">Tech</a>
-                <a href="https://www.allencodeco.com/#contact" class="nav-cta">Contact</a>
+                <a href="allen-code-co-animated.html#services">Services</a>
+                <a href="products.html" class="active">Our Work</a>
+                <a href="chris-allen-portfolio.html">Portfolio</a>
+                <a href="allen-code-co-animated.html#why-us">Why Us</a>
+                <a href="allen-code-co-animated.html#about">About</a>
+                <a href="allen-code-co-animated.html#acquire">Acquire</a>
+                <a href="allen-code-co-animated.html#contact" class="nav-cta">Start a Project</a>
             </nav>
             <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
                 <span class="hamburger-line"></span>
@@ -625,49 +729,52 @@
     <!-- Mobile Nav -->
     <div class="mobile-nav" id="mobileNav" aria-hidden="true">
         <ul class="mobile-nav-links">
-            <li><a href="https://www.allencodeco.com">Home</a></li>
-            <li><a href="products.html">Products</a></li>
-            <li><a href="showcases.html">Showcases</a></li>
-            <li><a href="https://www.allencodeco.com/#about">About</a></li>
-            <li><a href="https://www.allencodeco.com/#acquire">Acquire</a></li>
-            <li><a href="https://www.allencodeco.com/#contact">Contact</a></li>
+            <li><a href="allen-code-co-animated.html">Home</a></li>
+            <li><a href="allen-code-co-animated.html#services">Services</a></li>
+            <li><a href="products.html">Our Work</a></li>
+            <li><a href="chris-allen-portfolio.html">Portfolio</a></li>
+            <li><a href="allen-code-co-animated.html#why-us">Why Us</a></li>
+            <li><a href="allen-code-co-animated.html#about">About</a></li>
+            <li><a href="allen-code-co-animated.html#acquire">Acquire</a></li>
+            <li><a href="allen-code-co-animated.html#contact">Start a Project</a></li>
         </ul>
-        <div class="mobile-nav-footer">Allen Code Co. &nbsp;·&nbsp; Build · Ship · Acquire</div>
+        <div class="mobile-nav-footer">Allen Code Co. &nbsp;·&nbsp; Design · Build · Launch</div>
     </div>
 
     <!-- Hero -->
     <div class="page-hero">
         <div class="page-hero-grid">
             <div class="page-hero-left">
-                <a href="https://www.allencodeco.com" class="back-link">← Back to Home</a>
-                <span class="section-label">Our Products</span>
-                <h1>Built to Ship.<br>Built to <em>Scale.</em></h1>
+                <a href="allen-code-co-animated.html" class="back-link">← Back to Home</a>
+                <span class="section-label">Our Work</span>
+                <h1>Six products.<br><em>Three live today.</em></h1>
                 <p class="page-hero-desc">
-                    Every product in this portfolio is production-grade — real databases, real billing, real users.
-                    No demos dressed as products. No placeholders standing in for real logic.
-                    This is the full body of work, as deployed.
+                    Three of these products are running in production today with paying users.
+                    Three more are in active development. Every one was built end-to-end by
+                    Allen Code Co — design, build, hosting, and the long tail of small things
+                    that have to work.
                 </p>
             </div>
             <div class="hero-stat-row reveal">
                 <div class="hero-stat-item">
-                    <span class="hero-stat-label">Products Shipped</span>
-                    <span class="hero-stat-value">6+</span>
-                </div>
-                <div class="hero-stat-item">
-                    <span class="hero-stat-label">Live &amp; Active</span>
+                    <span class="hero-stat-label">Live products</span>
                     <span class="hero-stat-value">3</span>
                 </div>
                 <div class="hero-stat-item">
-                    <span class="hero-stat-label">Lines of Code</span>
-                    <span class="hero-stat-value">250K+</span>
-                </div>
-                <div class="hero-stat-item">
-                    <span class="hero-stat-label">Available for Acquisition</span>
+                    <span class="hero-stat-label">In development</span>
                     <span class="hero-stat-value">3</span>
                 </div>
                 <div class="hero-stat-item">
-                    <span class="hero-stat-label">Placeholders</span>
-                    <span class="hero-stat-value">0</span>
+                    <span class="hero-stat-label">Available to acquire</span>
+                    <span class="hero-stat-value">3</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-label">Paying users today</span>
+                    <span class="hero-stat-value">Yes</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-label">Idea to live (typical)</span>
+                    <span class="hero-stat-value">4–12 wk</span>
                 </div>
             </div>
         </div>
@@ -675,8 +782,12 @@
 
     <div class="section-divider"></div>
 
-    <!-- Products -->
-    <section class="products-section">
+    <!-- Live products -->
+    <section id="live" class="products-section">
+        <div class="products-subsection-header reveal">
+            <span class="section-label">Live and active</span>
+            <h2 class="products-subsection-title">In market today.<br><em>Paying users, real businesses.</em></h2>
+        </div>
         <div class="products-grid">
 
             <!-- My Teachers Toolbox — Featured, full width -->
@@ -688,20 +799,20 @@
                         </div>
                         <div class="product-stat-cluster">
                             <div class="product-stat">
-                                <span class="product-stat-value">81K+</span>
-                                <span class="product-stat-label">Lines of Code</span>
-                            </div>
-                            <div class="product-stat">
-                                <span class="product-stat-value">50+</span>
-                                <span class="product-stat-label">Emergency Sub Tools</span>
+                                <span class="product-stat-value">Live</span>
+                                <span class="product-stat-label">Paying users</span>
                             </div>
                             <div class="product-stat">
                                 <span class="product-stat-value">K–5</span>
-                                <span class="product-stat-label">Full Grade Coverage</span>
+                                <span class="product-stat-label">Grade coverage</span>
                             </div>
                             <div class="product-stat">
-                                <span class="product-stat-value">Live</span>
-                                <span class="product-stat-label">Active Paying Users</span>
+                                <span class="product-stat-value">25+</span>
+                                <span class="product-stat-label">Teacher tools</span>
+                            </div>
+                            <div class="product-stat">
+                                <span class="product-stat-value">In&nbsp;Use</span>
+                                <span class="product-stat-label">Real classrooms</span>
                             </div>
                         </div>
                     </div>
@@ -710,37 +821,36 @@
                             <div class="product-title-group">
                                 <span class="product-status status-live">Live</span>
                                 <h3>My Teachers Toolbox</h3>
-                                <p class="product-tagline">Built with a working K–5 teacher. Tested in a real classroom. Active paying users from day one.</p>
+                                <p class="product-tagline">Everything a K–5 teacher needs in one place — built alongside an actual teacher, used in real classrooms.</p>
                             </div>
                         </div>
                         <div class="product-callout">
-                            <p>Every feature was spec'd alongside a working third-grade teacher who uses it daily. No assumptions about what teachers need — direct feedback from the classroom floor, shipped as production software with real users, real billing, and real data.</p>
+                            <p>We sat with a working teacher and built what she actually wanted — lesson plans, emergency sub kits, parent communications, a full gradebook, and a vault of student data that's safe by design. Used every school day, and trusted with real student information.</p>
                         </div>
                         <ul class="product-features">
-                            <li>AI generates complete lesson plans, differentiated instruction materials, standards-aligned assessments, and parent communications on demand — not templates, fully authored content tailored to grade level and subject matter.</li>
-                            <li>50+ emergency substitute tools mean any teacher can walk into an unfamiliar classroom and be ready in under a minute — activity packs, seating charts, behavior protocols, and full resource kits generated instantly.</li>
-                            <li>Student data vault with FERPA-compliant security at every layer — ownership controls, RLS-enforced data isolation, and zero cross-account exposure regardless of subscription tier.</li>
-                            <li>Team collaboration with shared resource libraries and a full gradebook — teachers can co-own materials, share lesson banks, and track student progress across a department or school.</li>
-                            <li>25+ AI-powered tools spanning lesson design, classroom management, professional development, communication, and assessment — all gated behind a single tiered Stripe subscription enforced at the UI and API level.</li>
+                            <li>AI builds the whole lesson on demand — plans, materials, assessments, even the note home to parents — tuned to the grade level and subject the teacher is actually teaching.</li>
+                            <li>More than 50 emergency substitute tools. A teacher can step into any classroom and be ready in under a minute — activity packs, seating charts, behavior plans, and full resource kits generated on the spot.</li>
+                            <li>Student data lives in a vault built to school privacy standards. Every account isolated, no cross-account exposure at any plan level.</li>
+                            <li>Built for teams too — schools and districts share resource libraries, manage gradebooks together, and track student progress across departments.</li>
+                            <li>More than 25 AI-powered tools across lesson design, classroom management, professional development, communication, and assessment — tiered subscription, every tool tested by a real teacher.</li>
                         </ul>
                         <div class="product-tags">
-                            <span class="product-tag">Next.js 15</span>
-                            <span class="product-tag">TypeScript</span>
-                            <span class="product-tag">Supabase</span>
-                            <span class="product-tag">Stripe</span>
-                            <span class="product-tag">AI</span>
-                            <span class="product-tag">FERPA Compliant</span>
-                            <span class="product-tag">81K+ Lines</span>
+                            <span class="product-tag">Live</span>
+                            <span class="product-tag">Education</span>
+                            <span class="product-tag">K–5 teachers</span>
+                            <span class="product-tag">AI tools</span>
+                            <span class="product-tag">Subscription</span>
+                            <span class="product-tag">Built for schools</span>
                         </div>
                         <div class="product-links">
-                            <a href="my-teachers-toolbox-showcase.html" class="product-link">View Showcase <span>→</span></a>
-                            <a href="https://myteacherstoolbox.com" class="product-link product-link-secondary" target="_blank">Visit Live Site <span>↗</span></a>
+                            <a href="my-teachers-toolbox-showcase.html" class="product-link">See the full story <span>→</span></a>
+                            <a href="https://myteacherstoolbox.com" class="product-link product-link-secondary" target="_blank" rel="noopener">Visit live site <span>↗</span></a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- UnderFireAI — Live -->
+            <!-- UnderFire AI — Live -->
             <div class="product-card reveal reveal-d1">
                 <div class="product-card-inner">
                     <div class="product-card-header">
@@ -749,31 +859,30 @@
                         </div>
                         <div class="product-title-group">
                             <span class="product-status status-live">Live</span>
-                            <h3>UnderFireAI</h3>
-                            <p class="product-tagline">Eight hidden interviewer archetypes. Six interview types. Train under fire so the real thing feels easy.</p>
+                            <h3>UnderFire AI</h3>
+                            <p class="product-tagline">AI interview coaching that actually feels like the real thing — so candidates walk in ready.</p>
                         </div>
                     </div>
                     <div class="product-callout">
-                        <p>Each session drops you in front of a hidden personality — mood evolving in real time based on how you answer, probing your resume's weak spots automatically. No script survives contact with a real interviewer.</p>
+                        <p>Practice with an interviewer whose personality, mood, and style change every session — just like the real interviews waiting on the other side. Built for people who'd rather feel the pressure here, in practice, than for the first time in the room that matters.</p>
                     </div>
                     <ul class="product-features">
-                        <li>Eight hidden interviewer archetypes — The Skeptic, The Griller, The Friendly, The Silent Judge, The Rapid Fire, The Culture Fit, The Technical Expert, and The Executive — each with six independent personality trait scores and a live mood engine tracking 14 triggers per session</li>
-                        <li>Six interview formats: Behavioral, Technical, Case Study, HR Screen, Panel (multiple simultaneous AI interviewers with distinct personalities), and Phone Screen — with six company style modifiers including FAANG, Startup, Consulting, and Government</li>
-                        <li>Voice sessions via Cartesia Sonic 3 TTS with six personality-matched AI voices and a live 3D HUD overlay built in React Three Fiber tracking real-time STAR scores, dimension metrics, and interviewer mood as you speak</li>
-                        <li>Salary negotiation simulator with AI recruiter pushback and a simulated final offer, resume vulnerability scanner with copy-paste rewrite suggestions, job description gap analysis, and live coding challenges in 7 languages via Judge0</li>
-                        <li>Full session replay with mood evolution chart, per-response coaching notes, badge and progress tracking, custom interviewer builder, and a webhook API — credit-pack billing via Stripe, no subscription required</li>
+                        <li>Eight realistic interviewer personas, each with their own style and shifting mood — the Skeptic, the Griller, the Friendly, the Silent Judge, the Rapid Fire, the Culture Fit, the Technical Expert, and the Executive.</li>
+                        <li>Six interview formats — behavioral, technical, case study, HR screen, panel, and phone screen — with company-style modifiers for big tech, startups, consulting, and government.</li>
+                        <li>Voice sessions with personality-matched AI voices, plus a live overlay tracking your performance as you speak — STAR completeness, key dimensions, and the interviewer's mood in real time.</li>
+                        <li>Salary negotiation simulator, resume scanner with rewrite suggestions, job-description gap analysis, and live coding practice in 7 languages — everything you'd want to prep with, in one place.</li>
+                        <li>Full session replay with a mood evolution chart, per-answer coaching notes, progress and badge tracking, and a custom interviewer builder. Credit packs, no subscription.</li>
                     </ul>
                     <div class="product-tags">
-                        <span class="product-tag">Next.js 15</span>
-                        <span class="product-tag">AI / LLM</span>
-                        <span class="product-tag">Voice TTS</span>
-                        <span class="product-tag">React Three Fiber</span>
-                        <span class="product-tag">Judge0</span>
-                        <span class="product-tag">Stripe</span>
+                        <span class="product-tag">Live</span>
+                        <span class="product-tag">Career prep</span>
+                        <span class="product-tag">AI coaching</span>
+                        <span class="product-tag">Voice sessions</span>
+                        <span class="product-tag">Credit packs</span>
                     </div>
                     <div class="product-links">
-                        <a href="underfireai-showcase.html" class="product-link">View Showcase <span>→</span></a>
-                        <a href="https://www.underfireai.com" class="product-link product-link-secondary" target="_blank">Visit Live Site <span>↗</span></a>
+                        <a href="underfireai-showcase.html" class="product-link">See the full story <span>→</span></a>
+                        <a href="https://www.underfireai.com" class="product-link product-link-secondary" target="_blank" rel="noopener">Visit live site <span>↗</span></a>
                     </div>
                 </div>
             </div>
@@ -788,37 +897,46 @@
                         <div class="product-title-group">
                             <span class="product-status status-live">Live</span>
                             <h3>Founders Helm</h3>
-                            <p class="product-tagline">10 integrated tools. One platform. $29/month. Everything a solo founder needs to run a real business.</p>
+                            <p class="product-tagline">The whole back office for solo founders — CRM, invoicing, projects, and automation in one place.</p>
                         </div>
                     </div>
                     <div class="product-callout">
-                        <p>Not a collection of loosely connected features — a fully integrated business OS where the CRM talks to your invoices, projects connect to time tracking, and the automation engine ties everything together without a single external integration.</p>
+                        <p>Most solo founders are running their business across five disconnected tools and a lot of duct tape. Founders Helm replaces all of it with one platform that actually talks to itself — for $29 a month. Built for the operator who'd rather work on the business than wire integrations.</p>
                     </div>
                     <ul class="product-features">
-                        <li>CRM with full pipeline management, deal tracking, and contact history — plus invoice generation with PDF export and public payment links clients can pay directly without logging into anything.</li>
-                        <li>Project management with built-in time tracking — tasks, milestones, and hours all in one place, with tracked time feeding directly into billable totals on invoices.</li>
-                        <li>Automation engine with trigger, condition, and action logic — build workflows that connect any part of the platform and fire on real business events without writing a line of code.</li>
-                        <li>AI business advisor powered by DeepSeek — context-aware guidance pulled from your actual pipeline and project data, not a generic chatbot bolted onto a dashboard.</li>
-                        <li>Landing page builder with lead capture forms, a long-form content hub, a code vault for snippets and references, and a full analytics dashboard tracking traffic and conversions.</li>
+                        <li>A real CRM with pipeline and deal tracking, plus invoicing with PDF export and public payment links clients can pay without logging into anything.</li>
+                        <li>Project management with built-in time tracking — hours flow directly into billable totals on invoices, so nothing slips between the cracks.</li>
+                        <li>An automation engine that connects every part of the platform. Trigger, condition, action — build workflows for the way your business actually runs, no code required.</li>
+                        <li>An AI business advisor that pulls from your actual pipeline and project data, not a generic chatbot. Context-aware guidance on decisions, positioning, and execution.</li>
+                        <li>Landing page builder with lead capture, a long-form content hub, a code vault for snippets, and a full analytics dashboard tracking traffic and conversions.</li>
                     </ul>
                     <div class="product-tags">
-                        <span class="product-tag">Next.js</span>
-                        <span class="product-tag">TypeScript</span>
-                        <span class="product-tag">Supabase</span>
-                        <span class="product-tag">Stripe</span>
-                        <span class="product-tag">Automation</span>
-                        <span class="product-tag">Full Stack</span>
-                        <span class="product-tag">AI</span>
+                        <span class="product-tag">Live</span>
+                        <span class="product-tag">Founder ops</span>
+                        <span class="product-tag">CRM + automation</span>
+                        <span class="product-tag">$29/month</span>
+                        <span class="product-tag">All-in-one</span>
                     </div>
                     <div class="product-links">
-                        <a href="founders-helm-showcase.html" class="product-link">View Showcase <span>→</span></a>
-                        <a href="https://www.foundershelm.com" class="product-link product-link-secondary" target="_blank">Visit Live Site <span>↗</span></a>
+                        <a href="founders-helm-showcase.html" class="product-link">See the full story <span>→</span></a>
+                        <a href="https://www.foundershelm.com" class="product-link product-link-secondary" target="_blank" rel="noopener">Visit live site <span>↗</span></a>
                     </div>
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- In development -->
+    <section id="in-development" class="products-section">
+        <div class="products-subsection-header reveal">
+            <span class="section-label">In development</span>
+            <h2 class="products-subsection-title">Building now.<br><em>Coming soon.</em></h2>
+        </div>
+        <div class="products-grid">
+
             <!-- Kirra Companion — In Development -->
-            <div class="product-card status-dev-card reveal reveal-d1">
+            <div class="product-card status-dev-card reveal">
                 <div class="product-card-inner">
                     <div class="product-card-header">
                         <div class="product-icon">
@@ -827,36 +945,34 @@
                         <div class="product-title-group">
                             <span class="product-status status-dev">In Development</span>
                             <h3>Kirra Companion</h3>
-                            <p class="product-tagline">Not a chatbot. A full AI companion platform — five distinct relationship types built from the ground up.</p>
+                            <p class="product-tagline">An AI companion platform with five distinct relationship types — built from the ground up, not a chatbot.</p>
                         </div>
                     </div>
                     <div class="product-callout">
-                        <p>Every companion arrives as a complete person from word one — backstory, voice, and personality already fully formed. Not a blank slate you configure, and not a single character you share with everyone else. Five relationship types, each with its own dynamic.</p>
+                        <p>Every companion arrives as a complete person from word one — backstory, voice, and personality already fully formed. Not a blank slate you configure, and not the same character shared with everyone else. Five relationship types, each with its own dynamic.</p>
                     </div>
                     <ul class="product-features">
-                        <li>Five companion types — Best Friend, Mentor, Romantic Partner (18+, age verified), Family Member, and fully Custom — each with distinct relationship dynamics, communication styles, and personality bounds that can't be overridden.</li>
-                        <li>Persistent cross-session memory with a DNA-based personality evolution engine — companions grow and change based on the relationship over time, not random drift or reset on every session.</li>
-                        <li>24/7 life simulation running in the background — companions are doing things when you're not there, and they reference it when you return. The world doesn't pause between conversations.</li>
-                        <li>Proactive messaging — companions reach out first based on their simulation state and relationship history. Not a response engine waiting for input, but a companion with its own initiative.</li>
-                        <li>44,500+ lines of code, 22 database tables, 25 API routes, and a 1,100+ line safety system with non-bypassable crisis detection, age verification, and content tier enforcement across every layer.</li>
+                        <li>Five distinct companion types — Best Friend, Mentor, Romantic Partner (18+, age verified), Family Member, and fully Custom — each with its own relationship dynamic and personality boundaries that can't be overridden.</li>
+                        <li>Persistent memory across every session. The companion's personality evolves with the relationship over time — not random drift, not a reset on every conversation.</li>
+                        <li>A 24/7 life simulation running in the background. Companions are doing things when you're not there, and they reference it when you come back.</li>
+                        <li>Proactive messaging — companions reach out first, based on their simulation state and your shared history. Not a response engine waiting for a prompt.</li>
+                        <li>A safety system designed in from the start — crisis detection that can't be bypassed, age verification, and content tiers enforced at every layer.</li>
                     </ul>
                     <div class="product-tags">
-                        <span class="product-tag">Next.js</span>
-                        <span class="product-tag">TypeScript</span>
-                        <span class="product-tag">Supabase</span>
-                        <span class="product-tag">AI Companion</span>
-                        <span class="product-tag">5 Companion Types</span>
-                        <span class="product-tag">Memory</span>
-                        <span class="product-tag">Voice</span>
+                        <span class="product-tag">In Development</span>
+                        <span class="product-tag">AI companion</span>
+                        <span class="product-tag">5 relationship types</span>
+                        <span class="product-tag">Persistent memory</span>
+                        <span class="product-tag">Safety-first</span>
                     </div>
                     <div class="product-links">
-                        <a href="kirra-companion-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        <a href="kirra-companion-showcase.html" class="product-link">See the full story <span>→</span></a>
                     </div>
                 </div>
             </div>
 
             <!-- Vision Home AI — In Development -->
-            <div class="product-card status-dev-card reveal reveal-d2">
+            <div class="product-card status-dev-card reveal reveal-d1">
                 <div class="product-card-inner">
                     <div class="product-card-header">
                         <div class="product-icon">
@@ -869,32 +985,30 @@
                         </div>
                     </div>
                     <div class="product-callout">
-                        <p>AI rendering built on your actual space — the bones of the room stay intact, only the design changes. Real walls, real windows, real proportions. What you get back looks like a photograph of a finished renovation, not a simulation.</p>
+                        <p>AI rendering built on your actual space. The bones of the room stay intact — real walls, real windows, real proportions — only the design changes. What you get back looks like a photograph of a finished renovation, not a simulation.</p>
                     </div>
                     <ul class="product-features">
-                        <li>Full interior and exterior visualization — swap design styles (modern, farmhouse, luxury, industrial, Scandinavian) with a single selection applied directly to the uploaded photo of your actual space.</li>
-                        <li>Photorealistic AI rendering via FAL.ai — generated from your photo, not from stock imagery or pre-built room templates that share nothing with your actual layout.</li>
-                        <li>Side-by-side before/after comparison with style customization controls, annotation tools, and one-click sharing for client presentations and real estate listings.</li>
-                        <li>Room-by-room project management — track multiple rooms, multiple design directions, and multiple revision sets organized under a single project without losing history.</li>
-                        <li>Built for homeowners, real estate agents, and interior designers who need to sell a vision before a single piece of furniture moves or a contractor is called.</li>
+                        <li>Full interior and exterior visualization — swap design styles (modern, farmhouse, luxury, industrial, Scandinavian) with one click, applied directly to a photo of your real space.</li>
+                        <li>Photorealistic AI rendering generated from your photo — not stock imagery or pre-built room templates that share nothing with your actual layout.</li>
+                        <li>Side-by-side before/after comparison with style controls, annotation tools, and one-click sharing for client presentations and real estate listings.</li>
+                        <li>Room-by-room project management — track multiple rooms, multiple directions, and multiple revisions organized under a single project without losing the history.</li>
+                        <li>Built for homeowners, real estate agents, and interior designers who need to sell a vision before furniture moves or a contractor is called.</li>
                     </ul>
                     <div class="product-tags">
-                        <span class="product-tag">Next.js</span>
-                        <span class="product-tag">TypeScript</span>
-                        <span class="product-tag">FAL.ai</span>
-                        <span class="product-tag">AI Vision</span>
-                        <span class="product-tag">Image Gen</span>
-                        <span class="product-tag">Supabase</span>
-                        <span class="product-tag">Stripe</span>
+                        <span class="product-tag">In Development</span>
+                        <span class="product-tag">Real estate</span>
+                        <span class="product-tag">Interior design</span>
+                        <span class="product-tag">AI rendering</span>
+                        <span class="product-tag">Before/after</span>
                     </div>
                     <div class="product-links">
-                        <a href="vision-home-ai-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        <a href="vision-home-ai-showcase.html" class="product-link">See the full story <span>→</span></a>
                     </div>
                 </div>
             </div>
 
             <!-- ColabMotion — In Development -->
-            <div class="product-card status-dev-card reveal reveal-d3">
+            <div class="product-card status-dev-card reveal reveal-d2">
                 <div class="product-card-inner">
                     <div class="product-card-header">
                         <div class="product-icon">
@@ -903,30 +1017,28 @@
                         <div class="product-title-group">
                             <span class="product-status status-dev">In Development</span>
                             <h3>ColabMotion</h3>
-                            <p class="product-tagline">The home base for motion designers who build with Remotion. Brand, marketplace, community — one platform.</p>
+                            <p class="product-tagline">A home base for motion designers — brand kits, template marketplace, and a learning hub in one platform.</p>
                         </div>
                     </div>
                     <div class="product-callout">
-                        <p>Handles the business side of motion design — brand consistency, template distribution, course revenue, and community — so designers can stay in the work instead of managing infrastructure across five disconnected tools.</p>
+                        <p>Handles the business side of motion design — brand consistency, template distribution, course revenue, and community — so designers can stay in the work instead of managing five disconnected tools.</p>
                     </div>
                     <ul class="product-features">
-                        <li>Brand Kit system — store colors, fonts, logo, and animation style once, apply to any Remotion template instantly. No manual restyling across client projects or campaign variations.</li>
-                        <li>Template marketplace with a 70/30 revenue split in favor of creators — Stripe Connect payouts, license tiers, template versioning, and a full creator dashboard tracking sales and downloads.</li>
-                        <li>Kling AI video generation from text prompts — describe the motion, receive the clip. No timeline editor, no keyframe curves, no After Effects license required.</li>
-                        <li>Learning platform with free tutorials, AI-taught interactive lessons (DeepSeek), and paid creator courses with automatic royalty distribution to instructors on every enrollment.</li>
-                        <li>Community feeds, weekly design challenges, a reputation and badge system, and a full analytics dashboard tracking earnings, course completion rates, and template performance over time.</li>
+                        <li>Brand Kit system — store colors, fonts, logo, and animation style once and apply them to any template instantly. No restyling across client projects or campaign variations.</li>
+                        <li>Template marketplace with a 70/30 revenue split in favor of creators — direct payouts, license tiers, versioning, and a full creator dashboard tracking sales and downloads.</li>
+                        <li>AI video generation from text prompts. Describe the motion, get the clip. No timeline editor, no keyframe curves, no license required.</li>
+                        <li>Learning hub with free tutorials, interactive AI lessons, and paid creator courses with automatic royalty distribution to instructors on every enrollment.</li>
+                        <li>Community feeds, weekly design challenges, a reputation and badge system, and a full analytics dashboard tracking earnings, course completion, and template performance.</li>
                     </ul>
                     <div class="product-tags">
-                        <span class="product-tag">Next.js</span>
-                        <span class="product-tag">TypeScript</span>
-                        <span class="product-tag">Remotion</span>
-                        <span class="product-tag">Supabase</span>
-                        <span class="product-tag">Stripe Connect</span>
-                        <span class="product-tag">Kling AI</span>
+                        <span class="product-tag">In Development</span>
+                        <span class="product-tag">Motion design</span>
+                        <span class="product-tag">Creator marketplace</span>
                         <span class="product-tag">Community</span>
+                        <span class="product-tag">Learning hub</span>
                     </div>
                     <div class="product-links">
-                        <a href="colabmotion-showcase.html" class="product-link">View Showcase <span>→</span></a>
+                        <a href="colabmotion-showcase.html" class="product-link">See the full story <span>→</span></a>
                     </div>
                 </div>
             </div>
@@ -938,13 +1050,16 @@
     <footer>
         <div class="footer-inner">
             <div class="footer-left">
-                &copy; 2025 <a href="https://www.allencodeco.com">Allen Code Co.</a> — Winchester, Virginia
+                &copy; 2026 <a href="allen-code-co-animated.html">Allen Code Co.</a> — Winchester, Virginia
             </div>
             <div class="footer-right">
-                <a href="https://www.allencodeco.com">Home</a>
-                <a href="https://www.allencodeco.com/#about">About</a>
-                <a href="https://www.allencodeco.com/#acquire">Acquire</a>
-                <a href="https://www.allencodeco.com/#contact">Contact</a>
+                <a href="allen-code-co-animated.html">Home</a>
+                <a href="allen-code-co-animated.html#services">Services</a>
+                <a href="chris-allen-portfolio.html">Portfolio</a>
+                <a href="allen-code-co-animated.html#why-us">Why Us</a>
+                <a href="allen-code-co-animated.html#about">About</a>
+                <a href="allen-code-co-animated.html#acquire">Acquire</a>
+                <a href="allen-code-co-animated.html#contact">Start a Project</a>
             </div>
         </div>
     </footer>

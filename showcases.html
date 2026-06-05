@@ -14,8 +14,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Showcases — Allen Code Co</title>
-    <meta name="description" content="Deep-dive showcases for every product built by Allen Code Co. Full feature breakdowns, architecture decisions, and live demos.">
+    <title>Case Studies | Allen Code Co — A Look Inside Every Build</title>
+    <meta name="description" content="A quick index of every product built by Allen Code Co — what it is, who it's for, and a link straight into the full case study. Three live, three in development.">
 
     <!-- Canonical / Social / Structured Metadata -->
     <link rel="canonical" href="https://www.allencodeco.com/showcases.html">
@@ -23,16 +23,16 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.allencodeco.com/showcases.html">
-    <meta property="og:title" content="Showcases — Allen Code Co">
-    <meta property="og:description" content="Deep-dive showcases for every product built by Allen Code Co. Full feature breakdowns, architecture decisions, and live demos.">
+    <meta property="og:title" content="Case Studies | Allen Code Co — A Look Inside Every Build">
+    <meta property="og:description" content="A quick index of every product built by Allen Code Co — what it is, who it's for, and a link straight into the full case study. Three live, three in development.">
     <meta property="og:image" content="https://www.allencodeco.com/og/showcases.png">
     <meta property="og:site_name" content="Allen Code Co">
     <meta property="og:locale" content="en_US">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Showcases — Allen Code Co">
-    <meta name="twitter:description" content="Deep-dive showcases for every product built by Allen Code Co. Full feature breakdowns, architecture decisions, and live demos.">
+    <meta name="twitter:title" content="Case Studies | Allen Code Co — A Look Inside Every Build">
+    <meta name="twitter:description" content="A quick index of every product built by Allen Code Co — three live with paying users, three more in active development.">
     <meta name="twitter:image" content="https://www.allencodeco.com/og/showcases.png">
 
     <!-- Schema.org JSON-LD -->
@@ -40,13 +40,56 @@
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      "name": "Showcases \u2014 Allen Code Co",
+      "name": "Case Studies | Allen Code Co",
       "url": "https://www.allencodeco.com/showcases.html",
-      "description": "Deep-dive product showcases with feature breakdowns, architecture, and live demos.",
+      "description": "A quick index of every product built by Allen Code Co with links to the full case study for each.",
       "isPartOf": {
         "@type": "WebSite",
         "name": "Allen Code Co",
         "url": "https://www.allencodeco.com/"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Allen Code Co Case Studies",
+        "numberOfItems": 6,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "url": "https://www.allencodeco.com/my-teachers-toolbox-showcase.html",
+            "name": "My Teachers Toolbox — case study"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "url": "https://www.allencodeco.com/underfireai-showcase.html",
+            "name": "UnderFire AI — case study"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "url": "https://www.allencodeco.com/founders-helm-showcase.html",
+            "name": "Founders Helm — case study"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "url": "https://www.allencodeco.com/kirra-companion-showcase.html",
+            "name": "Kirra Companion — case study"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "url": "https://www.allencodeco.com/vision-home-ai-showcase.html",
+            "name": "Vision Home AI — case study"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "url": "https://www.allencodeco.com/colabmotion-showcase.html",
+            "name": "ColabMotion — case study"
+          }
+        ]
       }
     }
     </script>
@@ -64,9 +107,9 @@
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
     <style>
-/* :root tokens loaded by /shared.css */
+/* :root tokens loaded by shared.css */
 
-        /* Universal reset loaded by /shared.css */
+        /* Universal reset loaded by shared.css */
 
         html.lenis, html.lenis body { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -74,7 +117,7 @@
         .lenis.lenis-stopped { overflow: hidden; }
 
         body {
-            /* font-family, background, color, overflow-x in /shared.css */
+            /* font-family, background, color, overflow-x in shared.css */
             cursor: none;
         }
 
@@ -516,6 +559,16 @@
         .showcase-link-secondary { color: var(--text-muted); }
         .showcase-link-secondary:hover { color: var(--text-secondary); gap: 1rem; }
 
+        /* Subsection label sitting above each grid (Live and active / In development) */
+        .showcases-subsection-label {
+            margin-bottom: 2rem;
+        }
+
+        /* Tighten the gap between Live and In-Development blocks */
+        .showcases-section-dev {
+            padding-top: 0;
+        }
+
         /* Footer */
         footer {
             padding: 3rem 0;
@@ -581,7 +634,7 @@
             <div class="preloader-wordmark">
                 <span class="preloader-wordmark-inner">Allen Code Co.</span>
             </div>
-            <div class="preloader-sub">Build · Ship · Acquire</div>
+            <div class="preloader-sub">Design · Build · Launch</div>
         </div>
     </div>
 
@@ -613,11 +666,13 @@
                 <span class="logo-text">Allen Code Co.</span>
             </a>
             <nav>
-                <a href="products.html">Products</a>
-                <a href="showcases.html" class="active">Showcases</a>
+                <a href="allen-code-co-animated.html#services">Services</a>
+                <a href="products.html">Our Work</a>
                 <a href="chris-allen-portfolio.html">Portfolio</a>
+                <a href="allen-code-co-animated.html#why-us">Why Us</a>
                 <a href="allen-code-co-animated.html#about">About</a>
-                <a href="allen-code-co-animated.html#contact" class="nav-cta">Contact</a>
+                <a href="allen-code-co-animated.html#acquire">Acquire</a>
+                <a href="allen-code-co-animated.html#contact" class="nav-cta">Start a Project</a>
             </nav>
             <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
                 <span class="hamburger-line"></span>
@@ -630,13 +685,16 @@
     <!-- Mobile Nav -->
     <div class="mobile-nav" id="mobileNav" aria-hidden="true">
         <ul class="mobile-nav-links">
-            <li><a href="products.html" class="mobile-nav-link">Products</a></li>
-            <li><a href="showcases.html" class="mobile-nav-link">Showcases</a></li>
+            <li><a href="allen-code-co-animated.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="allen-code-co-animated.html#services" class="mobile-nav-link">Services</a></li>
+            <li><a href="products.html" class="mobile-nav-link">Our Work</a></li>
             <li><a href="chris-allen-portfolio.html" class="mobile-nav-link">Portfolio</a></li>
+            <li><a href="allen-code-co-animated.html#why-us" class="mobile-nav-link">Why Us</a></li>
             <li><a href="allen-code-co-animated.html#about" class="mobile-nav-link">About</a></li>
-            <li><a href="allen-code-co-animated.html#contact" class="mobile-nav-link">Contact</a></li>
+            <li><a href="allen-code-co-animated.html#acquire" class="mobile-nav-link">Acquire</a></li>
+            <li><a href="allen-code-co-animated.html#contact" class="mobile-nav-link">Start a Project</a></li>
         </ul>
-        <div class="mobile-nav-footer">Allen Code Co. &nbsp;·&nbsp; Build · Ship · Acquire</div>
+        <div class="mobile-nav-footer">Allen Code Co. &nbsp;·&nbsp; Design · Build · Launch</div>
     </div>
 
     <!-- Hero -->
@@ -644,15 +702,18 @@
         <div class="page-hero-bg-grid" aria-hidden="true"></div>
         <div class="page-hero-inner">
             <a href="allen-code-co-animated.html" class="back-link">← Back to Home</a>
-            <span class="section-label">Deep Dives</span>
-            <h1>Built in Public.<br><em>Documented in Full.</em></h1>
-            <p>Every product has a showcase — full feature breakdowns, architecture decisions, and the story behind the build. This is what production-grade actually looks like.</p>
+            <span class="section-label">Case Studies</span>
+            <h1>A look inside<br><em>every build.</em></h1>
+            <p>A quick index of every product we've built — what it is, who it's for, and a link straight into the full case study. Three are live in market today. Three more are in active development.</p>
         </div>
     </div>
 
-    <!-- Showcases Grid -->
-    <section class="showcases-section">
+    <!-- Live and active -->
+    <section id="live" class="showcases-section">
         <div class="showcases-inner">
+            <div class="showcases-subsection-label">
+                <span class="section-label">Live and active</span>
+            </div>
             <div class="showcases-grid">
 
                 <!-- My Teachers Toolbox -->
@@ -663,22 +724,21 @@
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                             </div>
                             <div class="showcase-title-group">
-                                <span class="showcase-status status-live">Live in Production</span>
+                                <span class="showcase-status status-live">Live</span>
                                 <h3>My Teachers Toolbox</h3>
-                                <p class="showcase-tagline">K–5 Education Platform</p>
+                                <p class="showcase-tagline">A platform for K–5 teachers</p>
                             </div>
                         </div>
-                        <p class="showcase-desc">Built with a working K–5 teacher and tested in a real classroom from day one. 50+ emergency sub tools, AI lesson planning, a full gradebook, and team collaboration — all under one subscription.</p>
+                        <p class="showcase-desc">Everything a K–5 teacher needs in one place — built alongside an actual teacher and used in real classrooms today. Lesson plans, emergency sub kits, parent communications, a full gradebook, and a safe-by-design student data vault.</p>
                         <div class="showcase-tags">
-                            <span class="showcase-tag">Next.js 15</span>
-                            <span class="showcase-tag">TypeScript</span>
-                            <span class="showcase-tag">Supabase</span>
-                            <span class="showcase-tag">Stripe</span>
-                            <span class="showcase-tag">OpenRouter</span>
+                            <span class="showcase-tag">Education</span>
+                            <span class="showcase-tag">AI tools</span>
+                            <span class="showcase-tag">Subscription</span>
+                            <span class="showcase-tag">Built for schools</span>
                         </div>
                         <div class="showcase-links">
-                            <a href="my-teachers-toolbox-showcase.html" class="showcase-link">View Showcase →</a>
-                            <a href="https://www.myteacherstoolbox.com" class="showcase-link showcase-link-secondary" target="_blank" rel="noopener noreferrer">Visit Live Site ↗</a>
+                            <a href="my-teachers-toolbox-showcase.html" class="showcase-link">Read the case study →</a>
+                            <a href="https://www.myteacherstoolbox.com" class="showcase-link showcase-link-secondary" target="_blank" rel="noopener noreferrer">Visit live site ↗</a>
                         </div>
                     </div>
                 </div>
@@ -691,22 +751,21 @@
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                             </div>
                             <div class="showcase-title-group">
-                                <span class="showcase-status status-live">Live in Production</span>
+                                <span class="showcase-status status-live">Live</span>
                                 <h3>UnderFire AI</h3>
-                                <p class="showcase-tagline">AI Interview Coaching Platform</p>
+                                <p class="showcase-tagline">AI interview coaching that feels real</p>
                             </div>
                         </div>
-                        <p class="showcase-desc">Eight hidden interviewer archetypes, six interview formats, and a live 3D HUD tracking your STAR scores in real time. Salary negotiation simulator, resume vulnerability scanner, live coding challenges in 7 languages.</p>
+                        <p class="showcase-desc">Practice with an interviewer whose personality, mood, and style change every session — just like the real interviews on the other side. Eight realistic personas, six formats, live voice sessions, and a coaching overlay that grades you as you speak.</p>
                         <div class="showcase-tags">
-                            <span class="showcase-tag">Next.js 15</span>
-                            <span class="showcase-tag">React Three Fiber</span>
-                            <span class="showcase-tag">Cartesia TTS</span>
-                            <span class="showcase-tag">Judge0</span>
-                            <span class="showcase-tag">Stripe</span>
+                            <span class="showcase-tag">Career prep</span>
+                            <span class="showcase-tag">AI coaching</span>
+                            <span class="showcase-tag">Voice sessions</span>
+                            <span class="showcase-tag">Credit packs</span>
                         </div>
                         <div class="showcase-links">
-                            <a href="underfireai-showcase.html" class="showcase-link">View Showcase →</a>
-                            <a href="https://www.underfireai.com" class="showcase-link showcase-link-secondary" target="_blank" rel="noopener noreferrer">Visit Live Site ↗</a>
+                            <a href="underfireai-showcase.html" class="showcase-link">Read the case study →</a>
+                            <a href="https://www.underfireai.com" class="showcase-link showcase-link-secondary" target="_blank" rel="noopener noreferrer">Visit live site ↗</a>
                         </div>
                     </div>
                 </div>
@@ -719,24 +778,36 @@
                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                             </div>
                             <div class="showcase-title-group">
-                                <span class="showcase-status status-live">Live in Production</span>
+                                <span class="showcase-status status-live">Live</span>
                                 <h3>Founders Helm</h3>
-                                <p class="showcase-tagline">Solo Founder Business OS</p>
+                                <p class="showcase-tagline">The back office for solo founders</p>
                             </div>
                         </div>
-                        <p class="showcase-desc">10 integrated tools in one platform — CRM, pipeline, project management, invoicing, time tracking, and more. Built for solo founders who need to run a real business without 10 different SaaS subscriptions.</p>
+                        <p class="showcase-desc">CRM, invoicing, projects, time tracking, and an automation engine — in one platform that actually talks to itself. For $29 a month, replaces five disconnected tools with one back office a single operator can actually run.</p>
                         <div class="showcase-tags">
-                            <span class="showcase-tag">Next.js 16</span>
-                            <span class="showcase-tag">TypeScript</span>
-                            <span class="showcase-tag">Supabase</span>
-                            <span class="showcase-tag">Stripe</span>
+                            <span class="showcase-tag">Founder ops</span>
+                            <span class="showcase-tag">CRM + automation</span>
+                            <span class="showcase-tag">$29/month</span>
+                            <span class="showcase-tag">All-in-one</span>
                         </div>
                         <div class="showcase-links">
-                            <a href="founders-helm-showcase.html" class="showcase-link">View Showcase →</a>
-                            <a href="https://www.foundershelm.com" class="showcase-link showcase-link-secondary" target="_blank" rel="noopener noreferrer">Visit Live Site ↗</a>
+                            <a href="founders-helm-showcase.html" class="showcase-link">Read the case study →</a>
+                            <a href="https://www.foundershelm.com" class="showcase-link showcase-link-secondary" target="_blank" rel="noopener noreferrer">Visit live site ↗</a>
                         </div>
                     </div>
                 </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- In development -->
+    <section id="in-development" class="showcases-section showcases-section-dev">
+        <div class="showcases-inner">
+            <div class="showcases-subsection-label">
+                <span class="section-label">In development</span>
+            </div>
+            <div class="showcases-grid">
 
                 <!-- Kirra Companion -->
                 <div class="showcase-card card-dev">
@@ -748,19 +819,18 @@
                             <div class="showcase-title-group">
                                 <span class="showcase-status status-dev">In Development</span>
                                 <h3>Kirra Companion</h3>
-                                <p class="showcase-tagline">AI Companion Platform</p>
+                                <p class="showcase-tagline">An AI companion platform, not a chatbot</p>
                             </div>
                         </div>
-                        <p class="showcase-desc">Not a chatbot. Five distinct relationship types — Romantic, Platonic, Mentor, Adversarial, and Familial — built from the ground up with a full life simulation engine, memory system, and proactive messaging.</p>
+                        <p class="showcase-desc">Five distinct relationship types — Best Friend, Mentor, Romantic Partner, Family Member, and fully Custom — each with persistent memory, a 24/7 simulated world running in the background, and proactive messaging when the companion has something to say.</p>
                         <div class="showcase-tags">
-                            <span class="showcase-tag">Next.js 15</span>
-                            <span class="showcase-tag">TypeScript</span>
-                            <span class="showcase-tag">Supabase</span>
-                            <span class="showcase-tag">OpenRouter</span>
-                            <span class="showcase-tag">Cartesia TTS</span>
+                            <span class="showcase-tag">AI companion</span>
+                            <span class="showcase-tag">5 relationship types</span>
+                            <span class="showcase-tag">Persistent memory</span>
+                            <span class="showcase-tag">Safety-first</span>
                         </div>
                         <div class="showcase-links">
-                            <a href="kirra-companion-showcase.html" class="showcase-link">View Showcase →</a>
+                            <a href="kirra-companion-showcase.html" class="showcase-link">Read the case study →</a>
                         </div>
                     </div>
                 </div>
@@ -775,19 +845,18 @@
                             <div class="showcase-title-group">
                                 <span class="showcase-status status-dev">In Development</span>
                                 <h3>Vision Home AI</h3>
-                                <p class="showcase-tagline">AI Home Visualization Platform</p>
+                                <p class="showcase-tagline">AI home redesign from your real room</p>
                             </div>
                         </div>
-                        <p class="showcase-desc">Upload a photo of your space and get a photorealistic redesign in seconds — generated from your actual room, not stock imagery. Interior and exterior visualization covering siding, roofing, kitchens, and more.</p>
+                        <p class="showcase-desc">Upload a photo of your space, get a photorealistic redesign in seconds. Generated from your actual room, not a stock template — real walls, real proportions, only the design changes. Interior and exterior, side-by-side before/after.</p>
                         <div class="showcase-tags">
-                            <span class="showcase-tag">Next.js 15</span>
-                            <span class="showcase-tag">TypeScript</span>
-                            <span class="showcase-tag">FAL.ai</span>
-                            <span class="showcase-tag">Supabase</span>
-                            <span class="showcase-tag">Stripe</span>
+                            <span class="showcase-tag">Real estate</span>
+                            <span class="showcase-tag">Interior design</span>
+                            <span class="showcase-tag">AI rendering</span>
+                            <span class="showcase-tag">Before/after</span>
                         </div>
                         <div class="showcase-links">
-                            <a href="vision-home-ai-showcase.html" class="showcase-link">View Showcase →</a>
+                            <a href="vision-home-ai-showcase.html" class="showcase-link">Read the case study →</a>
                         </div>
                     </div>
                 </div>
@@ -802,18 +871,18 @@
                             <div class="showcase-title-group">
                                 <span class="showcase-status status-dev">In Development</span>
                                 <h3>ColabMotion</h3>
-                                <p class="showcase-tagline">Motion Design Platform</p>
+                                <p class="showcase-tagline">A home base for motion designers</p>
                             </div>
                         </div>
-                        <p class="showcase-desc">The home base for motion designers who build with Remotion. Brand hub, component marketplace, and community — one platform for the growing ecosystem of code-driven animation creators.</p>
+                        <p class="showcase-desc">Brand kits, a template marketplace, AI video generation, and a learning hub — one platform for the business side of motion design, so designers can stay in the work instead of managing five disconnected tools.</p>
                         <div class="showcase-tags">
-                            <span class="showcase-tag">Next.js</span>
-                            <span class="showcase-tag">TypeScript</span>
-                            <span class="showcase-tag">Supabase</span>
-                            <span class="showcase-tag">Stripe</span>
+                            <span class="showcase-tag">Motion design</span>
+                            <span class="showcase-tag">Creator marketplace</span>
+                            <span class="showcase-tag">Community</span>
+                            <span class="showcase-tag">Learning hub</span>
                         </div>
                         <div class="showcase-links">
-                            <a href="colabmotion-showcase.html" class="showcase-link">View Showcase →</a>
+                            <a href="colabmotion-showcase.html" class="showcase-link">Read the case study →</a>
                         </div>
                     </div>
                 </div>
@@ -842,7 +911,7 @@
                 </div>
                 <span class="footer-brand-text">Allen Code Co.</span>
             </div>
-            <div class="footer-meta">Winchester, Virginia &nbsp;·&nbsp; Build · Ship · Acquire</div>
+            <div class="footer-meta">&copy; 2026 Allen Code Co. &nbsp;·&nbsp; Winchester, Virginia &nbsp;·&nbsp; Design · Build · Launch</div>
         </div>
     </footer>
 
@@ -941,7 +1010,17 @@
         }
         hamburger.addEventListener('click', () => { mobileNavOpen ? closeMobileNav() : openMobileNav(); });
         mobileLinks.forEach(link => { link.addEventListener('click', closeMobileNav); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileNavOpen) closeMobileNav(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileNavOpen) closeMobileNav();
+        });
+    </script>
+</body>
+</html>
+       });
+    </script>
+</body>
+</html>
+        });
     </script>
 </body>
 </html>
