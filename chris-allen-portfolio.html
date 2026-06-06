@@ -70,7 +70,87 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="shared.css">
+  <style>
+/*
+ * Allen Code Co — Shared Stylesheet
+ *
+ * Loaded by every studio-branded surface:
+ *   - allen-code-co-animated.html (homepage)
+ *   - chris-allen-portfolio.html  (founder page)
+ *   - products.html               (products index)
+ *   - showcases.html              (showcases index)
+ *
+ * Owns three things:
+ *   1. Brand tokens (the orange-on-dark studio palette)
+ *   2. Web-font imports (Playfair Display / Outfit / JetBrains Mono)
+ *   3. Universal reset + body defaults
+ *
+ * Per-product showcase pages (my-teachers-toolbox-showcase.html, etc.)
+ * deliberately do NOT use this file — each showcase has its own palette
+ * matched to the product it represents.
+ *
+ * When changing brand tokens, edit this file and only this file. Anything
+ * not declared here can still be overridden by a page's inline <style> if
+ * a particular page needs a one-off variant.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ── Surface ─────────────────────────────────────────────────────── */
+  --bg-dark:        #0A0A0A;
+  --bg-darker:      #111111;
+  --bg-card:        rgba(18, 18, 18, 0.92);
+  --bg-card-hover:  rgba(24, 24, 24, 0.98);
+
+  /* ── Brand accent (orange) ───────────────────────────────────────── */
+  --accent:         #f97316;
+  --accent-bright:  #ea580c;
+  --accent-glow:    rgba(249, 115, 22, 0.18);
+
+  /* ── Text ────────────────────────────────────────────────────────── */
+  --text-primary:   #F5F4F2;
+  --text-secondary: #E2DBD5;
+  --text-muted:     #B8B0A8;
+
+  /* ── Lines ───────────────────────────────────────────────────────── */
+  --border:         #1F1F1F;
+  --border-hover:   #2E2E2E;
+
+  /* ── Gradients ───────────────────────────────────────────────────── */
+  --gradient-1:     linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  --gradient-2:     linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  --gradient-3:     linear-gradient(135deg, #059669 0%, #047857 100%);
+  --gradient-text:  linear-gradient(135deg, #F5F4F2 0%, #A8A29E 100%);
+}
+
+/*
+ * Universal reset — includes pseudo-elements (some pages didn't).
+ *
+ * font-feature-settings:
+ *   JetBrains Mono's default 0 has a center dot that can read as an 8 at
+ *   smaller sizes (e.g. stat values, eyebrows). Stylistic Set 19 (ss19)
+ *   swaps the dotted zero for a plain zero. Other fonts harmlessly ignore
+ *   unrecognized OpenType features, so the rule is safe to apply universally.
+ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-feature-settings: "ss19" 1;
+}
+
+/* Page defaults. Per-page <style> blocks can override. */
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+  </style>
 
   <!-- GSAP & Plugins -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -729,7 +809,7 @@
     .about-highlight p {
       font-size: 1.05rem;
       font-weight: 600;
-      color: var(--text-primary);
+      color: var(--accent);
       margin: 0;
       line-height: 1.65;
     }
@@ -802,7 +882,7 @@
       font-size: 1.1rem;
       font-weight: 700;
       margin-bottom: 0.75rem;
-      color: var(--text-primary);
+      color: var(--accent);
     }
     .value-item p {
       color: var(--text-secondary);
@@ -828,7 +908,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-weight: 500;
       font-size: 0.85rem;
-      color: var(--text-secondary);
+      color: var(--accent);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .tech-item:hover { border-color: var(--accent); color: var(--text-primary); transform: translateY(-4px); }
@@ -1418,20 +1498,6 @@
           <div class="about-highlight">
             <p>No mock data. No placeholders. No simplifications "just to make it work." If it ships under the Allen Code Co name, it works correctly — in production, for real users, right now.</p>
           </div>
-          <div class="about-stat-row">
-            <div class="about-stat">
-              <span class="about-stat-value">6+</span>
-              <span class="about-stat-label">Apps Built</span>
-            </div>
-            <div class="about-stat">
-              <span class="about-stat-value">100%</span>
-              <span class="about-stat-label">Solo Dev</span>
-            </div>
-            <div class="about-stat">
-              <span class="about-stat-value">0</span>
-              <span class="about-stat-label">Shortcuts</span>
-            </div>
-          </div>
         </div>
 
         <div class="values-grid">
@@ -1477,6 +1543,7 @@
         <div class="tech-item">PostgreSQL</div>
         <div class="tech-item">Stripe</div>
         <div class="tech-item">OpenRouter</div>
+        <div class="tech-item">DeepSeek V3</div>
         <div class="tech-item">Tailwind CSS</div>
         <div class="tech-item">Vercel</div>
         <div class="tech-item">Row Level Security</div>
@@ -1488,6 +1555,11 @@
         <div class="tech-item">REST APIs</div>
         <div class="tech-item">GSAP</div>
         <div class="tech-item">Framer Motion</div>
+        <div class="tech-item">Zod</div>
+        <div class="tech-item">Webhooks</div>
+        <div class="tech-item">Edge Functions</div>
+        <div class="tech-item">pgvector</div>
+        <div class="tech-item">Git / GitHub</div>
       </div>
     </div>
   </section>
