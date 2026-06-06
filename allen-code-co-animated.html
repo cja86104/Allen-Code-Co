@@ -115,10 +115,47 @@
     }
     </script>
     
-    <!-- Fonts -->
+    <!-- Fonts + Brand tokens (inlined from shared.css for self-contained delivery) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="shared.css">
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-dark:        #0A0A0A;
+  --bg-darker:      #111111;
+  --bg-card:        rgba(18, 18, 18, 0.92);
+  --bg-card-hover:  rgba(24, 24, 24, 0.98);
+  --accent:         #f97316;
+  --accent-bright:  #ea580c;
+  --accent-glow:    rgba(249, 115, 22, 0.18);
+  --text-primary:   #F5F4F2;
+  --text-secondary: #E2DBD5;
+  --text-muted:     #B8B0A8;
+  --border:         #1F1F1F;
+  --border-hover:   #2E2E2E;
+  --gradient-1:     linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  --gradient-2:     linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  --gradient-3:     linear-gradient(135deg, #059669 0%, #047857 100%);
+  --gradient-text:  linear-gradient(135deg, #F5F4F2 0%, #A8A29E 100%);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-feature-settings: "ss19" 1;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+    </style>
     
     <!-- GSAP & Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -379,7 +416,12 @@
             overflow: hidden;
         }
 
-        .hero-bg {
+        /* Hero background image */
+        #hero-canvas {
+            display: none;
+        }
+
+        .hero-bg-image {
             position: absolute;
             top: 0;
             left: 0;
@@ -388,28 +430,27 @@
             z-index: 0;
         }
 
-        .hero-bg-gradient {
-            position: absolute;
-            top: -50%;
-            right: -30%;
-            width: 100%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
-            opacity: 0.5;
-        }
-
-        .hero-bg-grid {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .hero-bg-image img {
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 80px 80px;
-            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+            object-fit: cover;
+            object-position: center;
+            opacity: 0.3;
+            display: block;
+        }
+
+        .hero-bg-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 60% at 25% 55%, rgba(10,10,10,0.97) 0%, transparent 100%),
+                linear-gradient(to right, rgba(10,10,10,0.92) 30%, rgba(10,10,10,0.1) 100%);
+            pointer-events: none;
+        }
+
+        .hero-bg-vignette {
+            display: none;
         }
 
         .hero-content {
@@ -447,11 +488,11 @@
         }
 
         .hero h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(3rem, 10vw, 8rem);
-            font-weight: 800;
-            line-height: 0.95;
-            letter-spacing: -0.03em;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(3rem, 9vw, 7.5rem);
+            font-weight: 700;
+            line-height: 1.0;
+            letter-spacing: -0.02em;
             margin-bottom: 2rem;
         }
 
@@ -473,22 +514,24 @@
 
         .hero-description {
             font-size: 1.25rem;
-            color: var(--text-secondary);
+            color: rgba(255, 255, 255, 0.88);
             max-width: 600px;
             line-height: 1.7;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
         }
 
         .hero-positioning {
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--text-secondary);
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.92);
             max-width: 560px;
-            line-height: 1.55;
+            line-height: 1.6;
             margin-bottom: 2.5rem;
-            padding-left: 1rem;
-            border-left: 2px solid var(--accent);
-            opacity: 0.75;
+            padding: 1rem 1.25rem;
+            border-left: 3px solid var(--accent);
+            background: rgba(249, 115, 22, 0.07);
+            border-radius: 0 8px 8px 0;
         }
 
         .hero-positioning em {
@@ -1859,6 +1902,337 @@
                 margin-top: 2.5rem;
             }
         }
+        /* ─────────────────────────────────────────────────────────────
+           Acquire section — Navy / White sharp professional treatment
+           Overrides the dark background acquire styles above
+           ───────────────────────────────────────────────────────────── */
+
+        .acquire {
+            background: #F0F2F4 !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Remove the orange radial glow */
+        .acquire::before {
+            display: none !important;
+        }
+
+        /* Navy accent on section label */
+        .acquire .section-label {
+            color: #1E3A5F;
+        }
+
+        .acquire-header-left h2 {
+            color: #0F1F35;
+        }
+
+        .acquire-header-left h2 span {
+            color: #1E3A5F;
+        }
+
+        .acquire-header-left p {
+            color: #4A5568;
+        }
+
+        .acquire-include-list li {
+            color: #374151;
+            border-bottom-color: #E5E7EB;
+        }
+
+        .acquire-include-list li::before {
+            color: #1E3A5F;
+        }
+
+        /* Acquire cards — white lift off the gray section bg */
+        .acquire-card {
+            background: #FFFFFF;
+            border: 1px solid #D1D9E0;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .acquire-card:hover {
+            border-color: #1E3A5F;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(30, 58, 95, 0.12);
+        }
+
+        /* Replace orange top bar with navy */
+        .acquire-card::before {
+            background: #1E3A5F !important;
+            height: 3px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .acquire-card-badge {
+            color: #1E3A5F;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+        }
+
+        .acquire-card-badge::before {
+            content: none;
+        }
+
+        .acquire-card h3 {
+            color: #0F1F35;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+        }
+
+        .acquire-card-tagline {
+            color: #4A5568;
+            font-style: normal;
+            opacity: 1;
+        }
+
+        .acquire-card-stats {
+            border-top-color: #E5E7EB;
+            border-bottom-color: #E5E7EB;
+        }
+
+        .acquire-card-stat-value {
+            color: #1E3A5F;
+            font-weight: 700;
+        }
+
+        .acquire-card-stat-label {
+            color: #9CA3AF;
+        }
+
+        .acquire-card-features li {
+            color: #374151;
+            border-bottom-color: #F3F4F6;
+            font-size: 0.875rem;
+        }
+
+        .acquire-card-features li::before {
+            color: #1E3A5F;
+        }
+
+        .acquire-card-links {
+            border-top-color: #E5E7EB;
+        }
+
+        /* Card links — navy instead of orange */
+        .acquire-card .product-link {
+            color: #1E3A5F;
+        }
+
+        .acquire-card .product-link:hover {
+            color: #0F1F35;
+        }
+
+        .acquire-card .product-link-secondary {
+            color: #9CA3AF;
+        }
+
+        .acquire-card .product-link-secondary:hover {
+            color: #374151;
+        }
+
+        /* CTA panel — navy background */
+        .acquire-cta-panel {
+            background: #0F1F35;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .acquire-cta-panel::before {
+            display: none;
+        }
+
+        .acquire-cta-panel-text h3 {
+            color: #F5F4F2;
+        }
+
+        .acquire-cta-panel-text p {
+            color: rgba(245,244,242,0.65);
+        }
+
+        /* Include list CTA button — navy */
+        .acquire-header-right .btn-primary {
+            background: #1E3A5F;
+        }
+
+        .acquire-header-right .btn-primary:hover {
+            background: #0F1F35;
+        }
+
+        /* Audience stack responsive — 3 cards need single column on small screens */
+        @media (max-width: 640px) {
+            .audience-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Audience stack — allow grid wrap at tablet */
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .audience-stack {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+            .audience-stack .value-item:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           CHANGE 1 — TYPOGRAPHY
+           Section titles switch to Syne 800 for display contrast.
+           Hero h1 stays Playfair. Eyebrows stay JetBrains Mono.
+           Body copy stays Outfit. Only the large section headers change.
+        ═══════════════════════════════════════════════════════════════ */
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.75rem, 6vw, 5rem);
+            line-height: 1.0;
+            letter-spacing: -0.02em;
+        }
+
+        /* About h2 and acquire h2 also get Syne — they're the same visual role */
+        .about-content h2,
+        .acquire-header-left h2,
+        .cta-content h2,
+        .acquire-cta-panel-text h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.0;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           CHANGE 2 — ORANGE AS DELIBERATE BRAND SIGNATURE
+           Logo wordmark becomes orange. Value/service cards get a
+           permanent left orange border bar (not just on hover).
+           Section label eyebrows already use --accent — reinforced.
+        ═══════════════════════════════════════════════════════════════ */
+
+        /* Logo text — orange, always */
+        .logo-text {
+            color: var(--accent);
+        }
+
+        /* Permanent orange left-edge bar on all value cards */
+        .value-item {
+            border-left: 3px solid var(--accent);
+            border-radius: 0 16px 16px 0;
+        }
+
+        /* Remove the hidden top bar — left bar is now the signature */
+        .value-item::before {
+            display: none;
+        }
+
+        /* Icon wrapper — give it a faint orange tint background */
+        .value-icon {
+            background: rgba(249, 115, 22, 0.08);
+            border-radius: 10px;
+            padding: 0.5rem;
+            width: 52px;
+            height: 52px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           CHANGE 3 — SERVICES ASYMMETRY
+           First service card (Custom Development) spans full width
+           with a horizontal two-column layout: icon+heading left,
+           description right. Gives the grid a deliberate lead card.
+           The remaining three stay in the 2-col grid below it.
+        ═══════════════════════════════════════════════════════════════ */
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.75rem;
+        }
+
+        /* First card — full-width featured horizontal layout */
+        .services-grid .service-item:first-child {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0;
+            align-items: start;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Left column: icon block */
+        .services-grid .service-item:first-child .service-featured-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 2.75rem;
+            border-right: 1px solid var(--border);
+            background: rgba(249, 115, 22, 0.05);
+            height: 100%;
+            min-width: 180px;
+        }
+
+        /* Right column: text content */
+        .services-grid .service-item:first-child .service-featured-right {
+            padding: 2.5rem 2.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .services-grid .service-item:first-child .service-featured-right h4 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .services-grid .service-item:first-child .service-featured-right p {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: var(--text-secondary);
+            max-width: 560px;
+        }
+
+        /* Large icon for the featured card */
+        .services-grid .service-item:first-child .value-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(249, 115, 22, 0.1);
+            border-radius: 18px;
+            margin-bottom: 0;
+            padding: 0.75rem;
+        }
+
+        .services-grid .service-item:first-child .value-icon svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        /* On mobile, featured card stacks vertically like the others */
+        @media (max-width: 768px) {
+            .services-grid .service-item:first-child {
+                grid-template-columns: 1fr;
+            }
+            .services-grid .service-item:first-child .service-featured-left {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: 1.5rem 2rem;
+                min-width: unset;
+            }
+            .services-grid .service-item:first-child .service-featured-right {
+                padding: 1.5rem 2rem 2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1946,10 +2320,11 @@
 
     <!-- Hero -->
     <section class="hero">
-        <div class="hero-bg">
-            <div class="hero-bg-gradient"></div>
-            <div class="hero-bg-grid"></div>
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-bg-image">
+            <img src="assets/hero-bg.jpg" alt="">
         </div>
+        <div class="hero-bg-vignette"></div>
         <div class="hero-content">
             <div class="hero-badge">
                 <div class="hero-badge-dot"></div>
@@ -1961,12 +2336,12 @@
                 <span class="line"><span class="line-inner highlight">around your business.</span></span>
             </h1>
             <p class="hero-description">
-                Custom development, web design, UI&nbsp;&amp;&nbsp;UX, and AI integration &mdash;
-                for small business owners and founders who need work that runs in the real world, not a template.
+                Custom development, web design, and AI integration &mdash;
+                for founders, business owners, and anyone who needs something built right.
             </p>
             <p class="hero-positioning">
                 From the first conversation to the day it goes live, we handle it.
-                <em>Tailored to your business. Delivered on time. Built to last.</em>
+                <em>Tailored to you. Delivered on time. Built to last.</em>
             </p>
             <div class="hero-cta">
                 <a href="#contact" class="btn btn-primary">
@@ -1989,13 +2364,17 @@
                 <p class="section-intro">Four core services. Every project is custom-fit to your goals, your customers, and your budget — start with one, or combine them into a full build.</p>
             </div>
             <div class="values-grid services-grid">
-                <!-- Custom Development -->
+                <!-- Custom Development — featured full-width horizontal card -->
                 <div class="value-item service-item">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    <div class="service-featured-left">
+                        <div class="value-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        </div>
                     </div>
-                    <h4>Custom Development</h4>
-                    <p>From concept to live product — built exactly to your specs, no templates, no shortcuts. We design the back end, the front end, and everything in between to fit your business the way it actually runs.</p>
+                    <div class="service-featured-right">
+                        <h4>Custom Development</h4>
+                        <p>From concept to live product — built exactly to your specs, no templates, no shortcuts. We design the back end, the front end, and everything in between to fit your business the way it actually runs.</p>
+                    </div>
                 </div>
                 <!-- Web Design -->
                 <div class="value-item service-item">
@@ -2142,11 +2521,13 @@
             <div class="about-grid">
                 <div class="about-content">
                     <span class="section-label" style="margin-bottom: 1.5rem; display: inline-block;">About Allen Code Co</span>
-                    <h2>Two kinds of clients.<br><span>One standard.</span></h2>
+                    <h2>Everyone is welcome.<br><span>One standard.</span></h2>
                     <p>
-                        We work with two groups of people every day. Owners of real businesses — clinics,
-                        restaurants, professional services, trades — who need a website or piece of software
-                        that does the job, looks the part, and doesn't cost a fortune to maintain.
+                        We work with all kinds of people. Business owners — clinics,
+                        restaurants, trades, professional services — who need a website or software
+                        that does the job and doesn't break. Founders building a product from scratch
+                        who need production-grade work delivered, not prototypes.
+                        And individuals who just want a website that represents them well online.
                     </p>
                     <div class="about-highlight">
                         <p>From the first conversation to the day it goes live, we handle it — design, build, hosting, and the long tail of small details that have to work. No handoffs to a stranger. No black box.</p>
@@ -2179,18 +2560,21 @@
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg>
                         </div>
                         <h4>Small business owners</h4>
-                        <p>You don't need a tech department. You need a website or piece of software that
-                        works, brings in customers, and doesn't break the moment you turn your back. That's
-                        the job. We translate what you need into what your business needs to look and run like online.</p>
+                        <p>You need a website or software that works, brings in customers, and doesn't break the moment you turn your back. We translate what your business needs into something that looks the part and runs in the real world.</p>
                     </div>
                     <div class="value-item">
                         <div class="value-icon">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                         </div>
                         <h4>Founders &amp; operators</h4>
-                        <p>You have an idea — a product, a platform, a service. You don't have six months to
-                        learn engineering. You need someone who can take a clear brief, build it properly,
-                        and hand back something you can sell from day one. That's our other half of the work.</p>
+                        <p>You have an idea and need someone who can take a clear brief, build it properly, and hand back something you can sell from day one. We deliver finished work, not prototypes.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
+                        </div>
+                        <h4>Individuals &amp; everyone else</h4>
+                        <p>You don't have to be a business to want a great website. If you're a freelancer, an artist, a coach, or simply someone who needs a corner of the internet that represents you well — we build that too.</p>
                     </div>
                 </div>
             </div>
@@ -2234,6 +2618,64 @@
                     <h4>Open communication</h4>
                     <p>You always know where things stand. Regular check-ins, clear updates, and direct answers — through design, build, launch, and the work that comes after. No surprises, no jargon, no silence.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="process-section">
+        <div class="section-inner">
+            <div class="section-header" style="text-align: center;">
+                <span class="section-label">How It Works</span>
+                <h2 class="section-title">From idea to live —<br>four simple phases.</h2>
+                <p class="section-intro" style="margin-left: auto; margin-right: auto;">No surprises. No vanishing acts. You see progress every step of the way — and you know exactly where things stand.</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-step">
+                    <span class="process-number">01</span>
+                    <h4>Discover</h4>
+                    <p>We sit with you, listen to the actual problem, and map out what success looks like — before a single line of code or design is started.</p>
+                </div>
+                <div class="process-step">
+                    <span class="process-number">02</span>
+                    <h4>Design</h4>
+                    <p>Wireframes, flows, and visual design reviewed and approved together — so you know exactly what you're getting before we start building.</p>
+                </div>
+                <div class="process-step">
+                    <span class="process-number">03</span>
+                    <h4>Build</h4>
+                    <p>Engineering done in the open. You see progress every week, not at the end. Questions get answered the same day they're asked.</p>
+                </div>
+                <div class="process-step">
+                    <span class="process-number">04</span>
+                    <h4>Launch</h4>
+                    <p>Live on your domain, fully tested, with everything documented. Plus ongoing support after launch — because the work isn't done at launch.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact" class="cta-section">
+        <div class="section-inner">
+            <div class="cta-content">
+                <h2>Let's talk about<br>what you're building.</h2>
+                <p>Have a project in mind? A business that needs better software? An idea you'd like to bring to life? Tell us about it — we'll get back to you, usually same day.</p>
+
+                <form action="https://formsubmit.co/chris@allencodeco.com" method="POST" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your name" required>
+                        <input type="email" name="email" placeholder="Your email" required>
+                    </div>
+                    <textarea name="message" placeholder="Tell us about your project — what you're building, who it's for, and where you're stuck." rows="5" required></textarea>
+                    <input type="hidden" name="_subject" value="New project inquiry - Allen Code Co">
+                    <input type="hidden" name="_next" value="https://www.allencodeco.com/thanks">
+                    <button type="submit" class="btn btn-primary">
+                        Send Your Project Details <span class="btn-arrow">→</span>
+                    </button>
+                </form>
+
+
             </div>
         </div>
     </section>
@@ -2380,64 +2822,6 @@
                 </a>
             </div>
 
-        </div>
-    </section>
-
-    <!-- Process -->
-    <section id="process" class="process-section">
-        <div class="section-inner">
-            <div class="section-header" style="text-align: center;">
-                <span class="section-label">How It Works</span>
-                <h2 class="section-title">From idea to live —<br>four simple phases.</h2>
-                <p class="section-intro" style="margin-left: auto; margin-right: auto;">No surprises. No vanishing acts. You see progress every step of the way — and you know exactly where things stand.</p>
-            </div>
-            <div class="process-grid">
-                <div class="process-step">
-                    <span class="process-number">01</span>
-                    <h4>Discover</h4>
-                    <p>We sit with you, listen to the actual problem, and map out what success looks like — before a single line of code or design is started.</p>
-                </div>
-                <div class="process-step">
-                    <span class="process-number">02</span>
-                    <h4>Design</h4>
-                    <p>Wireframes, flows, and visual design reviewed and approved together — so you know exactly what you're getting before we start building.</p>
-                </div>
-                <div class="process-step">
-                    <span class="process-number">03</span>
-                    <h4>Build</h4>
-                    <p>Engineering done in the open. You see progress every week, not at the end. Questions get answered the same day they're asked.</p>
-                </div>
-                <div class="process-step">
-                    <span class="process-number">04</span>
-                    <h4>Launch</h4>
-                    <p>Live on your domain, fully tested, with everything documented. Plus ongoing support after launch — because the work isn't done at launch.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section id="contact" class="cta-section">
-        <div class="section-inner">
-            <div class="cta-content">
-                <h2>Let's talk about<br>what you're building.</h2>
-                <p>Have a project in mind? A business that needs better software? An idea you'd like to bring to life? Tell us about it — we'll get back to you, usually same day.</p>
-
-                <form action="https://formsubmit.co/chris@allencodeco.com" method="POST" class="contact-form">
-                    <div class="form-group">
-                        <input type="text" name="name" placeholder="Your name" required>
-                        <input type="email" name="email" placeholder="Your email" required>
-                    </div>
-                    <textarea name="message" placeholder="Tell us about your project — what you're building, who it's for, and where you're stuck." rows="5" required></textarea>
-                    <input type="hidden" name="_subject" value="New project inquiry - Allen Code Co">
-                    <input type="hidden" name="_next" value="https://www.allencodeco.com/thanks">
-                    <button type="submit" class="btn btn-primary">
-                        Send Your Project Details <span class="btn-arrow">→</span>
-                    </button>
-                </form>
-
-
-            </div>
         </div>
     </section>
 
@@ -2839,27 +3223,16 @@
             ease: 'power3.out'
         });
 
-        // Parallax effects
-        gsap.to('.hero-bg-gradient', {
+        // Hero canvas parallax — subtle drift on scroll
+        gsap.to('#hero-canvas', {
             scrollTrigger: {
                 trigger: '.hero',
                 start: 'top top',
                 end: 'bottom top',
                 scrub: 1
             },
-            y: 200,
-            opacity: 0.2
-        });
-
-        gsap.to('.hero-bg-grid', {
-            scrollTrigger: {
-                trigger: '.hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1
-            },
-            y: 100,
-            opacity: 0
+            y: 80,
+            opacity: 0.3
         });
 
         // Smooth scroll to anchors
@@ -2909,6 +3282,108 @@
         window.addEventListener('load', () => {
             ScrollTrigger.refresh();
         });
+    </script>
+
+    <!-- Hero Particle Canvas -->
+    <script>
+        (function () {
+            const canvas = document.getElementById('hero-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let W, H, particles = [];
+
+            // Brand accent colours
+            const HUE_BASE = 22;   // orange
+            const HUE_SPREAD = 22; // drift ±22° toward amber / red-orange
+
+            function resize() {
+                W = canvas.width  = canvas.offsetWidth;
+                H = canvas.height = canvas.offsetHeight;
+            }
+
+            function makeParticle(randomY) {
+                // ~60% of particles cluster in a loose rising column, rest scatter
+                const inColumn = Math.random() < 0.60;
+                const x = inColumn
+                    ? W * 0.5 + (Math.random() - 0.5) * W * 0.40
+                    : Math.random() * W;
+                const y = randomY !== undefined
+                    ? randomY
+                    : H + Math.random() * 60;
+
+                return {
+                    x,
+                    y,
+                    size: Math.random() * 1.6 + 0.2,
+                    speedY: -(Math.random() * 0.55 + 0.12),
+                    speedX: (Math.random() - 0.5) * 0.18,
+                    alpha:  Math.random() * 0.55 + 0.10,
+                    hue:    HUE_BASE + (Math.random() - 0.5) * HUE_SPREAD * 2,
+                    life:   0,
+                    maxLife: Math.floor(Math.random() * 340) + 160,
+                };
+            }
+
+            function init() {
+                particles = [];
+                const count = Math.min(280, Math.max(160, Math.floor(W * H / 5000)));
+                for (let i = 0; i < count; i++) {
+                    const p = makeParticle(Math.random() * H);
+                    p.life = Math.floor(Math.random() * p.maxLife);
+                    particles.push(p);
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    p.life++;
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+
+                    const t = p.life / p.maxLife;
+                    const fade = t < 0.12 ? t / 0.12
+                               : t > 0.72 ? 1 - (t - 0.72) / 0.28
+                               : 1;
+                    const a = p.alpha * fade;
+
+                    // Larger particles get a soft glow to echo the Canva ember look
+                    if (p.size > 1.0 && a > 0.25) {
+                        ctx.save();
+                        ctx.shadowBlur  = 8;
+                        ctx.shadowColor = `hsla(${p.hue},100%,58%,0.40)`;
+                        ctx.fillStyle   = `hsla(${p.hue},100%,62%,${a})`;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    } else {
+                        ctx.fillStyle = `hsla(${p.hue},100%,62%,${a})`;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    if (p.life >= p.maxLife || p.y < -20) {
+                        particles[i] = makeParticle();
+                    }
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => { resize(); init(); }, 120);
+            });
+
+            resize();
+            init();
+            draw();
+        }());
     </script>
 </body>
 </html>
