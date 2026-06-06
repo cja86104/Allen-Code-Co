@@ -435,7 +435,7 @@ body {
             height: 100%;
             object-fit: cover;
             object-position: center;
-            opacity: 0.3;
+            opacity: 0.65;
             display: block;
         }
 
@@ -444,8 +444,8 @@ body {
             position: absolute;
             inset: 0;
             background:
-                radial-gradient(ellipse 70% 60% at 25% 55%, rgba(10,10,10,0.97) 0%, transparent 100%),
-                linear-gradient(to right, rgba(10,10,10,0.92) 30%, rgba(10,10,10,0.1) 100%);
+                radial-gradient(ellipse 70% 60% at 25% 55%, rgba(10,10,10,0.78) 0%, transparent 100%),
+                linear-gradient(to right, rgba(10,10,10,0.72) 25%, rgba(10,10,10,0.05) 100%);
             pointer-events: none;
         }
 
@@ -989,7 +989,7 @@ body {
             font-family: 'Syne', sans-serif;
             font-size: 1.35rem;
             font-weight: 800;
-            color: var(--text-primary);
+            color: var(--accent);
             line-height: 1.2;
         }
 
@@ -1037,6 +1037,23 @@ body {
             }
         }
 
+        /* Who section typography — scale title down, punch intro up */
+        .who-section .section-title {
+            font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+        }
+
+        .who-section .section-intro {
+            font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.82);
+            font-weight: 500;
+            max-width: 680px;
+            line-height: 1.65;
+            margin-top: 1.25rem;
+        }
+
         /* About Section */
         .about {
             background: var(--bg-darker);
@@ -1051,9 +1068,9 @@ body {
 
         .about-content h2 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2.75rem, 5vw, 4.5rem);
             font-weight: 700;
-            line-height: 1.1;
+            line-height: 1.05;
             margin-bottom: 2rem;
         }
 
@@ -1079,7 +1096,7 @@ body {
         .about-highlight p {
             font-size: 1.1rem;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--accent);
             margin: 0;
             line-height: 1.65;
         }
@@ -1175,7 +1192,7 @@ body {
             font-size: 1.2rem;
             font-weight: 700;
             margin-bottom: 0.85rem;
-            color: var(--text-primary);
+            color: var(--accent);
         }
 
         .value-item p {
@@ -1486,9 +1503,9 @@ body {
 
         .cta-content h2 {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(2rem, 3.75vw, 3.25rem);
             font-weight: 700;
-            line-height: 1;
+            line-height: 1.1;
             margin-bottom: 1.5rem;
             color: var(--accent);
         }
@@ -1882,11 +1899,12 @@ body {
         /* Intro paragraph under section titles */
         .section-intro {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-            line-height: 1.7;
-            color: var(--text-secondary);
+            font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.78);
+            font-weight: 500;
             max-width: 720px;
-            margin-top: 1.5rem;
+            margin-top: 1.25rem;
         }
 
         /* Services / Why-us grid spacing */
@@ -1978,7 +1996,7 @@ body {
             font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: 0.75rem;
-            color: var(--text-primary);
+            color: var(--accent);
         }
 
         .process-step p {
@@ -2200,12 +2218,11 @@ body {
         .section-title {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
-            font-size: clamp(2.75rem, 6vw, 5rem);
-            line-height: 1.0;
+            font-size: clamp(2rem, 3.75vw, 3.25rem);
+            line-height: 1.1;
             letter-spacing: -0.02em;
-        }
-
-        /* About h2 and acquire h2 also get Syne — they're the same visual role */
+            color: var(--accent);
+        } — they're the same visual role */
         .about-content h2,
         .acquire-header-left h2,
         .cta-content h2,
@@ -2260,6 +2277,64 @@ body {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1.75rem;
+            margin-top: 0;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 16px 16px 0;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: rgba(249, 115, 22, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .service-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .service-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--accent);
+        }
+
+        .service-card h4 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.01em;
+            color: var(--accent);
+            line-height: 1.2;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.7);
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* First card — full-width featured horizontal layout */
@@ -2400,6 +2475,7 @@ body {
                 <a href="#who-we-build-for">Who We Serve</a>
                 <a href="#services">Services</a>
                 <a href="products.html">Our Work</a>
+                <a href="showcases.html">Showcases</a>
                 <a href="#about">About</a>
                 <a href="#acquire">Acquire</a>
                 <a href="#contact" class="nav-cta">Start a Project</a>
@@ -2415,10 +2491,10 @@ body {
     <!-- Mobile Nav Overlay -->
     <div class="mobile-nav" id="mobileNav" aria-hidden="true">
         <ul class="mobile-nav-links">
+            <li><a href="#who-we-build-for" class="mobile-nav-link">Who We Serve</a></li>
             <li><a href="#services" class="mobile-nav-link">Services</a></li>
             <li><a href="products.html" class="mobile-nav-link">Our Work</a></li>
-            <li><a href="chris-allen-portfolio.html" class="mobile-nav-link">Portfolio</a></li>
-            <li><a href="#why-us" class="mobile-nav-link">Why Us</a></li>
+            <li><a href="showcases.html" class="mobile-nav-link">Showcases</a></li>
             <li><a href="#about" class="mobile-nav-link">About</a></li>
             <li><a href="#acquire" class="mobile-nav-link">Acquire</a></li>
             <li><a href="#contact" class="mobile-nav-link">Start a Project</a></li>
@@ -2444,10 +2520,10 @@ body {
                 <span class="line"><span class="line-inner highlight">whoever you are.</span></span>
             </h1>
             <p class="hero-description">
-                Custom websites, software, and AI &mdash; for business owners,
-                founders, and anyone who wants something built right and built for them.
-                Big project or small one. Launch a company or launch a personal site.
-                You get the same quality either way.
+                Not just for businesses. For anyone who needs something built.
+                Whether you're running a company, launching a product, or carving out
+                a corner of the internet that's yours — you get the same craft,
+                the same quality, and the same attention to detail.
             </p>
             <p class="hero-positioning">
                 From the first conversation to the day it goes live, we handle it.
@@ -2504,8 +2580,8 @@ body {
                     <div class="who-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
                     </div>
-                    <h3>Personal &amp; everyone else</h3>
-                    <p>You don't have to be a business to deserve a great website. You want something that looks like you, works like a dream, and you can point people to with pride. A family site, a portfolio, a memorial page, a yard sale, a personal blog — it matters to you, so it matters to us.</p>
+                    <h3>Just you</h3>
+                    <p>You don't need a company behind you to want something great. A family site, a portfolio, a memorial page, a blog, a place to sell your art — whatever it is, it deserves the same care we'd put into any other project. You bring the idea. We build it right.</p>
                     <ul class="who-list">
                         <li>Personal portfolios &amp; blogs</li>
                         <li>Family sites &amp; memory pages</li>
@@ -2525,42 +2601,34 @@ body {
                 <h2 class="section-title">Built for you &mdash;<br>not from a template.</h2>
                 <p class="section-intro">Four core services. Every project is custom-fit to what you need, who you are, and what success looks like for you — start with one, or combine them into a full build.</p>
             </div>
-            <div class="values-grid services-grid">
-                <!-- Custom Development — featured full-width horizontal card -->
-                <div class="value-item service-item">
-                    <div class="service-featured-left">
-                        <div class="value-icon">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                        </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                     </div>
-                    <div class="service-featured-right">
-                        <h4>Custom Development</h4>
-                        <p>From concept to live product — built exactly to your specs, no templates, no shortcuts. We design the back end, the front end, and everything in between to fit your business the way it actually runs.</p>
-                    </div>
+                    <h4>Custom Development</h4>
+                    <p>From concept to live product — built exactly to your specs, no templates, no shortcuts. We handle the back end, the front end, and everything in between so it works the way you need it to.</p>
                 </div>
-                <!-- Web Design -->
-                <div class="value-item service-item">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                     </div>
                     <h4>Web Design</h4>
-                    <p>Websites built to perform — fast, mobile-first, and designed to turn visitors into customers. Clean copy, clear calls to action, and a layout that works on every device a real visitor will use.</p>
+                    <p>Websites built to perform — fast, mobile-first, and designed to convert. Clean copy, clear calls to action, and a layout that works on every device a real visitor will use.</p>
                 </div>
-                <!-- UI & UX -->
-                <div class="value-item service-item">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 11V7a3 3 0 1 1 6 0v4"/><path d="M5 11h14v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><circle cx="12" cy="15" r="1.25"/></svg>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg"><path d="M9 11V7a3 3 0 1 1 6 0v4"/><path d="M5 11h14v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><circle cx="12" cy="15" r="1.25"/></svg>
                     </div>
                     <h4>UI &amp; UX</h4>
-                    <p>Interfaces your users actually enjoy — designed around how real people think and click. We map the journey before we draw a single screen, so the finished product feels obvious to the person using it.</p>
+                    <p>Interfaces people actually enjoy using — designed around how real people think and click. We map the journey before we draw a single screen, so the finished product feels obvious to whoever uses it.</p>
                 </div>
-                <!-- AI Integration -->
-                <div class="value-item service-item">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="10" y="10" width="4" height="4"/><line x1="10" y1="2" x2="10" y2="6"/><line x1="14" y1="2" x2="14" y2="6"/><line x1="10" y1="18" x2="10" y2="22"/><line x1="14" y1="18" x2="14" y2="22"/><line x1="18" y1="10" x2="22" y2="10"/><line x1="18" y1="14" x2="22" y2="14"/><line x1="2" y1="10" x2="6" y2="10"/><line x1="2" y1="14" x2="6" y2="14"/></svg>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="10" y="10" width="4" height="4"/><line x1="10" y1="2" x2="10" y2="6"/><line x1="14" y1="2" x2="14" y2="6"/><line x1="10" y1="18" x2="10" y2="22"/><line x1="14" y1="18" x2="14" y2="22"/><line x1="18" y1="10" x2="22" y2="10"/><line x1="18" y1="14" x2="22" y2="14"/><line x1="2" y1="10" x2="6" y2="10"/><line x1="2" y1="14" x2="6" y2="14"/></svg>
                     </div>
                     <h4>AI Integration</h4>
-                    <p>Custom AI wired directly into your business — automate the repetitive, amplify what matters. Practical AI built into the tools your team already uses, not a chatbot bolted on the side.</p>
+                    <p>Practical AI built into whatever you're building — automate the repetitive, surface what matters, and make the whole thing smarter. Not a chatbot bolted on the side. AI that actually does something.</p>
                 </div>
             </div>
         </div>
@@ -2572,7 +2640,7 @@ body {
             <div class="section-header">
                 <span class="section-label">Our Work</span>
                 <h2 class="section-title">Live products.<br>Real users.</h2>
-                <p class="section-intro">Three live products we built — each solving a real problem for a real audience. Educational tools, interview prep, and focused tools for solo founders.</p>
+                <p class="section-intro">Three live products we built and run — each solving a real problem for a real audience. Educational tools, interview prep, and business software. All live, all with paying users.</p>
             </div>
             <div class="products-grid">
 
@@ -2701,20 +2769,6 @@ body {
                         on this page are live today, with paying users. The same standard goes into every project
                         we take on for clients.
                     </p>
-                    <div class="about-stat-row">
-                        <div class="about-stat">
-                            <span class="about-stat-value">3</span>
-                            <span class="about-stat-label">Live products</span>
-                        </div>
-                        <div class="about-stat">
-                            <span class="about-stat-value">Real</span>
-                            <span class="about-stat-label">Paying users</span>
-                        </div>
-                        <div class="about-stat">
-                            <span class="about-stat-value">0</span>
-                            <span class="about-stat-label">Half-finished features</span>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="audience-stack">
@@ -2736,7 +2790,7 @@ body {
                         <div class="value-icon">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
                         </div>
-                        <h4>Personal &amp; everyone else</h4>
+                        <h4>Just you</h4>
                         <p>A family site. A memorial page. A portfolio. A yard sale. A blog. A place to put your art, your work, or just your name. You don't need a business reason to want something great — and you won't be treated like a second-tier client because you don't have one.</p>
                     </div>
                 </div>
@@ -2749,8 +2803,8 @@ body {
         <div class="section-inner">
             <div class="section-header">
                 <span class="section-label">Why Allen Code Co</span>
-                <h2 class="section-title">Why teams choose us.</h2>
-                <p class="section-intro">Four things we hold ourselves to on every project — for the small business owner and the founder alike.</p>
+                <h2 class="section-title">Why people choose us.</h2>
+                <p class="section-intro">Four things we hold ourselves to on every project — whether you're a founder, a business owner, or just someone who needs something built.</p>
             </div>
             <div class="values-grid">
                 <div class="value-item">
